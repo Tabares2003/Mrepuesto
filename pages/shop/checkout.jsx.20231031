@@ -1,0 +1,711 @@
+import React, { useEffect, useState, useRef } from "react";
+import Container from "~/components/layouts/Container";
+import BreadCrumb from "~/components/elements/BreadCrumb";
+import { useRouter} from "next/router";
+import { Box, Grid, Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
+import { URL_BD_MR, URL_IMAGES_RESULTS } from "../../helpers/Constants";
+import { myNumber } from "../../utilities/ArrayFunctions";
+
+const breadcrumb = [
+    {
+        text: "Inicio",
+        url: "/",
+    },
+    {
+        text: "Tienda",
+        url: "/shopping-cart",
+    },
+    {
+        text: "Pagar",
+    },
+];
+
+let undsel = [];
+
+const CheckoutScreen = () => {
+    const router = useRouter();
+    const irA = useRef(null);
+    const [direccionesUsuarios, setDireccionesUsuarios] = useState([]);
+    const [prdComprarAhora, setPrdComprarAhora] = useState([]);
+    const [itemCompra, setItemCompra] = useState([]);
+
+    const [direccion, setDireccion] = useState("");
+    const [ciudad, setCiudad] = useState("");
+    const [departamento, setDepartamento] = useState("");
+    const [quantity, setQuantity] = useState(1);
+    const [unidadesSelect, setunidadesSelect] = useState(0);
+    const [classUnd, setClassUnd] = useState("btnunidselshoppingcartmenos");
+    const [classUndMas, setClassUndMas] = useState("btnunidselshoppingcart");
+
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+
+    useEffect(() => {
+        let datitem = JSON.parse(localStorage.getItem("itemcompra"));
+        //console.log("DAITEM : ", datitem);
+        setItemCompra(datitem);
+        const leerItems = async () => {
+            let params = {
+                usuario: datosusuarios.uid,
+            };
+
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "65",
+                params,
+            })
+                .then((res) => {
+                    res.data.listardireccionesusuario;
+                    //console.log(
+                    //    "DIRECIONES : ",
+                    //    res.data.listardireccionesusuario
+                    //);
+                    setDireccionesUsuarios(
+                        res.data.listardireccionesusuario[0]
+                    );
+                    setDireccion(
+                        res.data.listardireccionesusuario[0].direccion
+                    );
+                    setCiudad(
+                        res.data.listardireccionesusuario[0].nombreciudad
+                    );
+                    setDepartamento(
+                        res.data.listardireccionesusuario[0].nombre_dep
+                    );
+                })
+                .catch(function (error) {
+                    console.log("Error leyendo direcciones");
+                });
+        };
+        leerItems();
+    }, [datosusuarios]);
+
+    useEffect(() => {
+        const leerItems = async () => {
+            let params = {
+                usuario: datosusuarios.uid,
+            };
+
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "59",
+                params,
+            })
+                .then((res) => {
+                    setPrdComprarAhora(res.data.listarcarritocompra);
+                    console.log(
+                        "DAT SHOPPING CART: ",
+                        res.data.listarcarritocompra
+                    );
+
+                    res.data.listarcarritocompra &&
+                        res.data.listarcarritocompra.map((item, index) => {
+                            undsel[index] = item.cantidad;
+                        });
+                    //ispatch(getDataShoppingCart(res.data.listarcarritocompra.length));
+                })
+                .catch(function (error) {
+                    console.log("Error leyendo datos carrito de compras");
+                });
+        };
+        leerItems();
+    }, [datosusuarios]);
+
+    const selCantidad = (cant, unddispo, index) => {
+        if (undsel[index] == null) undsel[index] = parseInt(cant);
+        else undsel[index] = parseInt(undsel[index]) + parseInt(cant);
+
+        let cantidad = parseInt(undsel[index]) + parseInt(cant);
+
+        setunidadesSelect(cantidad);
+        setQuantity(unddispo);
+        //product.numerounidades
+    };
+
+    const tusDirecciones = (dat) => {
+        let ruta = "/shop/youraddresses/";
+        router.push(ruta);
+    };
+
+    /*
+    const infoSiguiente = (dat) => {
+        let ruta = "/shop/shippinginformation/";
+        router.push(ruta);
+    };
+*/
+    const infoSiguiente = (dat) => {
+        if (direccionesUsuarios.length === 0) {
+            let ruta = "/shop/checkout/";
+            router.push(ruta);
+        } else {
+            let ruta = "/shop/checkoutall/";
+            router.push(ruta);
+        }
+    };
+
+    useEffect(() => {
+        irA.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    }, []);
+
+    return (
+        <Container title="Checkout">
+            <div className="ps-page ps-page--shopping" ref={irA}>
+                <div className="container">
+                    <div className="ml-52">
+                        <BreadCrumb breacrumb={breadcrumb} />
+                    </div>
+                    <div>
+                        <Grid container spacing={1}>
+                            <Grid item xs={12} md={7} lg={7}>
+                                <div className="titulodireccionenvio">
+                                    Dirección de envío
+                                </div>
+                            </Grid>
+                            <Grid item xs={12} md={5} lg={5}>
+                                <div className="titulodireccionenvio">
+                                    Tu producto
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </div>
+
+                    <div>
+                        <Grid container spacing={1}>
+                            <Grid item xs={12} md={7} lg={7}>
+                                <Grid container  spacing={1}>
+                                    <Grid item xs={12} md={12} lg={12}>
+                                        <div className="cajadireccionenvio">
+                                            <Grid
+                                                container
+                                               
+                                                spacing={1}>
+                                                <Grid
+                                                    item
+                                                    xs={12}
+                                                    md={1}
+                                                    lg={1}>
+                                                    <div className="iconlocate">
+                                                        <LocationOnIcon
+                                                            className="locationoniconaddress"
+                                                            style={{
+                                                                fontSize: 30,
+                                                            }}
+                                                        />
+                                                    </div>
+                                                </Grid>
+                                                <Grid
+                                                    item
+                                                    xs={12}
+                                                    md={7}
+                                                    lg={7}>
+                                                    <Grid
+                                                        item
+                                                        xs={12}
+                                                        md={12}
+                                                        lg={12}>
+                                                        <div className="textodireccionenvio">
+                                                            {direccionesUsuarios
+                                                                ? direccion
+                                                                : null}
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={12}
+                                                        md={12}
+                                                        lg={12}>
+                                                        <div className="textodireccionenvio">
+                                                            {direccionesUsuarios
+                                                                ? ciudad +
+                                                                  ", " +
+                                                                  departamento
+                                                                      .charAt(0)
+                                                                      .toUpperCase() +
+                                                                  departamento
+                                                                      .slice(1)
+                                                                      .toLowerCase()
+                                                                : null}
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
+
+                                                <Grid
+                                                    item
+                                                    xs={12}
+                                                    md={3}
+                                                    lg={3}>
+                                                    <div
+                                                        className="btnaddaddress"
+                                                        onClick={() =>
+                                                            tusDirecciones()
+                                                        }>
+                                                        Elegir o agregar una
+                                                        nueva dirección
+                                                    </div>
+                                                </Grid>
+                                            </Grid>
+                                        </div>
+                                    </Grid>
+                                </Grid>
+                                <Grid item xs={12} md={12} lg={12}>
+                                    <div className="titulodetallesenvio">
+                                        Detalles del envío
+                                    </div>
+                                </Grid>
+                                {prdComprarAhora.length > 0
+                                    ? prdComprarAhora &&
+                                      prdComprarAhora.map((item, index) => {
+                                          return (
+                                              <div>
+                                                  {item.idproducto ==
+                                                  itemCompra.idproducto ? (
+                                                      <Grid
+                                                          container
+                                                          alignItems="center"
+                                                          spacing={1}>
+                                                          <Grid
+                                                              item
+                                                              xs={12}
+                                                              md={12}
+                                                              lg={12}>
+                                                              <div className="cajadetallesenvio">
+                                                                  <Grid
+                                                                      container
+                                                                      alignItems="center"
+                                                                      spacing={
+                                                                          1
+                                                                      }>
+                                                                      <Grid
+                                                                          item
+                                                                          xs={
+                                                                              12
+                                                                          }
+                                                                          md={1}
+                                                                          lg={
+                                                                              1
+                                                                          }>
+                                                                          <div className="iconlocate">
+                                                                              <LocalShippingIcon
+                                                                                  className="locationoniconaddress"
+                                                                                  style={{
+                                                                                      fontSize: 30,
+                                                                                  }}
+                                                                              />
+                                                                          </div>
+                                                                      </Grid>
+                                                                      <Grid
+                                                                          item
+                                                                          xs={
+                                                                              12
+                                                                          }
+                                                                          md={7}
+                                                                          lg={
+                                                                              7
+                                                                          }>
+                                                                          <Grid
+                                                                              item
+                                                                              xs={
+                                                                                  12
+                                                                              }
+                                                                              md={
+                                                                                  12
+                                                                              }
+                                                                              lg={
+                                                                                  12
+                                                                              }>
+                                                                              <div className="textodireccionenvio">
+                                                                                  Se
+                                                                                  entrega
+                                                                                  en
+                                                                                  Sabaneta
+                                                                                  entre
+                                                                                  el
+                                                                                  25
+                                                                                  y
+                                                                                  27
+                                                                                  de
+                                                                                  octubre
+                                                                              </div>
+                                                                          </Grid>
+                                                                          <Grid
+                                                                              item
+                                                                              xs={
+                                                                                  12
+                                                                              }
+                                                                              md={
+                                                                                  12
+                                                                              }
+                                                                              lg={
+                                                                                  12
+                                                                              }>
+                                                                              <div className="textocalcularenvio">
+                                                                                  Calcular
+                                                                                  valor
+                                                                                  del
+                                                                                  envio
+                                                                              </div>
+                                                                          </Grid>
+                                                                      </Grid>
+                                                                  </Grid>
+                                                              </div>
+                                                          </Grid>
+                                                      </Grid>
+                                                  ) : null}
+                                              </div>
+                                          );
+                                      })
+                                    : null}
+                            </Grid>
+                            <Grid item xs={12} md={5} lg={5}>
+                                <Grid container alignItems="center" spacing={1}>
+                                    <Grid item xs={12} md={12} lg={12}>
+                                        <div className="cajaresumenpedidouno">
+                                            {prdComprarAhora.length > 0
+                                                ? prdComprarAhora &&
+                                                  prdComprarAhora.map(
+                                                      (item, index) => {
+                                                          return (
+                                                              <div>
+                                                                  {item.idproducto ==
+                                                                  itemCompra.idproducto ? (
+                                                                      <Grid
+                                                                          container
+                                                                          alignItems="center"
+                                                                          spacing={
+                                                                              1
+                                                                          }>
+                                                                          <Grid
+                                                                              item
+                                                                              xs={
+                                                                                  12
+                                                                              }
+                                                                              md={
+                                                                                  12
+                                                                              }
+                                                                              lg={
+                                                                                  12
+                                                                              }>
+                                                                              <div>
+                                                                                  <Grid
+                                                                                      container
+                                                                                      alignItems="center"
+                                                                                      spacing={
+                                                                                          1
+                                                                                      }>
+                                                                                      <Grid
+                                                                                          item
+                                                                                          xs={
+                                                                                              12
+                                                                                          }
+                                                                                          md={
+                                                                                              3
+                                                                                          }
+                                                                                          lg={
+                                                                                              3
+                                                                                          }>
+                                                                                          <div>
+                                                                                              <img
+                                                                                                  className="imageshoppingcartuno"
+                                                                                                  src={
+                                                                                                      URL_IMAGES_RESULTS +
+                                                                                                      itemCompra.nombreimagen1
+                                                                                                  }
+                                                                                                  alt="First slide"
+                                                                                              />
+                                                                                          </div>
+                                                                                      </Grid>
+                                                                                      <Grid
+                                                                                          item
+                                                                                          xs={
+                                                                                              12
+                                                                                          }
+                                                                                          md={
+                                                                                              9
+                                                                                          }
+                                                                                          lg={
+                                                                                              9
+                                                                                          }>
+                                                                                          <Grid
+                                                                                              item
+                                                                                              xs={
+                                                                                                  12
+                                                                                              }
+                                                                                              md={
+                                                                                                  12
+                                                                                              }
+                                                                                              lg={
+                                                                                                  12
+                                                                                              }>
+                                                                                              <div className="textoproductocomprauno">
+                                                                                                  {
+                                                                                                      itemCompra.titulonombre
+                                                                                                  }
+                                                                                              </div>
+                                                                                          </Grid>
+
+                                                                                          <Grid
+                                                                                              item
+                                                                                              xs={
+                                                                                                  12
+                                                                                              }
+                                                                                              md={
+                                                                                                  2
+                                                                                              }
+                                                                                              lg={
+                                                                                                  2
+                                                                                              }>
+                                                                                              <div className="ml-19 mt-8">
+                                                                                                  <Grid
+                                                                                                      container
+                                                                                                      alignItems="center"
+                                                                                                      spacing={
+                                                                                                          1
+                                                                                                      }
+                                                                                                      className="cajaundselectcompra">
+                                                                                                      <Grid
+                                                                                                          item
+                                                                                                          xs={
+                                                                                                              12
+                                                                                                          }
+                                                                                                          md={
+                                                                                                              3
+                                                                                                          }
+                                                                                                          lg={
+                                                                                                              3
+                                                                                                          }>
+                                                                                                          {undsel[
+                                                                                                              index
+                                                                                                          ] <=
+                                                                                                          1 ? (
+                                                                                                              <div
+                                                                                                                  className="btnundcompramenos sinborder deshabilitar"
+                                                                                                                  onClick={() =>
+                                                                                                                      selCantidad(
+                                                                                                                          -1,
+                                                                                                                          itemCompra.numerodeunidades,
+                                                                                                                          index
+                                                                                                                      )
+                                                                                                                  }>
+                                                                                                                  _
+                                                                                                              </div>
+                                                                                                          ) : (
+                                                                                                              <div
+                                                                                                                  className="btnundcompramenos sinborder"
+                                                                                                                  onClick={() =>
+                                                                                                                      selCantidad(
+                                                                                                                          -1,
+                                                                                                                          itemCompra.numerodeunidades,
+                                                                                                                          index
+                                                                                                                      )
+                                                                                                                  }>
+                                                                                                                  _
+                                                                                                              </div>
+                                                                                                          )}
+                                                                                                      </Grid>
+                                                                                                      <Grid
+                                                                                                          item
+                                                                                                          xs={
+                                                                                                              12
+                                                                                                          }
+                                                                                                          md={
+                                                                                                              2
+                                                                                                          }
+                                                                                                          lg={
+                                                                                                              2
+                                                                                                          }>
+                                                                                                          <input
+                                                                                                              className="cajaundinputcompra"
+                                                                                                              type="text"
+                                                                                                              defaultValue="1"
+                                                                                                              value={
+                                                                                                                  undsel[
+                                                                                                                      index
+                                                                                                                  ]
+                                                                                                              }
+                                                                                                              //onChange={(e)=>handleChangeInput(e.target.value)}
+                                                                                                              placeholder="1"
+                                                                                                          />
+                                                                                                      </Grid>
+                                                                                                      <Grid
+                                                                                                          item
+                                                                                                          xs={
+                                                                                                              12
+                                                                                                          }
+                                                                                                          md={
+                                                                                                              2
+                                                                                                          }
+                                                                                                          lg={
+                                                                                                              2
+                                                                                                          }>
+                                                                                                          {undsel[
+                                                                                                              index
+                                                                                                          ] >=
+                                                                                                          itemCompra.numerodeunidades ? (
+                                                                                                              <div
+                                                                                                                  className="btnundcompramas sinborder deshabilitar"
+                                                                                                                  onClick={() =>
+                                                                                                                      selCantidad(
+                                                                                                                          1,
+                                                                                                                          itemCompra.numerodeunidades,
+                                                                                                                          index
+                                                                                                                      )
+                                                                                                                  }>
+                                                                                                                  +
+                                                                                                              </div>
+                                                                                                          ) : (
+                                                                                                              <div
+                                                                                                                  className="btnundcompramas sinborder"
+                                                                                                                  onClick={() =>
+                                                                                                                      selCantidad(
+                                                                                                                          1,
+                                                                                                                          itemCompra.numerodeunidades,
+                                                                                                                          index
+                                                                                                                      )
+                                                                                                                  }>
+                                                                                                                  +
+                                                                                                              </div>
+                                                                                                          )}
+                                                                                                      </Grid>
+
+                                                                                                      <Grid
+                                                                                                          item
+                                                                                                          xs={
+                                                                                                              12
+                                                                                                          }
+                                                                                                          md={
+                                                                                                              3
+                                                                                                          }
+                                                                                                          lg={
+                                                                                                              3
+                                                                                                          }>
+                                                                                                          <div className="textoundcompra">
+                                                                                                              Disponibles:{" "}
+                                                                                                              {myNumber(
+                                                                                                                  1,
+                                                                                                                  itemCompra.numerodeunidades,
+                                                                                                                  2
+                                                                                                              )}
+                                                                                                          </div>
+                                                                                                      </Grid>
+                                                                                                  </Grid>
+                                                                                              </div>
+                                                                                          </Grid>
+                                                                                      </Grid>
+                                                                                      <Grid
+                                                                                          item
+                                                                                          xs={
+                                                                                              12
+                                                                                          }
+                                                                                          md={
+                                                                                              12
+                                                                                          }
+                                                                                          lg={
+                                                                                              12
+                                                                                          }>
+                                                                                          <div className="textopreciounitcomprauno">
+                                                                                              Precio
+                                                                                              producto:
+                                                                                              $
+                                                                                              {myNumber(
+                                                                                                  1,
+                                                                                                  itemCompra.precio,
+                                                                                                  2
+                                                                                              )}
+                                                                                              {}
+                                                                                          </div>
+                                                                                      </Grid>
+                                                                                      <Grid
+                                                                                          item
+                                                                                          xs={
+                                                                                              12
+                                                                                          }
+                                                                                          md={
+                                                                                              12
+                                                                                          }
+                                                                                          lg={
+                                                                                              12
+                                                                                          }>
+                                                                                          <div className="textopreciototcomprauno">
+                                                                                              Precio
+                                                                                              Total
+                                                                                              :
+                                                                                              $
+                                                                                              {isNaN(
+                                                                                                  parseInt(
+                                                                                                      itemCompra.precio *
+                                                                                                          undsel[
+                                                                                                              index
+                                                                                                          ]
+                                                                                                  )
+                                                                                              )
+                                                                                                  ? myNumber(
+                                                                                                        1,
+                                                                                                        itemCompra.precio *
+                                                                                                            itemCompra.cantidad,
+                                                                                                        2
+                                                                                                    )
+                                                                                                  : myNumber(
+                                                                                                        1,
+                                                                                                        itemCompra.precio *
+                                                                                                            undsel[
+                                                                                                                index
+                                                                                                            ],
+                                                                                                        2
+                                                                                                    )}
+                                                                                          </div>
+                                                                                      </Grid>
+                                                                                  </Grid>
+                                                                              </div>
+                                                                          </Grid>
+                                                                      </Grid>
+                                                                  ) : null}
+                                                              </div>
+                                                          );
+                                                      }
+                                                  )
+                                                : null}
+                                        </div>
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        xs={12}
+                                        md={12}
+                                        lg={12}
+                                        onClick={() => infoSiguiente()}>
+                                        <div className="botoncontinuardireccion">
+                                            Siguiente
+                                        </div>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </div>
+
+                    {/*
+<div className="ps-page__content">
+                        <div className="ps-checkout">
+                            
+                            <div className="row">
+                                <div className="col-md-8">
+                                    <FormCheckout />
+                                </div>
+                                <div className="col-md-4">
+                                    <ModulEcomerceOrderSummary />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        */}
+                </div>
+            </div>
+        </Container>
+    );
+};
+
+export default CheckoutScreen;
