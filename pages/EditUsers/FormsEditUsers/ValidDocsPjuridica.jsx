@@ -6,7 +6,7 @@ import ModalMensajes from '../../mensajes/ModalMensajes';
 import { IoSquareOutline } from "react-icons/io5";
 import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
 import { FaCheck } from "react-icons/fa6";
-import { useRouter } from "next/router"; 
+import { useRouter } from "next/router";
 
 const ValidDocsPjuridica = () => {
 
@@ -42,37 +42,84 @@ const ValidDocsPjuridica = () => {
         const file = event.target.files[0];
         if (file) {
             const allowedFileTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-
+            const maxImageSize = 819200; // 800 KB in bytes
+            const maxPdfSize = 716800; // 700 KB in bytes
+            const maxImageDimensions = { width: 1024, height: 1024 };
+    
             if (allowedFileTypes.includes(file.type)) {
-                const newFileData = {
-                    name: file.name,
-                    type: file.type,
-                    size: file.size,
-                    data: URL.createObjectURL(file),
-                };
-
-                switch (index) {
-                    case 1:
-                        setFileData1(newFileData);
-                        localStorage.setItem('uploadedFile1', JSON.stringify(newFileData));
-                        break;
-                    case 2:
-                        setFileData2(newFileData);
-                        localStorage.setItem('uploadedFile2', JSON.stringify(newFileData));
-                        break;
-                    case 3:
-                        setFileData3(newFileData);
-                        localStorage.setItem('uploadedFile3', JSON.stringify(newFileData));
-                        break;
-                    default:
-                        break;
+                if (file.type.startsWith('image/')) {
+                    const img = new Image();
+                    img.src = URL.createObjectURL(file);
+    
+                    img.onload = () => {
+                        if (file.size > maxImageSize || img.width > maxImageDimensions.width || img.height > maxImageDimensions.height) {
+                            setShowModal(true);
+                            setTituloMensajes('Tamaño o dimensiones incorrectos');
+                            setTextoMensajes(`Las imágenes deben ser de máximo 1024 x 1024 y pesar máximo 800 KB.`);
+                            return;
+                        }
+    
+                        const newFileData = {
+                            name: file.name,
+                            type: file.type,
+                            size: file.size,
+                            data: URL.createObjectURL(file),
+                        };
+    
+                        switch (index) {
+                            case 1:
+                                setFileData1(newFileData);
+                                localStorage.setItem('uploadedFile1', JSON.stringify(newFileData));
+                                break;
+                            case 2:
+                                setFileData2(newFileData);
+                                localStorage.setItem('uploadedFile2', JSON.stringify(newFileData));
+                                break;
+                            case 3:
+                                setFileData3(newFileData);
+                                localStorage.setItem('uploadedFile3', JSON.stringify(newFileData));
+                                break;
+                            default:
+                                break;
+                        }
+                    };
+                } else if (file.type === 'application/pdf') {
+                    if (file.size > maxPdfSize) {
+                        setShowModal(true);
+                        setTituloMensajes('Tamaño incorrecto');
+                        setTextoMensajes('Los archivos PDF deben pesar máximo 700 KB.');
+                        return;
+                    }
+    
+                    const newFileData = {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        data: URL.createObjectURL(file),
+                    };
+    
+                    switch (index) {
+                        case 1:
+                            setFileData1(newFileData);
+                            localStorage.setItem('uploadedFile1', JSON.stringify(newFileData));
+                            break;
+                        case 2:
+                            setFileData2(newFileData);
+                            localStorage.setItem('uploadedFile2', JSON.stringify(newFileData));
+                            break;
+                        case 3:
+                            setFileData3(newFileData);
+                            localStorage.setItem('uploadedFile3', JSON.stringify(newFileData));
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    setShowModal(true);
+                    setTituloMensajes('Archivo incorrecto');
+                    setTextoMensajes('Solo se permiten archivos JPG, PNG y PDF.');
                 }
-            } else {
-                setShowModal(true);
-                setTituloMensajes('Archivo incorrecto');
-                setTextoMensajes('Solo se permiten archivos JPG, PNG y PDF.');
             }
-
         }
     };
 
@@ -100,9 +147,31 @@ const ValidDocsPjuridica = () => {
         handleConfirmationOpen();
     };
 
+
+
+
     const handleModalClose = () => {
         setShowModal(false);
     };
+
+    const getFileIcon = (fileData) => {
+        if (!fileData) {
+            return <HiOutlineDocumentArrowUp size={65} style={{ color: '#2D2E83', position: 'relative', top: '30px' }} />;
+        }
+    
+        const { type, name, data } = fileData || {}; // Asegúrate de que fileData sea un objeto
+    
+        if (type && type.startsWith('image/')) {
+            return <img src={data} alt="Uploaded File" style={{ width: '65px', height: '65px', borderRadius: '50%' }} />;
+        } else if (type === 'application/pdf') {
+            return <div style={{ position: 'absolute', top: '-15px', right:'-30px',fontSize: '12px', color: '#2D2E83' }}>{name}</div>;
+        } else {
+            return <HiOutlineDocumentArrowUp size={65} style={{ color: '#2D2E83', position: 'relative', top: '30px' }} />;
+        }
+    };
+
+
+
 
     const handleValidP = () => {
         router.push('../../my-account');
@@ -118,7 +187,7 @@ const ValidDocsPjuridica = () => {
     }, []);
 
 
-    
+
     return (
         <>
             <div ref={irA}>
@@ -170,7 +239,11 @@ const ValidDocsPjuridica = () => {
                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                 />
                                                 <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
-                                                <HiOutlineDocumentArrowUp size={65} style={{ position: 'absolute', color: '#2D2E83' }} />
+                                                {fileData1 ? (
+                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData1)}</div>
+                                                ) : (
+                                                    <HiOutlineDocumentArrowUp size={65} style={{ color: '#2D2E83', position: 'absolute', top: '24px' }} />
+                                                )}
                                             </div>
                                             {fileData1 && (
                                                 <div style={{ textAlign: 'center', marginTop: '-20px', display: 'flex', justifyContent: 'center' }}>
@@ -201,7 +274,11 @@ const ValidDocsPjuridica = () => {
                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                 />
                                                 <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
-                                                <HiOutlineDocumentArrowUp size={65} style={{ position: 'absolute', color: '#2D2E83' }} />
+                                                {fileData2 ? (
+                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData2)}</div>
+                                                ) : (
+                                                    <HiOutlineDocumentArrowUp size={65} style={{ color: '#2D2E83', position: 'absolute', top: '24px' }} />
+                                                )}
                                             </div>
                                             {fileData2 && (
                                                 <div style={{ textAlign: 'center', marginTop: '-20px', display: 'flex', justifyContent: 'center' }}>
@@ -233,7 +310,11 @@ const ValidDocsPjuridica = () => {
                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                 />
                                                 <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
-                                                <HiOutlineDocumentArrowUp size={65} style={{ position: 'absolute', color: '#2D2E83' }} />
+                                                {fileData3 ? (
+                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData3)}</div>
+                                                ) : (
+                                                    <HiOutlineDocumentArrowUp size={65} style={{ color: '#2D2E83', position: 'absolute', top: '24px' }} />
+                                                )}
                                             </div>
                                             {fileData3 && (
                                                 <div style={{ textAlign: 'center', marginTop: '-20px', display: 'flex', justifyContent: 'center' }}>
@@ -241,6 +322,8 @@ const ValidDocsPjuridica = () => {
                                                 </div>
                                             )}
                                         </div>
+
+
 
                                     </Grid>
                                     <Grid container mt={3} sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -279,7 +362,7 @@ const ValidDocsPjuridica = () => {
                                                     }}
                                                 >
                                                     <DialogTitle className='dialogtitleDtsGUardados' >
-                                                         <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
+                                                        <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                                     </DialogTitle>
                                                     <DialogContent className='dialogContentDatsGuardados'>
                                                         <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se veran reflejados un unos minutos.</p>
