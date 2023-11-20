@@ -3,8 +3,9 @@ import { Box, Grid, Typography, useMediaQuery, useTheme, Dialog, DialogTitle, Di
 import React, { useEffect, useState, useRef } from "react";
 import ModalMensajes from '../../mensajes/ModalMensajes';
 import { useRouter } from "next/router";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+//import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 // Función de validación directamente en el componente
 function validateTelefono(telefono) {
@@ -317,7 +318,7 @@ export default function FormTel() {
                                         }}
                                     >
                                         <DialogTitle className='dialogtitleDtsGUardados' >
-                                            <CheckCircleIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
+                                            <CheckCircleOutlineIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
                                             <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                         </DialogTitle>
                                         <DialogContent className='dialogContentDatsGuardados'>

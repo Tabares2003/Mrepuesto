@@ -7,7 +7,10 @@ import { IoSquareOutline } from "react-icons/io5";
 import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
 import { FaCheck } from "react-icons/fa6";
 import { useRouter } from "next/router";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+//import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const ValidDocsPjuridica = () => {
 
@@ -280,7 +283,7 @@ const ValidDocsPjuridica = () => {
                                                     }}
                                                 >
                                                     <DialogTitle className='dialogtitleDtsGUardados' >
-                                                        <CheckCircleIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
+                                                        <CheckCircleOutlineIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
                                                         <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                                     </DialogTitle>
                                                     <DialogContent className='dialogContentDatsGuardados'>

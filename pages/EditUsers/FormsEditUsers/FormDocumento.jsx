@@ -12,7 +12,9 @@ import { useRouter } from "next/router";
 //import MUI media
 import { Box, Grid, Typography, useMediaQuery, useTheme, Dialog, DialogTitle, DialogActions, DialogContent, Button } from '@mui/material';
 import React, { useState, useEffect, useRef } from "react";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+//import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const CustomDropdownButton = React.forwardRef(({ children, onClick, href }, ref) => (
     <button
@@ -192,7 +194,7 @@ export default function FormDocumento() {
                                             }}
                                         >
                                             <DialogTitle className='dialogtitleDtsGUardados' >
-                                                <CheckCircleIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
+                                                <CheckCircleOutlineIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
                                                 <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                             </DialogTitle>
                                             <DialogContent className='dialogContentDatsGuardados'>

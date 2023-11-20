@@ -5,8 +5,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { validateEmail } from "../../../utilities/Validations";
 import ModalMensajes from '../../mensajes/ModalMensajes';
 import { useRouter } from "next/router";
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+//import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 export default function FormEmail() {
     //Consts measured, 80% and in md 100%.
@@ -329,7 +330,7 @@ export default function FormEmail() {
                                             }}
                                         >
                                             <DialogTitle className='dialogtitleDtsGUardados' >
-                                                <CheckCircleIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
+                                                <CheckCircleOutlineIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
                                                 <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                             </DialogTitle>
                                             <DialogContent className='dialogContentDatsGuardados'>
