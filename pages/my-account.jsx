@@ -5,20 +5,38 @@ import useGetUsers from "~/hooks/useUsers";
 import swal from "sweetalert";
 import Swal from "sweetalert2";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
-import axios from "axios";
+
+
 import shortid from "shortid";
 import UserRepository from "../repositories/UsersRepository";
 import ReadUserEmail from "../repositories/ReadUserEmail";
 import ActivateUserRepository from "../repositories/ActivateUserRepository";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Form, Button, Row, Col } from "react-bootstrap";
+import { Modal, Form, Row, Col } from "react-bootstrap";
 import { getTokenRegistro } from "../store/tokenregistro/action";
 import Users from "~/repositories/Users";
 import ReCAPTCHA from "react-google-recaptcha";
 import NumberFormat from "react-number-format";
 import Moment from "moment";
 import IngresoFotosDocsNit from "./CreateUsers/ingresofotosdocsnit";
+import InfoIcon from "@material-ui/icons/Info";
+
+import { URL_BD_MR } from "../helpers/Constants"
+import axios from "axios";
+import CompSMS from "./EditUsers/CompSMS";
+import { useRouter } from "next/router";
+import Fade from '@mui/material/Fade';
+import { AiFillCaretDown } from 'react-icons/ai'
+import { AiFillCaretUp } from 'react-icons/ai'
+import { IoCloseOutline } from "react-icons/io5";
+
+
+//import MUI media
+import { Box, FormControl, Grid, InputLabel, Menu, MenuItem, Select, TextField, Typography, useMediaQuery, useTheme, Button, DialogTitle, Dialog, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+
+
+import { IoIosAlert } from "react-icons/io";
+import { AiOutlineRight } from 'react-icons/ai';
 
 //Firebase
 import firebase from "../utilities/firebase";
@@ -33,12 +51,15 @@ import { format } from "prettier";
 import TokenRegistroRepository from "../repositories/TokenRegistroRepository";
 import { set } from "lodash";
 
+
+import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+
 const MyAccountScreen = () => {
     const dispatch = useDispatch();
     const [inputValue, setInputValue] = useState("");
 
     const captcha = useRef(null);
-    const router = useRouter();
+
     const [formData, setFormData] = useState(defaultValueForm());
     const [formError, setFormError] = useState({});
     const [loading, setLoading] = useState(false);
@@ -1202,12 +1223,254 @@ const MyAccountScreen = () => {
         setInputControlApellidos("form-control ps-form__input");
     };
 
+
+
+
+    //Datos reales api
+
+    const [datUsers, SetDatUser] = useState(null);
+
+    const leerDatosUsuario = async () => {
+        let params = {
+            email: "nmflorezr@gmail.com",
+        };
+
+        await axios({
+            method: "post",
+            url: URL_BD_MR + "21",
+            params,
+        })
+            .then((res) => {
+                console.log("DAT XXXX: ", res.data);
+                SetDatUser(res.data[0])
+            })
+            .catch(function (error) {
+                console.log(
+                    "Error leyendo el usuario"
+                );
+            });
+
+    };
+
+    useEffect(() => {
+        leerDatosUsuario();
+    }, []);
+
+
+
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const handleOnClick = (option) => {
+        setSelectedOption(option);
+    }
+
+    //Consts measured, 80% and in md 100%.
+    const theme = useTheme();
+    const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
+
+
+    const router = useRouter();
+
+
+    const editUser = (tipoInformacion) => {
+        router.push({
+            pathname: '/EditUsers/CompSMS',
+            query: { tipoInformacion, info: tipoInformacion },
+        });
+    };
+
+
+    const handleClickDomicilio = (e) => {
+        e.preventDefault()
+        router.push('/EditUsers/FormsEditUsers/FormDomicilio')
+    }
+
+    const handleClicPjuridica = (e) => {
+        e.preventDefault()
+        router.push('/EditUsers/FormsEditUsers/FormPersJuridica')
+    }
+
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+
+    const [mostrarModal, setMostrarModal] = useState(false);
+
+    const abrirModal = () => {
+        setMostrarModal(true);
+    };
+
+    const cerrarModal = () => {
+        setMostrarModal(false);
+    };
+
+    const irA = useRef(null);
+
+    useEffect(() => {
+        irA.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, []);
+
+
     return (
-        <Container title="Mi Cuenta">
+        <Container title="Mi Cuenta" >
             <div className="ps-page ps-page--inner" id="myaccount">
                 <div className="container">
-                    <div className="ps-page__header"></div>
+                    <div className="ps-page__header"> </div>
                     <div className="ps-page__content ps-account">
+
+
+
+                        <div ref={irA} className="ContDatosDocs" style={{ padding: '.5rem' }}>
+
+                            <div style={{ marginBottom: '2rem' }}>
+                                <p style={{ fontSize: '30px', color: '#2C2E82' }}>Mis datos</p>
+                            </div>
+                            <div onClick={abrirModal} style={{ borderRadius: '10px', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif' }}>
+                                <div style={{ width: '100%' }}>
+                                    <div>Nombre de usuario</div>
+                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.primernombre} {datUsers?.segundonombre} {datUsers?.primerapellido} </p>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                </div>
+                            </div>
+                            {mostrarModal && (
+                                <div
+                                    className="modal-fondo mtmenos15"
+                                    onClick={() => {
+                                        cerrarModal();
+                                    }}
+                                >
+                                    <div
+                                        className="modal-mensajes-login redondearventamensajes"
+                                        onClick={(e) => {
+                                            // Evitar que se cierre el modal si se hace clic en su contenido
+                                            e.stopPropagation();
+                                        }}
+                                    >
+                                        {/* Contenido del modal */}
+                                        <Row>
+                                            <Col xl={1} lg={1} md={1} sm={1}>
+                                                <div className="iconoventanamensajes mtmenos14">
+                                                    <InfoIcon style={{ fontSize: 45 }} />
+                                                </div>
+                                            </Col>
+                                            <Col xl={9} lg={9} md={9} sm={9}>
+                                                <div className="ml-30 titulodetaildescription">
+                                                    Nombre de usuario
+                                                </div>
+                                            </Col>
+                                            <Col xl={1} lg={1} md={1} sm={1}>
+                                                <button
+                                                    type="button"
+                                                    className="cerrarmodal ml-40 sinborder colorbase"
+                                                    data-dismiss="modal"
+                                                    onClick={() => cerrarModal()}
+                                                >
+                                                    X
+                                                </button>
+                                            </Col>
+                                        </Row>
+
+                                        <div className="mt-35 textoventanamensajes">
+                                            <div>
+                                                {/* Aquí va el mensaje del modal */}
+                                                No es posible editar el nombre de usuario, ya que este es asignado de manera automática por la plataforma.
+                                            </div>
+                                        </div>
+
+                                        <div className="ml-330 mt-29">
+                                            <Row>
+                                                <Col xl={4} lg={4} md={4} xs={4}></Col>
+                                                <Col xl={6} lg={6} md={6} xs={6}>
+                                                    <Button
+                                                        variant="outline-light"
+                                                        className="ps-btn redondearborde"
+                                                        onClick={() => cerrarModal()}
+                                                    >
+                                                        Cerrar
+                                                    </Button>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            <div onClick={() => editUser('nombres')} style={{ borderRadius: '10px', cursor: 'pointer', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif' }}>
+                                <div style={{ width: '100%' }}>
+                                    <div>Nombres y apellidos</div>
+                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.primernombre} {datUsers?.segundonombre} {datUsers?.primerapellido} {datUsers?.segundoapellido}</p>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                </div>
+                            </div>
+                            <div onClick={() => editUser('email')} style={{ borderRadius: '10px', cursor: 'pointer', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif' }}>
+                                <div style={{ width: '100%' }}>
+                                    <div>Correo electrónico</div>
+                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.email} </p>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                </div>
+                            </div>
+                            <div onClick={() => editUser('DocIdentificacion')} style={{ borderRadius: '10px', cursor: 'pointer', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif', cursor: 'pointer' }}>
+                                <div style={{ width: '100%' }}>
+                                    <div>Tipo y número de documento</div>
+                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}>C.C {datUsers?.identificacion}</p>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                </div>
+                            </div>
+                            <div onClick={() => editUser('teléfono')} style={{ borderRadius: '10px', cursor: 'pointer', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif' }}>
+                                <div style={{ width: '100%' }}>
+                                    <div>Teléfono</div>
+                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}> {datUsers?.celular} </p>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                </div>
+                            </div>
+                            <div onClick={handleClickDomicilio} style={{ cursor: 'pointer', borderRadius: '10px', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif' }}>
+                                <div style={{ width: '100%' }}>
+                                    <div>Domicilio</div>
+                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.direccion ? datUsers.direccion : 'No tiene dirección'}</p>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                </div>
+                            </div>
+                            <div onClick={handleClicPjuridica} style={{ cursor: 'pointer', borderRadius: '10px', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif', minHeight: '10rem', alignItems: 'center', marginTop: '10rem' }}>
+                                <div style={{ width: '100%', height: '100%' }}>
+                                    <div>Cambiar cuenta a cuenta de persona juridica</div>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
                         <div className="row">
                             {!datosusuarios.logged ? (
                                 <div className="col-12 col-md-8">

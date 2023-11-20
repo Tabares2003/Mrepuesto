@@ -22667,9 +22667,7 @@ ol {
     border-radius: 25px;
 }
 
-.{
-    color: #2D2E83 !important ;
-}
+ 
 
 .textomedidas {
     padding-left: 2px !important;
@@ -22760,6 +22758,14 @@ ol {
     text-align: center;
     width: 500px !important;
     height: 70px !important;
+}
+.textoventanamensajesNoCambiarUser{
+    margin-top: 15px !important;
+    color: #E8F0FE;
+    font-size: 22px !important;
+    text-align: center;
+    width: 500px !important;
+    height: 100px !important;
 }
 .textoventanamensajesimagenes {
     margin-top: 5px !important;
@@ -27491,4 +27497,336 @@ background-color: #F1F2F6 !important;
   .datainfousuario:hover{
     background-color:#D4D6E5 !important;
     color: white !important;
+  }
+
+
+
+  /*Styles Juan Pablo*/
+
+
+
+/*Parte Domicilio*/
+.titlesDomicilio{
+    font-size: 30px;
+    font-weight: 600;
+    font-family: "Jost", sans-serif;
+}
+.titlesDomicilio2{
+    font-size: 28px;
+    font-weight: 600;
+    font-family: "Jost", sans-serif;
+}
+.titleHaveNothing{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid #f1f2f4;
+    border-radius: 8px;
+    padding: 1rem;
+}
+.titleHaveNothing h3{
+    font-size: 16px; 
+}
+.inputsDomicilio{
+    background-color: #f1f2f6;
+    border-radius: 10px; 
+    height: 43px;
+    padding: 10px 25px;
+}
+.titlesinputsDomicilio{
+    color: #2d2e83;
+    margin-bottom: 5px;
+}
+.direcsCreadas{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    border: 4px solid #f1f2f4;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 1rem;
+}
+.direcsCreadasButtons{
+    display: flex;
+    flex-direction: column;
+}
+.info1dom{
+    color: #2C2E82;
+    font-family: "Jost", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+}
+.iconsDomic{
+    font-size: 1.8rem;
+    margin: 5px;
+    cursor: pointer;
+    color: #2d2e83;
+}
+.locationIcon{
+    font-size: 3rem;
+    color: #2d2e83;
+}
+.infodirecccreada{
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+}
+.iconfirstdiccreada{ 
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    margin-right: 2rem;
+}
+.iconfirstdiccreada:first-child{
+    font-size: 1.3rem;
+}
+.containerFormDireccion{
+    border: 4px solid #f1f2f4;
+    border-radius: 8px;
+    padding: 1rem;
+}
+.inputsDomicilioRef{
+    background-color: #f1f2f6;
+    border-radius: 10px; 
+    height: 5em;
+    padding: 10px 25px;
+    width: 100%;
+    padding: 16px;
+    overflow-y: auto;
+}
+.referLenght{
+    text-align: right;
+    color: #2C2E82;
+    font-size: 16px;
+    margin-right: 5px;
+}
+.buttonDom{
+    width: 100%;
+    margin-left: 0px !important;  
+    border: none !important;
+    border-radius: 10px !important;
+    font-size: 16px !important;
+    color: white !important;
+    background-color: #2D2E83 !important;
+    height: 40px !important;
+    cursor: pointer;
+}
+
+/*Titles Forms*/
+
+.titlesformsUsers p{
+    margin-bottom: 3rem;
+    margin-top: -3rem;  
+    font-size: 30px !important;
+    color: #2D2E83;  
+    font-weight: 600; 
+} 
+ 
+.textodireccionesdos{
+    margin-top: 20px !important;
+    margin-left: 357px !important;
+    width: 200px !important;
+    border: none !important;
+    color: white !important;
+    padding-top: 7px !important;
+    text-align: center;
+    border-radius: 10px !important;
+    background-color: #2D2E83 !important;
+    height: 40px !important;
+    cursor: pointer;
+}
+
+/*inputsAndForms*/
+
+
+ 
+
+
+
+
+
+
+.itemsdropdownTdocPersona {
+    color: #2D2E83 !important;
+    height: 35px !important;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+}
+.tamañocajaoptionsTdocPersona {
+    margin-left: 5px !important;
+    width: 250px !important;
+    font-size: 16px !important;  
+}
+
+.dropdowncustomTdocPersButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100% !important;
+    border-radius: 10px !important;
+    height: 44px !important;
+    background-color: #F0F2F5 !important;
+    border: none !important;
+    color: #2D2E83 !important;
+    outline: none !important;
+    font-size: 16px !important;
+    padding-left: 13px; /* Ajusta este valor según tus necesidades */
+    padding-right: 13px; /* Ajusta este valor según tus necesidades */
+  }
+  
+  .dropdowncustomTdocPersButton::after {
+    content: '';
+    width: 10px; 
+    height: 10px;  
+    background-image: url("../../../public/static/img/flechaazulpng_3.png") !important;
+    background-size: 10px !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+  }
+  
+  .itemsdropdownTdocPersona {
+    color: #2D2E83 !important;
+    height: 35px !important;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+  }
+/*
+.dropdowncustomTdocPersonaAlertButton {
+    width: 170px !important;
+    margin-top: -5px !important;
+    padding-left: -100px !important;
+    border-radius: 10px !important;
+    border: 1px solid red !important;
+    height: 44px !important;
+    background-color: #F0F2F5 !important;
+    color: #2D2E83 !important;
+    outline: none !important;
+    font-size: 16px !important;
+    background-image: url("../../../public/static/img/flechaazulpng_3.png") !important;
+    background-size: 10px !important;
+     aquí deberás escribir la ruta de la imagen que utilizarás como flecha del desplegable 
+    background-repeat: no-repeat !important;
+    background-position: 145px center !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+}*/
+
+/*Popup Datos guardados*/
+ 
+  .dialogtitleDtsGUardados {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: none;
+  }
+  
+  .DialogDatsGuardadsIcon {
+    color: #00BF15;
+    margin-right: 2px;
+    font-size: 5rem;
+    margin-left: -23px;
+  }
+  
+  .dialogtituloP {
+    color: #2C2E82;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .dialogContentDatsGuardados {
+    background-color: #F4F5F7;
+    color: #2C2E82; 
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  
+  .PdialogContent {
+    color: #2C2E82;
+    font-size: 23px;
+    font-weight: 350;
+  }
+  
+  .DialogActionsDatsGuardados {
+    width: 70%;
+    margin-left: auto;
+    margin-right: 0;
+    margin-top: 1.3rem;
+  }
+  
+  .div1buttonDialog {
+    width: 50%;
+  }
+  
+  .button1DialogDatsGuardados {
+    width: 100%;
+    background-color: #2C2E82;
+    font-size: 16px;
+    border-radius: 10px;
+    color: white;
+    height: 40px;
+  }
+  
+  .button2DialogDatsGuardados {
+    width: 100%;
+    background-color: #f4f5f7;
+    font-size: 16px;
+    border-radius: 10px;
+    color: #2C2E82;
+    height: 40px;
+  }
+
+  /*ButtonsCancelarGuardarForms*/
+
+  .CancelarFormButton {
+    width: 49%;
+    background-color: #f4f5f7;
+    color: #2D2E83; 
+    border-radius: 10px;
+    font-size: 16px; 
+    align-items: center;
+    display: flex;
+    justify-content: center; 
+    height: 40px !important;
+  }
+
+  .GuardarFormButton {
+    width: 49%;
+    background-color: #2D2E83;
+    color: white; 
+    border-radius: 10px;
+    font-size: 16px; 
+    align-items: center;
+    display: flex;
+    justify-content: center; 
+    height: 40px !important;
+  }
+
+  .InputFormsUsers{
+    background-color: #f1f2f6;
+    border-radius: 10px;
+    width: 100%;
+    height: 44px;
+    padding: 10px 25px;
+    color: #2D2E83;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  
+  .titlesFormsUsers2{
+    font-size: 16px;
+    color: #2D2E83;
+    font-weight: 600;
+    margin-bottom: .5rem;
+  }
+  
+  /*ContainersFormulariosuSERS*/
+
+  .contDataUsers{
+    margin-top: 3rem;
+    display: flex;
+    margin: 0;
+    padding: .5rem;
+    margin: 0 auto;
+    
   }
