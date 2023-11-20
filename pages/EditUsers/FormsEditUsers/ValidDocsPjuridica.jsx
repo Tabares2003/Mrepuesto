@@ -6,11 +6,7 @@ import ModalMensajes from '../../mensajes/ModalMensajes';
 import { IoSquareOutline } from "react-icons/io5";
 import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
 import { FaCheck } from "react-icons/fa6";
-import { useRouter } from "next/router";
-//import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
-
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { useRouter } from "next/router"; 
 
 const ValidDocsPjuridica = () => {
 
@@ -283,8 +279,7 @@ const ValidDocsPjuridica = () => {
                                                     }}
                                                 >
                                                     <DialogTitle className='dialogtitleDtsGUardados' >
-                                                        <CheckCircleOutlineIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
-                                                        <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
+                                                         <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                                     </DialogTitle>
                                                     <DialogContent className='dialogContentDatsGuardados'>
                                                         <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se veran reflejados un unos minutos.</p>

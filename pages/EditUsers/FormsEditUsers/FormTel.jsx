@@ -2,10 +2,7 @@ import Container from '../../../components/layouts/Container'
 import { Box, Grid, Typography, useMediaQuery, useTheme, Dialog, DialogTitle, DialogActions, DialogContent } from '@mui/material';
 import React, { useEffect, useState, useRef } from "react";
 import ModalMensajes from '../../mensajes/ModalMensajes';
-import { useRouter } from "next/router";
-//import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { useRouter } from "next/router"; 
 
 // Función de validación directamente en el componente
 function validateTelefono(telefono) {
@@ -317,8 +314,7 @@ export default function FormTel() {
                                             },
                                         }}
                                     >
-                                        <DialogTitle className='dialogtitleDtsGUardados' >
-                                            <CheckCircleOutlineIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
+                                        <DialogTitle className='dialogtitleDtsGUardados' > 
                                             <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                         </DialogTitle>
                                         <DialogContent className='dialogContentDatsGuardados'>

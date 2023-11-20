@@ -3,10 +3,7 @@ import { Box, Grid, Typography, useMediaQuery, useTheme, Dialog, DialogTitle, Di
 import Container from '../../../components/layouts/Container'
 import ModalMensajes from '../../mensajes/ModalMensajes';
 import { useRouter } from "next/router";
-import React, { useState, useEffect, useRef } from "react";
-//import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import React, { useState, useEffect, useRef } from "react"; 
 
 export default function FormNamesLastNames() {
 
@@ -134,8 +131,7 @@ export default function FormNamesLastNames() {
                                             }}
                                         >
                                             <DialogTitle className='dialogtitleDtsGUardados' >
-                                                <CheckCircleOutlineIcon className='DialogDatsGuardadsIcon' style={{ color: '#00BF15', marginRight: '2px', fontSize: '5rem', marginLeft: '-23px' }} />
-                                                <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
+                                                 <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                             </DialogTitle>
                                             <DialogContent className='dialogContentDatsGuardados'>
                                                 <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se veran reflejados un unos minutos.</p>
