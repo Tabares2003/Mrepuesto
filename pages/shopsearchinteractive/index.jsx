@@ -3,7 +3,7 @@ import ShopSearchInterative from "~/components/partials/shop/ShopSearchInterativ
 import PromotionSecureInformation from "~/components/shared/sections/PromotionSecureInformation";
 import useGetProducts from "~/hooks/useGetProducts";
 import useProductGroupInteractive from "~/hooks/useProductGroupInteractive";
-import ShopInteractivoHeader from "../search/shopinteractivoheader";
+//import ShopInteractivoHeader from "../search/shopinteractivoheader";
 import { getUbicarProducto } from "../../store/ubicarproducto/action";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -239,6 +239,7 @@ normal: "Alternador Chevrolet Cors
             ) : null}
             <div className={mostrarZoom}>
                 <div className="ml-10">
+                    {/* 
                     <ShopInteractivoHeader
                         optionSelect={optionSelect}
                         setOptionSelect={setOptionSelect}
@@ -248,7 +249,7 @@ normal: "Alternador Chevrolet Cors
                         setZoom={setZoom}
                         setActualiza={setActualiza}
                         setPalabra={setPalabra}
-                    />
+                    />*/}
                 </div>
             </div>
             <div className="ps-page__content">
