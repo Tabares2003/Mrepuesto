@@ -5,6 +5,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { validateEmail } from "../../../utilities/Validations";
 import ModalMensajes from '../../mensajes/ModalMensajes';
 import { useRouter } from "next/router"; 
+import { FaCheckCircle } from "react-icons/fa";
+
 
 export default function FormEmail() {
     //Consts measured, 80% and in md 100%.
@@ -327,10 +329,11 @@ export default function FormEmail() {
                                             }}
                                         >
                                             <DialogTitle className='dialogtitleDtsGUardados' >
+                                            <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
                                                  <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                             </DialogTitle>
                                             <DialogContent className='dialogContentDatsGuardados'>
-                                                <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se veran reflejados un unos minutos.</p>
+                                                <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se verán reflejados un unos minutos.</p>
                                             </DialogContent>
                                             <DialogActions className='DialogActionsDatsGuardados'>
                                                 <div className='div1buttonDialog' >

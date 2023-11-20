@@ -138,7 +138,7 @@ NumberFormatCelular.propTypes = {
     onChange: PropTypes.func.isRequired,
 };
 
- 
+
 const tipoCalle = [
     { value: 1, nombre: "Avenida" },
     { value: 2, nombre: "Avenida Calle" },
@@ -509,7 +509,7 @@ const FormDomicilio = () => {
         if (control) {
             setShowModalMensajes(true);
             setTituloMensajes("Direcciones usuarios");
-            setTextoMensajes("Por favor ingresa un número de teléfono valido!");
+            setTextoMensajes("Por favor ingresa todos los campos correctamente!");
             return;
         }
 
@@ -715,7 +715,7 @@ const FormDomicilio = () => {
         borrarDireccion();
     };
 
- 
+
 
     const onEdit = () => {
         setShowEdit(true);
@@ -735,324 +735,101 @@ const FormDomicilio = () => {
     const offDelete = () => {
         setShowDelete(false);
     };
- 
 
 
 
-        return (
-            <>
-                <Container title="Checkout">
-                    <div className="ps-page ps-page--inner" id="myaccount">
-                        <div className="container">
-                            <div className="ps-page__header"> </div>
-                            <div className="ps-page__content ps-account">
+
+    return (
+        <>
+            <Container title="Checkout">
+                <div className="ps-page ps-page--inner" id="myaccount">
+                    <div className="container">
+                        <div className="ps-page__header"> </div>
+                        <div className="ps-page__content ps-account">
 
 
 
-                                <ModalMensajes
-                                    shown={showModalMensajes}
-                                    close={setShowModalMensajes}
-                                    titulo={tituloMensajes}
-                                    mensaje={textoMensajes}
-                                    tipo="1"
-                                />
+                            <ModalMensajes
+                                shown={showModalMensajes}
+                                close={setShowModalMensajes}
+                                titulo={tituloMensajes}
+                                mensaje={textoMensajes}
+                                tipo="1"
+                            />
 
-                                <ModalMensajesConfirmarEliminar
-                                    shown={showModalMensajesEliminar}
-                                    setShowModalMensajesEliminar={setShowModalMensajesEliminar}
-                                    setContinuarEliminar={setContinuarEliminar}
-                                    setAbandonarEliminar={setAbandonarEliminar}
-                                    titulo={tituloMensajes}
-                                    mensaje={textoMensajes}
-                                    tipo="1"
-                                />
+                            <ModalMensajesConfirmarEliminar
+                                shown={showModalMensajesEliminar}
+                                setShowModalMensajesEliminar={setShowModalMensajesEliminar}
+                                setContinuarEliminar={setContinuarEliminar}
+                                setAbandonarEliminar={setAbandonarEliminar}
+                                titulo={tituloMensajes}
+                                mensaje={textoMensajes}
+                                tipo="1"
+                            />
 
-                                <div className="container">
-                                     
-                                    <div>
-                                        <Grid container spacing={1}>
-                                            <Grid item xs={12} md={6} lg={6}>
-                                                <div className="titulodireccionenvio">
-                                                    {nombreDirecciones}
-                                                </div>
-                                            </Grid>
-                                            <Grid item xs={12} md={6} lg={6}>
-                                                <div className="tituloaddupdateaddress">
-                                                    {addUpdateAddress}
-                                                </div>
-                                            </Grid>
+                            <div className="container">
+
+                                <div>
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={12} md={6} lg={6}>
+                                            <div className="titulodireccionenvio">
+                                                {nombreDirecciones}
+                                            </div>
                                         </Grid>
-                                    </div>
+                                        <Grid item xs={12} md={6} lg={6}>
+                                            <div className="tituloaddupdateaddress">
+                                                {addUpdateAddress}
+                                            </div>
+                                        </Grid>
+                                    </Grid>
+                                </div>
 
-                                    <div>
-                                        <Grid container spacing={1}>
-                                            <Grid item xs={12} md={5} lg={5}>
-                                                {direccionesUsuarios.length > 0 ? (
-                                                    direccionesUsuarios &&
-                                                    direccionesUsuarios.map((item, index) => {
-                                                        return (
-                                                            <div>
+                                <div>
+                                    <Grid container spacing={1}>
+                                        <Grid item xs={12} md={5} lg={5}>
+                                            {direccionesUsuarios.length > 0 ? (
+                                                direccionesUsuarios &&
+                                                direccionesUsuarios.map((item, index) => {
+                                                    return (
+                                                        <div>
+                                                            <Grid
+                                                                container
+                                                                alignItems="center"
+                                                                spacing={1}>
                                                                 <Grid
-                                                                    container
-                                                                    alignItems="center"
-                                                                    spacing={1}>
-                                                                    <Grid
-                                                                        item
-                                                                        xs={12}
-                                                                        md={12}
-                                                                        lg={12}>
-                                                                        <div>
+                                                                    item
+                                                                    xs={12}
+                                                                    md={12}
+                                                                    lg={12}>
+                                                                    <div>
+                                                                        <Grid
+                                                                            container
+                                                                            alignItems="center"
+                                                                            spacing={1}>
                                                                             <Grid
-                                                                                container
-                                                                                alignItems="center"
-                                                                                spacing={1}>
-                                                                                <Grid
-                                                                                    item
-                                                                                    xs={12}
-                                                                                    md={3}
-                                                                                    lg={3}>
-                                                                                    <div>
+                                                                                item
+                                                                                xs={12}
+                                                                                md={3}
+                                                                                lg={3}>
+                                                                                <div>
+                                                                                    <Grid
+                                                                                        container
+                                                                                        alignItems="center"
+                                                                                        spacing={
+                                                                                            1
+                                                                                        }>
                                                                                         <Grid
-                                                                                            container
-                                                                                            alignItems="center"
-                                                                                            spacing={
-                                                                                                1
+                                                                                            item
+                                                                                            xs={
+                                                                                                12
+                                                                                            }
+                                                                                            md={
+                                                                                                12
+                                                                                            }
+                                                                                            lg={
+                                                                                                12
                                                                                             }>
-                                                                                            <Grid
-                                                                                                item
-                                                                                                xs={
-                                                                                                    12
-                                                                                                }
-                                                                                                md={
-                                                                                                    12
-                                                                                                }
-                                                                                                lg={
-                                                                                                    12
-                                                                                                }>
-                                                                                                <div className="cajadirecciones">
-                                                                                                    <Grid
-                                                                                                        container
-                                                                                                        alignItems="center"
-                                                                                                        spacing={
-                                                                                                            1
-                                                                                                        }>
-                                                                                                        <Grid
-                                                                                                            item
-                                                                                                            xs={
-                                                                                                                12
-                                                                                                            }
-                                                                                                            md={
-                                                                                                                1
-                                                                                                            }
-                                                                                                            lg={
-                                                                                                                1
-                                                                                                            }>
-                                                                                                            <div>
-                                                                                                                {addressSelect.includes(
-                                                                                                                    index
-                                                                                                                ) ? (
-                                                                                                                    <i
-                                                                                                                        className="mlmenos4 checklistachequeo fa fa-check-square-o apuntador"
-                                                                                                                        aria-hidden="true"></i>
-                                                                                                                ) : (
-                                                                                                                    <i
-                                                                                                                        onClick={() =>
-                                                                                                                            selectItems(
-                                                                                                                                index
-                                                                                                                            )
-                                                                                                                        }
-                                                                                                                        className="mlmenos4 checklistachequeo fa fa-square-o apuntador"
-                                                                                                                        aria-hidden="true"></i>
-                                                                                                                )}
-                                                                                                            </div>
-                                                                                                        </Grid>
-                                                                                                        <Grid
-                                                                                                            item
-                                                                                                            xs={
-                                                                                                                12
-                                                                                                            }
-                                                                                                            md={
-                                                                                                                9
-                                                                                                            }
-                                                                                                            lg={
-                                                                                                                9
-                                                                                                            }
-                                                                                                            className="mlmenos30">
-                                                                                                            <Grid
-                                                                                                                item
-                                                                                                                xs={
-                                                                                                                    12
-                                                                                                                }
-                                                                                                                md={
-                                                                                                                    12
-                                                                                                                }
-                                                                                                                lg={
-                                                                                                                    12
-                                                                                                                }>
-                                                                                                                <div className="textodirecciones">
-                                                                                                                    {
-                                                                                                                        item.tipocalle
-                                                                                                                    }{" "}
-                                                                                                                    {
-                                                                                                                        item.calle
-                                                                                                                    }{" "}
-                                                                                                                    {
-                                                                                                                        " # "
-                                                                                                                    }
-                                                                                                                    {
-                                                                                                                        item.numerouno
-                                                                                                                    }
-                                                                                                                    {
-                                                                                                                        " - "
-                                                                                                                    }
-                                                                                                                    {
-                                                                                                                        item.numerodos
-                                                                                                                    }
-                                                                                                                </div>
-                                                                                                            </Grid>
-                                                                                                            <Grid
-                                                                                                                item
-                                                                                                                xs={
-                                                                                                                    12
-                                                                                                                }
-                                                                                                                md={
-                                                                                                                    12
-                                                                                                                }
-                                                                                                                lg={
-                                                                                                                    12
-                                                                                                                }>
-                                                                                                                <div className="textodirecciones">
-                                                                                                                    {item.nombreciudad +
-                                                                                                                        ", " +
-                                                                                                                        item.nombre_dep
-                                                                                                                            .charAt(
-                                                                                                                                0
-                                                                                                                            )
-                                                                                                                            .toUpperCase() +
-                                                                                                                        item.nombre_dep
-                                                                                                                            .slice(
-                                                                                                                                1
-                                                                                                                            )
-                                                                                                                            .toLowerCase()}
-                                                                                                                </div>
-                                                                                                            </Grid>
-                                                                                                        </Grid>
-
-                                                                                                        <Grid
-                                                                                                            item
-                                                                                                            xs={
-                                                                                                                12
-                                                                                                            }
-                                                                                                            md={
-                                                                                                                2
-                                                                                                            }
-                                                                                                            lg={
-                                                                                                                2
-                                                                                                            }>
-                                                                                                            <Grid
-                                                                                                                container
-                                                                                                                alignItems="center"
-                                                                                                                spacing={
-                                                                                                                    1
-                                                                                                                }>
-                                                                                                                <Grid
-                                                                                                                    item
-                                                                                                                    xs={
-                                                                                                                        12
-                                                                                                                    }
-                                                                                                                    md={
-                                                                                                                        12
-                                                                                                                    }
-                                                                                                                    lg={
-                                                                                                                        12
-                                                                                                                    }>
-                                                                                                                    <div
-                                                                                                                        className={
-                                                                                                                            editarSelect
-                                                                                                                        }
-                                                                                                                        onMouseEnter={() =>
-                                                                                                                            onEdit()
-                                                                                                                        }
-                                                                                                                        onMouseLeave={() =>
-                                                                                                                            offEdit()
-                                                                                                                        }>
-                                                                                                                        <i
-                                                                                                                            onClick={() =>
-                                                                                                                                editAddress(
-                                                                                                                                    item,
-                                                                                                                                    index
-                                                                                                                                )
-                                                                                                                            }
-                                                                                                                            className="mlrem-4 mt-2 fa fa-edit d-flex justify-content-center"
-                                                                                                                            data-tip
-                                                                                                                            data-for="registerEdit"></i>
-                                                                                                                        {showEdit ? (
-                                                                                                                            <ReactTooltip
-                                                                                                                                className="ubicartooltipproducto"
-                                                                                                                                id="registerEdit"
-                                                                                                                                arrowColor="#2D2E83"
-                                                                                                                                place="top"
-                                                                                                                                effect="solid">
-                                                                                                                                <h3 className="mtmenos10 tamañotextotooltipproducto">
-                                                                                                                                    Editar
-                                                                                                                                </h3>
-                                                                                                                            </ReactTooltip>
-                                                                                                                        ) : null}
-                                                                                                                    </div>
-                                                                                                                </Grid>
-
-                                                                                                                <Grid
-                                                                                                                    item
-                                                                                                                    xs={
-                                                                                                                        12
-                                                                                                                    }
-                                                                                                                    md={
-                                                                                                                        12
-                                                                                                                    }
-                                                                                                                    lg={
-                                                                                                                        12
-                                                                                                                    }>
-                                                                                                                    <div
-                                                                                                                        className={
-                                                                                                                            deleteSelect
-                                                                                                                        }>
-                                                                                                                        <i
-                                                                                                                            onClick={() =>
-                                                                                                                                confirmarBorrarUnItem(
-                                                                                                                                    item
-                                                                                                                                )
-                                                                                                                            }
-                                                                                                                            className="mt-1 ml-4 fa fa-trash d-flex justify-content-center"
-                                                                                                                            data-tip
-                                                                                                                            data-for="registerDelete"
-                                                                                                                            onMouseEnter={() =>
-                                                                                                                                onDelete()
-                                                                                                                            }
-                                                                                                                            onMouseLeave={() =>
-                                                                                                                                offDelete()
-                                                                                                                            }></i>
-                                                                                                                    </div>
-                                                                                                                    {showDelete ? (
-                                                                                                                        <ReactTooltip
-                                                                                                                            className="ubicartooltipproducto"
-                                                                                                                            id="registerDelete"
-                                                                                                                            arrowColor="#2D2E83"
-                                                                                                                            place="top"
-                                                                                                                            effect="solid">
-                                                                                                                            <h1 className="mtmenos10 tamañotextotooltipproducto">
-                                                                                                                                Eliminar
-                                                                                                                            </h1>
-                                                                                                                        </ReactTooltip>
-                                                                                                                    ) : null}
-                                                                                                                </Grid>
-                                                                                                            </Grid>
-                                                                                                        </Grid>
-                                                                                                    </Grid>
-                                                                                                </div>
-                                                                                            </Grid>
-                                                                                            {direccionesUsuarios.length ==
-                                                                                                index +
-                                                                                                1 ? (
+                                                                                            <div className="cajadirecciones">
                                                                                                 <Grid
                                                                                                     container
                                                                                                     alignItems="center"
@@ -1065,20 +842,82 @@ const FormDomicilio = () => {
                                                                                                             12
                                                                                                         }
                                                                                                         md={
-                                                                                                            2
+                                                                                                            1
+                                                                                                        }
+                                                                                                    >
+                                                                                                    </Grid>
+                                                                                                    <Grid
+                                                                                                        item
+                                                                                                        xs={
+                                                                                                            12
+                                                                                                        }
+                                                                                                        md={
+                                                                                                            9
                                                                                                         }
                                                                                                         lg={
-                                                                                                            2
-                                                                                                        }>
-                                                                                                        <div
-                                                                                                            className="botoncontinuardirecciondos"
-                                                                                                            onClick={() =>
-                                                                                                                clearAddress()
+                                                                                                            9
+                                                                                                        }
+                                                                                                        className="mlmenos30">
+                                                                                                        <Grid
+                                                                                                            item
+                                                                                                            xs={
+                                                                                                                12
+                                                                                                            }
+                                                                                                            md={
+                                                                                                                12
+                                                                                                            }
+                                                                                                            lg={
+                                                                                                                12
                                                                                                             }>
-                                                                                                            Agregar dirección
-                                                                                                        </div>
-                                                                                                        
+                                                                                                            <div className="textodirecciones">
+                                                                                                                {
+                                                                                                                    item.tipocalle
+                                                                                                                }{" "}
+                                                                                                                {
+                                                                                                                    item.calle
+                                                                                                                }{" "}
+                                                                                                                {
+                                                                                                                    " # "
+                                                                                                                }
+                                                                                                                {
+                                                                                                                    item.numerouno
+                                                                                                                }
+                                                                                                                {
+                                                                                                                    " - "
+                                                                                                                }
+                                                                                                                {
+                                                                                                                    item.numerodos
+                                                                                                                }
+                                                                                                            </div>
+                                                                                                        </Grid>
+                                                                                                        <Grid
+                                                                                                            item
+                                                                                                            xs={
+                                                                                                                12
+                                                                                                            }
+                                                                                                            md={
+                                                                                                                12
+                                                                                                            }
+                                                                                                            lg={
+                                                                                                                12
+                                                                                                            }>
+                                                                                                            <div className="textodirecciones">
+                                                                                                                {item.nombreciudad +
+                                                                                                                    ", " +
+                                                                                                                    item.nombre_dep
+                                                                                                                        .charAt(
+                                                                                                                            0
+                                                                                                                        )
+                                                                                                                        .toUpperCase() +
+                                                                                                                    item.nombre_dep
+                                                                                                                        .slice(
+                                                                                                                            1
+                                                                                                                        )
+                                                                                                                        .toLowerCase()}
+                                                                                                            </div>
+                                                                                                        </Grid>
                                                                                                     </Grid>
+
                                                                                                     <Grid
                                                                                                         item
                                                                                                         xs={
@@ -1089,141 +928,232 @@ const FormDomicilio = () => {
                                                                                                         }
                                                                                                         lg={
                                                                                                             2
-                                                                                                        }> 
+                                                                                                        }>
+                                                                                                        <Grid
+                                                                                                            container
+                                                                                                            alignItems="center"
+                                                                                                            spacing={
+                                                                                                                1
+                                                                                                            }>
+                                                                                                            <Grid
+                                                                                                                item
+                                                                                                                xs={
+                                                                                                                    12
+                                                                                                                }
+                                                                                                                md={
+                                                                                                                    12
+                                                                                                                }
+                                                                                                                lg={
+                                                                                                                    12
+                                                                                                                }>
+                                                                                                                <div
+                                                                                                                    className={
+                                                                                                                        editarSelect
+                                                                                                                    }
+                                                                                                                    onMouseEnter={() =>
+                                                                                                                        onEdit()
+                                                                                                                    }
+                                                                                                                    onMouseLeave={() =>
+                                                                                                                        offEdit()
+                                                                                                                    }>
+                                                                                                                    <i
+                                                                                                                        onClick={() =>
+                                                                                                                            editAddress(
+                                                                                                                                item,
+                                                                                                                                index
+                                                                                                                            )
+                                                                                                                        }
+                                                                                                                        className="mlrem-4 mt-2 fa fa-edit d-flex justify-content-center"
+                                                                                                                        data-tip
+                                                                                                                        data-for="registerEdit"></i>
+                                                                                                                    {showEdit ? (
+                                                                                                                        <ReactTooltip
+                                                                                                                            className="ubicartooltipproducto"
+                                                                                                                            id="registerEdit"
+                                                                                                                            arrowColor="#2D2E83"
+                                                                                                                            place="top"
+                                                                                                                            effect="solid">
+                                                                                                                            <h3 className="mtmenos10 tamañotextotooltipproducto">
+                                                                                                                                Editar
+                                                                                                                            </h3>
+                                                                                                                        </ReactTooltip>
+                                                                                                                    ) : null}
+                                                                                                                </div>
+                                                                                                            </Grid>
+
+                                                                                                            <Grid
+                                                                                                                item
+                                                                                                                xs={
+                                                                                                                    12
+                                                                                                                }
+                                                                                                                md={
+                                                                                                                    12
+                                                                                                                }
+                                                                                                                lg={
+                                                                                                                    12
+                                                                                                                }>
+                                                                                                                <div
+                                                                                                                    className={
+                                                                                                                        deleteSelect
+                                                                                                                    }>
+                                                                                                                    <i
+                                                                                                                        onClick={() =>
+                                                                                                                            confirmarBorrarUnItem(
+                                                                                                                                item
+                                                                                                                            )
+                                                                                                                        }
+                                                                                                                        className="mt-1 ml-4 fa fa-trash d-flex justify-content-center"
+                                                                                                                        data-tip
+                                                                                                                        data-for="registerDelete"
+                                                                                                                        onMouseEnter={() =>
+                                                                                                                            onDelete()
+                                                                                                                        }
+                                                                                                                        onMouseLeave={() =>
+                                                                                                                            offDelete()
+                                                                                                                        }></i>
+                                                                                                                </div>
+                                                                                                                {showDelete ? (
+                                                                                                                    <ReactTooltip
+                                                                                                                        className="ubicartooltipproducto"
+                                                                                                                        id="registerDelete"
+                                                                                                                        arrowColor="#2D2E83"
+                                                                                                                        place="top"
+                                                                                                                        effect="solid">
+                                                                                                                        <h1 className="mtmenos10 tamañotextotooltipproducto">
+                                                                                                                            Eliminar
+                                                                                                                        </h1>
+                                                                                                                    </ReactTooltip>
+                                                                                                                ) : null}
+                                                                                                            </Grid>
+                                                                                                        </Grid>
                                                                                                     </Grid>
                                                                                                 </Grid>
-                                                                                            ) : null}
+                                                                                            </div>
                                                                                         </Grid>
-                                                                                    </div>
-                                                                                </Grid>
-                                                                            </Grid>
-                                                                        </div>
-                                                                    </Grid>
-                                                                </Grid>
-                                                            </div>
-                                                        );
-                                                    })
-                                                ) : (
-                                                    <div className="cajadirecciones">
-                                                        <Grid
-                                                            container
-                                                            alignItems="center"
-                                                            spacing={1}>
-                                                            <Grid item xs={12} md={1} lg={1}>
-                                                                <div className="textodirecciones mb-3">
-                                                                    Aquí apareceran las
-                                                                    direcciones que agregues
-                                                                </div>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </div>
-                                                )}
-                                            </Grid>
+                                                                                        {direccionesUsuarios.length ==
+                                                                                            index +
+                                                                                            1 ? (
+                                                                                            <Grid
+                                                                                                container
+                                                                                                alignItems="center"
+                                                                                                spacing={
+                                                                                                    1
+                                                                                                }>
+                                                                                                <Grid
+                                                                                                    item
+                                                                                                    xs={
+                                                                                                        12
+                                                                                                    }
+                                                                                                    md={
+                                                                                                        2
+                                                                                                    }
+                                                                                                    lg={
+                                                                                                        2
+                                                                                                    }>
+                                                                                                    <div
+                                                                                                        className="botoncontinuardirecciondos"
+                                                                                                        onClick={() =>
+                                                                                                            clearAddress()
+                                                                                                        }>
+                                                                                                        Agregar dirección
+                                                                                                    </div>
 
-                                            <Grid item xs={12} md={7} lg={7}>
-                                                <div className="boxaddaddress">
+                                                                                                </Grid>
+                                                                                                <Grid
+                                                                                                    item
+                                                                                                    xs={
+                                                                                                        12
+                                                                                                    }
+                                                                                                    md={
+                                                                                                        2
+                                                                                                    }
+                                                                                                    lg={
+                                                                                                        2
+                                                                                                    }>
+                                                                                                    <div
+                                                                                                        className="botonagregardireccion"
+                                                                                                        onClick={() => router.push('../../my-account')}>
+                                                                                                        Ir a mis datos
+                                                                                                    </div>
+                                                                                                </Grid>
+                                                                                            </Grid>
+                                                                                        ) : null}
+                                                                                    </Grid>
+                                                                                </div>
+                                                                            </Grid>
+                                                                        </Grid>
+                                                                    </div>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </div>
+                                                    );
+                                                })
+                                            ) : (
+                                                <div className="cajadirecciones">
                                                     <Grid
                                                         container
                                                         alignItems="center"
                                                         spacing={1}>
                                                         <Grid item xs={12} md={1} lg={1}>
-                                                            <div className="iconlocatetres">
-                                                                <LocationOnIcon
-                                                                    className="locationoniconaddressdos"
-                                                                    style={{
-                                                                        fontSize: 36,
-                                                                    }}
-                                                                />
-                                                            </div>
-                                                        </Grid> 
-                                                    </Grid>
-                                                    <Grid
-                                                        container
-                                                        alignItems="center"
-                                                        spacing={1}>
-                                                        <Grid item xs={12} md={6} lg={6}>
-                                                            <div className="mt-20 eliminarborde">
-                                                                <div className="tituloaddress pb-3">
-                                                                    * Departamento
-                                                                </div>
-                                                                <Dropdown
-                                                                    onClick={() =>
-                                                                        reiniciardpto()
-                                                                    }>
-                                                                    <div>
-                                                                        <Dropdown.Toggle
-                                                                            onclick={
-                                                                                CustomToggle
-                                                                            }
-                                                                            id="dropdown-custom-components"
-                                                                            arrowColor="#2D2E83"
-                                                                            className={
-                                                                                alertBtnDpto
-                                                                            }
-                                                                            variant="outline-light"
-                                                                        //</Dropdown>value={marcaVeh}
-                                                                        >
-                                                                            <div className="ajustecity">
-                                                                                <a>
-                                                                                    {
-                                                                                        selectdepto
-                                                                                    }
-                                                                                </a>
-                                                                            </div>
-                                                                        </Dropdown.Toggle>
-                                                                        <Dropdown.Menu
-                                                                            as={CustomMenu}
-                                                                            variant="outline-light"
-                                                                            className="tamañocajaoptionsaddress">
-                                                                            {departamentos &&
-                                                                                departamentos.map(
-                                                                                    (item) => {
-                                                                                        return (
-                                                                                            <Dropdown.Item
-                                                                                                className="itemsdropdowncustomcity"
-                                                                                                onClick={() =>
-                                                                                                    SelectDepto(
-                                                                                                        item.codigo_dep,
-                                                                                                        item.label
-                                                                                                    )
-                                                                                                }
-                                                                                                eventKey={
-                                                                                                    item.codigo_dep
-                                                                                                }>
-                                                                                                {
-                                                                                                    item.label
-                                                                                                }
-                                                                                            </Dropdown.Item>
-                                                                                        );
-                                                                                    }
-                                                                                )}
-                                                                        </Dropdown.Menu>
-                                                                    </div>
-                                                                </Dropdown>
+                                                            <div className="textodirecciones mb-3">
+                                                                Aquí apareceran las
+                                                                direcciones que agregues
                                                             </div>
                                                         </Grid>
-                                                        <Grid item xs={12} md={6} lg={6}>
-                                                            <div className="mt-20 eliminarborde">
-                                                                <div className="tituloaddress pb-3">
-                                                                    * Ciudad
-                                                                </div>
-                                                                <Dropdown
-                                                                    onClick={() =>
-                                                                        reiniciarciudad()
-                                                                    }>
+                                                    </Grid>
+                                                </div>
+                                            )}
+                                        </Grid>
+
+
+                                        <Grid item xs={12} md={7} lg={7}>
+                                            <div className="boxaddaddress">
+                                                <Grid
+                                                    container
+                                                    alignItems="center"
+                                                    spacing={1}>
+                                                    <Grid item xs={12} md={1} lg={1}>
+                                                        <div className="iconlocatetres">
+                                                            <LocationOnIcon
+                                                                className="locationoniconaddressdos"
+                                                                style={{
+                                                                    fontSize: 36,
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid
+                                                    container
+                                                    alignItems="center"
+                                                    spacing={1}>
+                                                    <Grid item xs={12} md={6} lg={6}>
+                                                        <div className="mt-20 eliminarborde">
+                                                            <div className="tituloaddress pb-3">
+                                                                * Departamento
+                                                            </div>
+                                                            <Dropdown
+                                                                onClick={() =>
+                                                                    reiniciardpto()
+                                                                }>
+                                                                <div>
                                                                     <Dropdown.Toggle
-                                                                        onclick={CustomToggle}
+                                                                        onclick={
+                                                                            CustomToggle
+                                                                        }
                                                                         id="dropdown-custom-components"
                                                                         arrowColor="#2D2E83"
                                                                         className={
-                                                                            alertBtnCiudad
+                                                                            alertBtnDpto
                                                                         }
                                                                         variant="outline-light"
                                                                     //</Dropdown>value={marcaVeh}
                                                                     >
                                                                         <div className="ajustecity">
                                                                             <a>
-                                                                                {selectciudad}
+                                                                                {
+                                                                                    selectdepto
+                                                                                }
                                                                             </a>
                                                                         </div>
                                                                     </Dropdown.Toggle>
@@ -1231,20 +1161,20 @@ const FormDomicilio = () => {
                                                                         as={CustomMenu}
                                                                         variant="outline-light"
                                                                         className="tamañocajaoptionsaddress">
-                                                                        {ciudadDepto &&
-                                                                            ciudadDepto.map(
+                                                                        {departamentos &&
+                                                                            departamentos.map(
                                                                                 (item) => {
                                                                                     return (
                                                                                         <Dropdown.Item
                                                                                             className="itemsdropdowncustomcity"
                                                                                             onClick={() =>
-                                                                                                SelectCiudad(
-                                                                                                    item.id_ciu,
+                                                                                                SelectDepto(
+                                                                                                    item.codigo_dep,
                                                                                                     item.label
                                                                                                 )
                                                                                             }
                                                                                             eventKey={
-                                                                                                item.codigo_ciu
+                                                                                                item.codigo_dep
                                                                                             }>
                                                                                             {
                                                                                                 item.label
@@ -1254,271 +1184,327 @@ const FormDomicilio = () => {
                                                                                 }
                                                                             )}
                                                                     </Dropdown.Menu>
-                                                                </Dropdown>
-                                                            </div>
-                                                        </Grid>
-                                                    </Grid>
-                                                    <Grid
-                                                        container
-                                                        alignItems="center"
-                                                        spacing={1}>
-                                                        <Grid item xs={12} md={6} lg={6}>
-                                                            <div className="mt-20 eliminarborde">
-                                                                <div className="tituloaddress pb-3">
-                                                                    Barrio
                                                                 </div>
-                                                                <input
-                                                                    className="cajabarrios"
-                                                                    type="text"
-                                                                    placeholder="Nombre del barrio o sector"
-                                                                    value={barrioSeleccionado}
-                                                                    onChange={(e) =>
-                                                                        handleChangeInputBarrio(
-                                                                            e.target.value
-                                                                        )
+                                                            </Dropdown>
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={12} md={6} lg={6}>
+                                                        <div className="mt-20 eliminarborde">
+                                                            <div className="tituloaddress pb-3">
+                                                                * Ciudad
+                                                            </div>
+                                                            <Dropdown
+                                                                onClick={() =>
+                                                                    reiniciarciudad()
+                                                                }>
+                                                                <Dropdown.Toggle
+                                                                    onclick={CustomToggle}
+                                                                    id="dropdown-custom-components"
+                                                                    arrowColor="#2D2E83"
+                                                                    className={
+                                                                        alertBtnCiudad
                                                                     }
-                                                                />
-                                                            </div>
-                                                        </Grid>
+                                                                    variant="outline-light"
+                                                                //</Dropdown>value={marcaVeh}
+                                                                >
+                                                                    <div className="ajustecity">
+                                                                        <a>
+                                                                            {selectciudad}
+                                                                        </a>
+                                                                    </div>
+                                                                </Dropdown.Toggle>
+                                                                <Dropdown.Menu
+                                                                    as={CustomMenu}
+                                                                    variant="outline-light"
+                                                                    className="tamañocajaoptionsaddress">
+                                                                    {ciudadDepto &&
+                                                                        ciudadDepto.map(
+                                                                            (item) => {
+                                                                                return (
+                                                                                    <Dropdown.Item
+                                                                                        className="itemsdropdowncustomcity"
+                                                                                        onClick={() =>
+                                                                                            SelectCiudad(
+                                                                                                item.id_ciu,
+                                                                                                item.label
+                                                                                            )
+                                                                                        }
+                                                                                        eventKey={
+                                                                                            item.codigo_ciu
+                                                                                        }>
+                                                                                        {
+                                                                                            item.label
+                                                                                        }
+                                                                                    </Dropdown.Item>
+                                                                                );
+                                                                            }
+                                                                        )}
+                                                                </Dropdown.Menu>
+                                                            </Dropdown>
+                                                        </div>
                                                     </Grid>
-                                                    <Grid
-                                                        container
-                                                        alignItems="center"
-                                                        spacing={1}>
-                                                        <Grid item xs={12} md={3} lg={3}>
-                                                            <div className="mt-20 eliminarborde">
-                                                                <div className="tituloaddress pb-3">
-                                                                    * Tipo de calle
-                                                                </div>
-                                                                <Dropdown
-                                                                    onClick={() =>
-                                                                        reiniciartipocalle()
-                                                                    }>
-                                                                    <Dropdown.Toggle
-                                                                        onclick={CustomToggle}
-                                                                        id="dropdown-custom-components"
-                                                                        arrowColor="#2D2E83"
-                                                                        className={
-                                                                            alertBtnTipoCalle
-                                                                        }
-                                                                        variant="outline-light"
-                                                                    //</Dropdown>value={marcaVeh}
-                                                                    >
-                                                                        <div className="ajustecity">
-                                                                            <a>
-                                                                                {
-                                                                                    selecttipocalle
-                                                                                }
-                                                                            </a>
-                                                                        </div>
-                                                                    </Dropdown.Toggle>
-                                                                    <Dropdown.Menu
-                                                                        as={CustomMenu}
-                                                                        variant="outline-light"
-                                                                        className="tamañocajaoptionsaddress">
-                                                                        {tipoCalle &&
-                                                                            tipoCalle.map(
-                                                                                (item) => {
-                                                                                    return (
-                                                                                        <Dropdown.Item
-                                                                                            className="itemsdropdowncustomcity"
-                                                                                            onClick={() =>
-                                                                                                SelectTipoCalle(
-                                                                                                    item.value,
-                                                                                                    item.nombre
-                                                                                                )
-                                                                                            }
-                                                                                            eventKey={
-                                                                                                item.value
-                                                                                            }>
-                                                                                            {
+                                                </Grid>
+                                                <Grid
+                                                    container
+                                                    alignItems="center"
+                                                    spacing={1}>
+                                                    <Grid item xs={12} md={6} lg={6}>
+                                                        <div className="mt-20 eliminarborde">
+                                                            <div className="tituloaddress pb-3">
+                                                                Barrio
+                                                            </div>
+                                                            <input
+                                                                className="cajabarrios"
+                                                                type="text"
+                                                                placeholder="Nombre del barrio o sector"
+                                                                value={barrioSeleccionado}
+                                                                onChange={(e) =>
+                                                                    handleChangeInputBarrio(
+                                                                        e.target.value
+                                                                    )
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid
+                                                    container
+                                                    alignItems="center"
+                                                    spacing={1}>
+                                                    <Grid item xs={12} md={3} lg={3}>
+                                                        <div className="mt-20 eliminarborde">
+                                                            <div className="tituloaddress pb-3">
+                                                                * Tipo de calle
+                                                            </div>
+                                                            <Dropdown
+                                                                onClick={() =>
+                                                                    reiniciartipocalle()
+                                                                }>
+                                                                <Dropdown.Toggle
+                                                                    onclick={CustomToggle}
+                                                                    id="dropdown-custom-components"
+                                                                    arrowColor="#2D2E83"
+                                                                    className={
+                                                                        alertBtnTipoCalle
+                                                                    }
+                                                                    variant="outline-light"
+                                                                //</Dropdown>value={marcaVeh}
+                                                                >
+                                                                    <div className="ajustecity">
+                                                                        <a>
+                                                                            {
+                                                                                selecttipocalle
+                                                                            }
+                                                                        </a>
+                                                                    </div>
+                                                                </Dropdown.Toggle>
+                                                                <Dropdown.Menu
+                                                                    as={CustomMenu}
+                                                                    variant="outline-light"
+                                                                    className="tamañocajaoptionsaddress">
+                                                                    {tipoCalle &&
+                                                                        tipoCalle.map(
+                                                                            (item) => {
+                                                                                return (
+                                                                                    <Dropdown.Item
+                                                                                        className="itemsdropdowncustomcity"
+                                                                                        onClick={() =>
+                                                                                            SelectTipoCalle(
+                                                                                                item.value,
                                                                                                 item.nombre
-                                                                                            }
-                                                                                        </Dropdown.Item>
-                                                                                    );
-                                                                                }
-                                                                            )}
-                                                                    </Dropdown.Menu>
-                                                                </Dropdown>
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid item xs={12} md={5} lg={5}>
-                                                            <div
-                                                                className="ml-10 mt-20 eliminarborde"
-                                                                onClick={() =>
-                                                                    reiniciarcalle()
-                                                                }>
-                                                                <div className="tituloaddress pb-3">
-                                                                    * Calle
-                                                                </div>
-                                                                <input
-                                                                    className={alertBtnCalle}
-                                                                    type="text"
-                                                                    placeholder="Nombre y el prefijo. Ej: 22 Sur."
-                                                                    value={calleSeleccionada}
-                                                                    onChange={(e) =>
-                                                                        handleChangeInputCalle(
-                                                                            e.target.value
-                                                                        )
-                                                                    }
-                                                                />
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid item xs={12} md={2} lg={2}>
-                                                            <div
-                                                                className="ml-40 mt-20 eliminarborde"
-                                                                onClick={() =>
-                                                                    reiniciarNumeroUno()
-                                                                }>
-                                                                <div className="tituloaddress pb-3">
-                                                                    Número
-                                                                </div>
-                                                                <input
-                                                                    className={
-                                                                        alertBtnNumeroUno
-                                                                    }
-                                                                    type="text"
-                                                                    value={
-                                                                        numeroUnoSeleccionado
-                                                                    }
-                                                                    onChange={(e) =>
-                                                                        handleChangeInputNumeroUno(
-                                                                            e.target.value
-                                                                        )
-                                                                    }
-                                                                    placeholder="#"
-                                                                />
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid item xs={12} md={1} lg={1}>
-                                                            <div
-                                                                className="ml-15 mt-43 eliminarborde"
-                                                                onClick={() =>
-                                                                    reiniciarNumeroDos()
-                                                                }>
-                                                                <div className="tituloaddress pb-3"></div>
-                                                                <input
-                                                                    className={
-                                                                        alertBtnNumeroDos
-                                                                    }
-                                                                    type="text"
-                                                                    placeholder="-"
-                                                                    value={
-                                                                        numeroDosSeleccionado
-                                                                    }
-                                                                    onChange={(e) =>
-                                                                        handleChangeInputNumeroDos(
-                                                                            e.target.value
-                                                                        )
-                                                                    }
-                                                                />
-                                                            </div>
-                                                        </Grid>
+                                                                                            )
+                                                                                        }
+                                                                                        eventKey={
+                                                                                            item.value
+                                                                                        }>
+                                                                                        {
+                                                                                            item.nombre
+                                                                                        }
+                                                                                    </Dropdown.Item>
+                                                                                );
+                                                                            }
+                                                                        )}
+                                                                </Dropdown.Menu>
+                                                            </Dropdown>
+                                                        </div>
                                                     </Grid>
-                                                    <Grid item xs={12} md={12} lg={12}>
+                                                    <Grid item xs={12} md={5} lg={5}>
+                                                        <div
+                                                            className="ml-10 mt-20 eliminarborde"
+                                                            onClick={() =>
+                                                                reiniciarcalle()
+                                                            }>
+                                                            <div className="tituloaddress pb-3">
+                                                                * Calle
+                                                            </div>
+                                                            <input
+                                                                className={alertBtnCalle}
+                                                                type="text"
+                                                                placeholder="Nombre y el prefijo. Ej: 22 Sur."
+                                                                value={calleSeleccionada}
+                                                                onChange={(e) =>
+                                                                    handleChangeInputCalle(
+                                                                        e.target.value
+                                                                    )
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={12} md={2} lg={2}>
+                                                        <div
+                                                            className="ml-40 mt-20 eliminarborde"
+                                                            onClick={() =>
+                                                                reiniciarNumeroUno()
+                                                            }>
+                                                            <div className="tituloaddress pb-3">
+                                                                Número
+                                                            </div>
+                                                            <input
+                                                                className={
+                                                                    alertBtnNumeroUno
+                                                                }
+                                                                type="text"
+                                                                value={
+                                                                    numeroUnoSeleccionado
+                                                                }
+                                                                onChange={(e) =>
+                                                                    handleChangeInputNumeroUno(
+                                                                        e.target.value
+                                                                    )
+                                                                }
+                                                                placeholder="#"
+                                                            />
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid item xs={12} md={1} lg={1}>
+                                                        <div
+                                                            className="ml-15 mt-43 eliminarborde"
+                                                            onClick={() =>
+                                                                reiniciarNumeroDos()
+                                                            }>
+                                                            <div className="tituloaddress pb-3"></div>
+                                                            <input
+                                                                className={
+                                                                    alertBtnNumeroDos
+                                                                }
+                                                                type="text"
+                                                                placeholder="-"
+                                                                value={
+                                                                    numeroDosSeleccionado
+                                                                }
+                                                                onChange={(e) =>
+                                                                    handleChangeInputNumeroDos(
+                                                                        e.target.value
+                                                                    )
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid item xs={12} md={12} lg={12}>
+                                                    <div
+                                                        className="ps-form__group"
+                                                        onClick={() =>
+                                                            reiniciarDescripcion()
+                                                        }>
+                                                        <div className="tituloaddress mt-10 pb-3">
+                                                            Complemento o referencias
+                                                            adicionales
+                                                        </div>
+                                                        <textarea
+                                                            className={
+                                                                inputDescripcionProducto
+                                                            }
+                                                            placeholder={textoDescripcion}
+                                                            value={tituloDescripcion}
+                                                            name="descripcionproducto"
+                                                            onChange={(e) =>
+                                                                descripcionOnChange(
+                                                                    e.target.value
+                                                                )
+                                                            }
+                                                            type="text"
+                                                        />
+                                                        <div className="textocontadoraddress">
+                                                            {contadorLetrasDescripcion}{" "}
+                                                            {"/"} 140
+                                                        </div>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={12} md={12} lg={12}>
+                                                    <div
+                                                        className="ps-form__group"
+                                                        onClick={() => reiniciarNombre()}>
+                                                        <div className="tituloaddress mtmenos10 pb-3">
+                                                            Nombre y apellido de quien
+                                                            recibe
+                                                        </div>
+                                                        <input
+                                                            className={alertBtnNombre}
+                                                            type="text"
+                                                            placeholder="Nombre y apellido de quien recibe"
+                                                            value={nombreRecibeSeleccionado}
+                                                            onChange={(e) =>
+                                                                handleChangeInputNombreApellido(
+                                                                    e.target.value
+                                                                )
+                                                            }
+                                                        />
+                                                    </div>
+                                                </Grid>
+                                                <Grid
+                                                    container
+                                                    alignItems="center"
+                                                    spacing={1}>
+                                                    <Grid item xs={12} md={6} lg={6}>
                                                         <div
                                                             className="ps-form__group"
                                                             onClick={() =>
-                                                                reiniciarDescripcion()
+                                                                reiniciarTelefono()
                                                             }>
-                                                            <div className="tituloaddress mt-10 pb-3">
-                                                                Complemento o referencias
-                                                                adicionales
-                                                            </div>
-                                                            <textarea
-                                                                className={
-                                                                    inputDescripcionProducto
-                                                                }
-                                                                placeholder={textoDescripcion}
-                                                                value={tituloDescripcion}
-                                                                name="descripcionproducto"
-                                                                onChange={(e) =>
-                                                                    descripcionOnChange(
-                                                                        e.target.value
-                                                                    )
-                                                                }
-                                                                type="text"
-                                                            />
-                                                            <div className="textocontadoraddress">
-                                                                {contadorLetrasDescripcion}{" "}
-                                                                {"/"} 140
-                                                            </div>
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid item xs={12} md={12} lg={12}>
-                                                        <div
-                                                            className="ps-form__group"
-                                                            onClick={() => reiniciarNombre()}>
-                                                            <div className="tituloaddress mtmenos10 pb-3">
-                                                                Nombre y apellido de quien
-                                                                recibe
+                                                            <div className="tituloaddress mt-10  pb-3">
+                                                                Teléfono de quien recibe
                                                             </div>
                                                             <input
-                                                                className={alertBtnNombre}
+                                                                className={alertBtnTelefono}
                                                                 type="text"
-                                                                placeholder="Nombre y apellido de quien recibe"
-                                                                value={nombreRecibeSeleccionado}
+                                                                idSelected
+                                                                placeholder="Teléfono de quien recibe"
+                                                                value={
+                                                                    telefonoRecibeSeleccionado
+                                                                }
                                                                 onChange={(e) =>
-                                                                    handleChangeInputNombreApellido(
+                                                                    handleChangeInputTelefonoRecibe(
                                                                         e.target.value
                                                                     )
                                                                 }
                                                             />
                                                         </div>
                                                     </Grid>
-                                                    <Grid
-                                                        container
-                                                        alignItems="center"
-                                                        spacing={1}>
-                                                        <Grid item xs={12} md={6} lg={6}>
+                                                    <Grid item xs={12} md={6} lg={6}>
+                                                        <div className="ps-form__group">
                                                             <div
-                                                                className="ps-form__group"
+                                                                className="botongrabardireccion mt-10  pb-3"
                                                                 onClick={() =>
-                                                                    reiniciarTelefono()
+                                                                    addAddress()
                                                                 }>
-                                                                <div className="tituloaddress mt-10  pb-3">
-                                                                    Teléfono de quien recibe
-                                                                </div>
-                                                                <input
-                                                                    className={alertBtnTelefono}
-                                                                    type="text"
-                                                                    idSelected
-                                                                    placeholder="Teléfono de quien recibe"
-                                                                    value={
-                                                                        telefonoRecibeSeleccionado
-                                                                    }
-                                                                    onChange={(e) =>
-                                                                        handleChangeInputTelefonoRecibe(
-                                                                            e.target.value
-                                                                        )
-                                                                    }
-                                                                />
+                                                                {textoBoton}
                                                             </div>
-                                                        </Grid>
-                                                        <Grid item xs={12} md={6} lg={6}>
-                                                            <div className="ps-form__group">
-                                                                <div
-                                                                    className="botongrabardireccion mt-10  pb-3"
-                                                                    onClick={() =>
-                                                                        addAddress()
-                                                                    }>
-                                                                    {textoBoton}
-                                                                </div>
-                                                            </div>
-                                                        </Grid>
+                                                        </div>
                                                     </Grid>
-                                                </div>
-                                            </Grid>
+                                                </Grid>
+                                            </div>
                                         </Grid>
-                                    </div>
+                                    </Grid>
                                 </div>
-
-
                             </div>
+
+
                         </div>
                     </div>
-                </Container>
-            </>
-        )
-    }
-    export default FormDomicilio;
+                </div>
+            </Container>
+        </>
+    )
+}
+export default FormDomicilio;

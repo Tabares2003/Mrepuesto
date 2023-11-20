@@ -85,12 +85,12 @@ const FormPersJuridica = () => {
 
     return (
         <>
-            <div ref={irA}>  
+            <div ref={irA}>
                 <Container title="Mi Cuenta"  >
                     <div className="ps-page ps-page--inner" id="myaccount" >
                         <div className="container">
                             <div className="ps-page__header"></div>
-                            <div className="ps-page__content ps-account"> 
+                            <div className="ps-page__content ps-account">
                                 <div className='titlesformsUsers'>
                                     <p>Cambiar tu cuenta a cuenta de persona juridica</p>
                                 </div>
@@ -102,7 +102,6 @@ const FormPersJuridica = () => {
                                                 <input
                                                     className='InputFormsUsers'
                                                     type="text"
-                                                    placeholder="Ej: Juan Pablo"
                                                     style={{
                                                         cursor: 'not-allowed',
                                                     }}
@@ -115,7 +114,7 @@ const FormPersJuridica = () => {
                                                 <p className='titlesFormsUsers2'>Numero de documento</p>
                                                 <input
                                                     className='InputFormsUsers'
-                                                    type="text" 
+                                                    type="text"
                                                     placeholder="Ej: 900123456 - 1"
                                                     value={nit}
                                                     onChange={(e) => setNit(e.target.value)}
@@ -128,14 +127,20 @@ const FormPersJuridica = () => {
                                                     type="text"
                                                     placeholder="Ej: ABC S.A.S."
                                                     value={valorSocial}
-                                                    onChange={(e) => setValorSocial(e.target.value)}
+                                                    onChange={(e) => {
+                                                        const inputValue = e.target.value;
+                                                        // Utiliza una expresión regular para verificar si el valor contiene solo letras y espacios
+                                                        if (/^[A-Za-z\s.]+$/.test(inputValue) || inputValue === '') {
+                                                            setValorSocial(inputValue);
+                                                        }
+                                                    }}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} md={6}></Grid>
                                             <Grid item xs={12} md={6} >
                                                 <Box display="flex" justifyContent="space-between" marginTop={15}>
                                                     <button onClick={handleValidP} className='CancelarFormButton'>Cancelar</button>
-                                                    <button onClick={handleGuardar} type='button' style={{width:'49%', backgroundColor:'#2D2E83', color:'white', borderRadius:'10px', fontSize:'16px', alignItems:'center', display:'flex', justifyContent:'center', height:'40px'}}>Continuar</button>
+                                                    <button onClick={handleGuardar} type='button' style={{ width: '49%', backgroundColor: '#2D2E83', color: 'white', borderRadius: '10px', fontSize: '16px', alignItems: 'center', display: 'flex', justifyContent: 'center', height: '40px' }}>Continuar</button>
                                                     <ModalMensajes
                                                         shown={showModalNit}
                                                         close={handleModalCloseNit}

@@ -3,7 +3,7 @@ import { Box, Grid, Typography, useMediaQuery, useTheme, Dialog, DialogTitle, Di
 import React, { useEffect, useState, useRef } from "react";
 import ModalMensajes from '../../mensajes/ModalMensajes';
 import { useRouter } from "next/router"; 
-
+import { FaCheckCircle } from "react-icons/fa";
 // Función de validación directamente en el componente
 function validateTelefono(telefono) {
     // ajustar la expresión regular según requisitos
@@ -315,10 +315,11 @@ export default function FormTel() {
                                         }}
                                     >
                                         <DialogTitle className='dialogtitleDtsGUardados' > 
+                                        <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
                                             <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                         </DialogTitle>
                                         <DialogContent className='dialogContentDatsGuardados'>
-                                            <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se veran reflejados un unos minutos.</p>
+                                            <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se verán reflejados un unos minutos.</p>
                                         </DialogContent>
                                         <DialogActions className='DialogActionsDatsGuardados'>
                                             <div className='div1buttonDialog' >

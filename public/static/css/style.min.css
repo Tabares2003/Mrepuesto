@@ -19192,7 +19192,7 @@ cursor: pointer;
     margin-left: -29px !important;
 }
 .mlmenos30 {
-    margin-left: -30px !important;
+    margin-left: -45px !important;
 }
 .mlmenos32 {
     margin-left: -32px !important;
@@ -19647,7 +19647,7 @@ cursor: pointer;
     margin-left: -20px !important;
 }
 .mlmenos30 {
-    margin-left: -30px !important;
+    margin-left: -45px !important;
 }
 .mlmenos40 {
     margin-left: -40px !important;
@@ -27610,7 +27610,7 @@ background-color: #F1F2F6 !important;
     height: 40px !important;
     cursor: pointer;
 }
-
+ 
 /*Titles Forms*/
 
 .titlesformsUsers p{
@@ -27738,13 +27738,15 @@ background-color: #F1F2F6 !important;
     background-color: #F4F5F7;
     color: #2C2E82; 
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 2rem;
+    padding-top: 2.5rem;
   }
   
   .PdialogContent {
     color: #2C2E82;
-    font-size: 23px;
-    font-weight: 350;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 1.5rem;
   }
   
   .DialogActionsDatsGuardados {
@@ -27789,6 +27791,10 @@ background-color: #F1F2F6 !important;
     justify-content: center; 
     height: 40px !important;
   }
+  .CancelarFormButton:hover{
+    color: #F0F2F5 !important;
+    background-color: #2D2E83 !important;
+}
 
   .GuardarFormButton {
     width: 49%;
@@ -27830,3 +27836,24 @@ background-color: #F1F2F6 !important;
     margin: 0 auto;
     
   }
+
+  /*Container mis datos my-account jsx*/
+.SubcontainerMisDatos{
+    border-radius: 10px;
+    margin-bottom: .6rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #2C2E82;
+    background-color: #F0F1F5;
+    padding: 2.1rem;
+    font-size: 2.3rem;
+    font-weight: 200;
+    cursor: pointer;
+    font-family: jost, sans-serif;
+}
+.titleSubContMisD{
+    font-size: 23px;
+    color: #2C2E82; 
+}
+

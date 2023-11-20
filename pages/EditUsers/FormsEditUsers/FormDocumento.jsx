@@ -11,7 +11,10 @@ import ModalMensajes from '../../mensajes/ModalMensajes';
 import { useRouter } from "next/router";
 //import MUI media
 import { Box, Grid, Typography, useMediaQuery, useTheme, Dialog, DialogTitle, DialogActions, DialogContent, Button } from '@mui/material';
-import React, { useState, useEffect, useRef } from "react"; 
+import React, { useState, useEffect, useRef } from "react";
+import { FaCheckCircle } from "react-icons/fa";
+
+
 
 const CustomDropdownButton = React.forwardRef(({ children, onClick, href }, ref) => (
     <button
@@ -23,6 +26,7 @@ const CustomDropdownButton = React.forwardRef(({ children, onClick, href }, ref)
         {children}
     </button>
 ));
+
 
 export default function FormDocumento() {
 
@@ -115,107 +119,108 @@ export default function FormDocumento() {
 
     useEffect(() => {
         irA.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
+            behavior: "smooth",
+            block: "start",
         });
-      }, []);
+    }, []);
 
 
     return (
         <>
-        <div ref={irA}> 
-            <Container title="Mi Cuenta">
-                <div className="ps-page ps-page--inner" id="myaccount" ref={irA}>
-                    <div className="container">
-                        <div className="ps-page__header"></div>
-                        <div className="ps-page__content ps-account">
+            <div ref={irA}>
+                <Container title="Mi Cuenta">
+                    <div className="ps-page ps-page--inner" id="myaccount" ref={irA}>
+                        <div className="container">
+                            <div className="ps-page__header"></div>
+                            <div className="ps-page__content ps-account">
 
-                            <div className='titlesformsUsers'>
-                                <p>Editar documento identidad</p>
-                            </div>
+                                <div className='titlesformsUsers'>
+                                    <p>Editar documento identidad</p>
+                                </div>
 
-                            <Grid className="contDataUsers" container style={{width: isMdDown ? '100%' : '65%'}}>
+                                <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '65%' }}>
 
-                                <Grid container spacing={3}>
-                                    <Grid item xs={12} md={4}>
-                                        <p className='titlesFormsUsers2'>Tipo de documento</p>
-                                        <Dropdown style={{ width: '100%' }} onSelect={handleSelect}>
-                                            <Dropdown.Toggle
-                                                as={CustomDropdownButton}
-                                                id="dropdown-basic"
-                                            >
-                                                {selectedItem}
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu className="tamañocajaoptionsTdocPersona">
-                                                <Dropdown.Item eventKey="C.C" className="itemsdropdownTdocPersona">C.C</Dropdown.Item>
-                                                <Dropdown.Item eventKey="T.I" className="itemsdropdownTdocPersona">T.I</Dropdown.Item>
-                                                <Dropdown.Item eventKey="Cédula de Extranjería" className="itemsdropdownTdocPersona">Cédula de Extranjería</Dropdown.Item>
-                                                <Dropdown.Item eventKey="Pasaporte" className="itemsdropdownTdocPersona">Pasaporte</Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </Grid>
-                                    <Grid item xs={12} md={8}>
-                                        <p className='titlesFormsUsers2'>Documento de identidad</p>
-                                        <input
-                                            type="text"
-                                            placeholder="Ej: 1000193191"
-                                            className='InputFormsUsers' 
-                                            value={nroDocumentoSeleccionado}
-                                            onChange={(e) => handleChangeInputCedula(e.target.value)}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} md={6}></Grid>
-                                    <Grid item xs={12} md={6}>
-                                        <Box display="flex" justifyContent="space-between" marginTop={15}>
-                                            <button  onClick={handleValidP}  className='CancelarFormButton'>Cancelar</button>
-                                            <button onClick={handleValidacionCedula} className='GuardarFormButton'>Guardar</button>
-                                            <ModalMensajes
-                                                shown={showModalMensajes}
-                                                close={handleModalClose}
-                                                titulo={tituloMensajes}
-                                                mensaje={textoMensajes}
-                                                tipo="error"
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12} md={4}>
+                                            <p className='titlesFormsUsers2'>Tipo de documento</p>
+                                            <Dropdown style={{ width: '100%' }} onSelect={handleSelect}>
+                                                <Dropdown.Toggle
+                                                    as={CustomDropdownButton}
+                                                    id="dropdown-basic"
+                                                >
+                                                    {selectedItem}
+                                                </Dropdown.Toggle>
+                                                <Dropdown.Menu className="tamañocajaoptionsTdocPersona">
+                                                    <Dropdown.Item eventKey="C.C" className="itemsdropdownTdocPersona">C.C</Dropdown.Item>
+                                                    <Dropdown.Item eventKey="T.I" className="itemsdropdownTdocPersona">T.I</Dropdown.Item>
+                                                    <Dropdown.Item eventKey="Cédula de Extranjería" className="itemsdropdownTdocPersona">Cédula de Extranjería</Dropdown.Item>
+                                                    <Dropdown.Item eventKey="Pasaporte" className="itemsdropdownTdocPersona">Pasaporte</Dropdown.Item>
+                                                </Dropdown.Menu>
+                                            </Dropdown>
+                                        </Grid>
+                                        <Grid item xs={12} md={8}>
+                                            <p className='titlesFormsUsers2'>Documento de identidad</p>
+                                            <input
+                                                type="text"
+                                                placeholder="Ej: 1000193191"
+                                                className='InputFormsUsers'
+                                                value={nroDocumentoSeleccionado}
+                                                onChange={(e) => handleChangeInputCedula(e.target.value)}
                                             />
-                                        </Box>
-                                        <Dialog
-                                            className='dialogDatsGuardados'
-                                            open={confirmationOpen}
-                                            PaperProps={{
-                                                style: {
-                                                    width: isMdDown ? '80%' : '35%',
-                                                    backgroundColor: 'white',
-                                                    border: '2px solid gray',
-                                                    padding: '1.4rem',
-                                                    borderRadius: '10px'
-                                                },
-                                            }}
-                                        >
-                                            <DialogTitle className='dialogtitleDtsGUardados' >
-                                                 <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
-                                            </DialogTitle>
-                                            <DialogContent className='dialogContentDatsGuardados'>
-                                                <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se veran reflejados un unos minutos.</p>
-                                            </DialogContent>
-                                            <DialogActions className='DialogActionsDatsGuardados'>
-                                                <div className='div1buttonDialog' >
-                                                    <button className='button2DialogDatsGuardados' onClick={handleConfirmationSuccess('../../my-account')} >
-                                                        Ir a Mis datos
-                                                    </button>
-                                                </div>
-                                                <div  className='div1buttonDialog' >
-                                                    <button className='button1DialogDatsGuardados'  onClick={handleConfirmationSuccess('/')} >
-                                                        Ir al inicio
-                                                    </button>
-                                                </div>
-                                            </DialogActions>
-                                        </Dialog>
+                                        </Grid>
+                                        <Grid item xs={12} md={6}></Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <Box display="flex" justifyContent="space-between" marginTop={15}>
+                                                <button onClick={handleValidP} className='CancelarFormButton'>Cancelar</button>
+                                                <button onClick={handleValidacionCedula} className='GuardarFormButton'>Guardar</button>
+                                                <ModalMensajes
+                                                    shown={showModalMensajes}
+                                                    close={handleModalClose}
+                                                    titulo={tituloMensajes}
+                                                    mensaje={textoMensajes}
+                                                    tipo="error"
+                                                />
+                                            </Box>
+                                            <Dialog
+                                                className='dialogDatsGuardados'
+                                                open={confirmationOpen}
+                                                PaperProps={{
+                                                    style: {
+                                                        width: isMdDown ? '80%' : '35%',
+                                                        backgroundColor: 'white',
+                                                        border: '2px solid gray',
+                                                        padding: '1.4rem',
+                                                        borderRadius: '10px'
+                                                    },
+                                                }}
+                                            >
+                                                <DialogTitle className='dialogtitleDtsGUardados' >
+                                                    <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
+                                                    <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
+                                                </DialogTitle>
+                                                <DialogContent className='dialogContentDatsGuardados'>
+                                                    <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se verán reflejados un unos minutos.</p>
+                                                </DialogContent>
+                                                <DialogActions className='DialogActionsDatsGuardados'>
+                                                    <div className='div1buttonDialog' >
+                                                        <button className='button2DialogDatsGuardados' onClick={handleConfirmationSuccess('../../my-account')} >
+                                                            Ir a Mis datos
+                                                        </button>
+                                                    </div>
+                                                    <div className='div1buttonDialog' >
+                                                        <button className='button1DialogDatsGuardados' onClick={handleConfirmationSuccess('/')} >
+                                                            Ir al inicio
+                                                        </button>
+                                                    </div>
+                                                </DialogActions>
+                                            </Dialog>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid> 
+                            </div>
                         </div>
                     </div>
-                </div> 
-            </Container>
+                </Container>
             </div>
         </>
     )

@@ -7,6 +7,8 @@ import { IoSquareOutline } from "react-icons/io5";
 import { HiOutlineDocumentArrowUp } from "react-icons/hi2";
 import { FaCheck } from "react-icons/fa6";
 import { useRouter } from "next/router";
+import { FaCheckCircle } from "react-icons/fa";
+
 
 const ValidDocsPjuridica = () => {
 
@@ -54,8 +56,8 @@ const ValidDocsPjuridica = () => {
                     img.onload = () => {
                         if (file.size > maxImageSize || img.width > maxImageDimensions.width || img.height > maxImageDimensions.height) {
                             setShowModal(true);
-                            setTituloMensajes('Tamaño o dimensiones incorrectos');
-                            setTextoMensajes(`Las imágenes deben ser de máximo 1024 x 1024 y pesar máximo 800 KB.`);
+                            setTituloMensajes('Imagen incorrecta');
+                            setTextoMensajes(`Las imágenes deben ser de máximo 1024 x 1024 y pesar máximo 800 KB. `);
                             return;
                         }
     
@@ -328,12 +330,33 @@ const ValidDocsPjuridica = () => {
                                     </Grid>
                                     <Grid container mt={3} sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <p style={{ color: '#2C2E82', fontSize: '20px' }}>Ten en cuenta que:</p>
+ 
                                         <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
-                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} /> Los archivos no deben pesar mas de ---KB
+                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />El tamaño maximo de las imagenes es 1024 x 1024
                                         </Box>
                                         <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
-                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} /> Los archivos deben ser en formato PNG, JPG, PDF
+                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />Cada imagen debe pesar máximo 800KB 
                                         </Box>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
+                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />Cada archivo pdf debe pesar máximo 700KB 
+                                        </Box>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
+                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} /> Los archivos deben ser en formato PNG, JPG, JPEG, PDF
+                                        </Box>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
+                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />El fondo de las imágenes debe ser color blanco o gris claro
+                                        </Box>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
+                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} /> Las imágenes deben se cuadradas, optimo 1024 x 1024
+                                        </Box>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
+                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} /> Las imágenes deben llenar al menos el 85% o más del marco de la imagen
+                                        </Box>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
+                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />La imagen debe estar enfocada
+                                        </Box>
+
+                                        
                                     </Grid>
                                     <Grid container item xs={12} md={12}>
                                         <Grid item xs={12} md={7}></Grid>
@@ -362,10 +385,12 @@ const ValidDocsPjuridica = () => {
                                                     }}
                                                 >
                                                     <DialogTitle className='dialogtitleDtsGUardados' >
+                                                        <FaCheckCircle size={37} style={{color:'#10c045', marginLeft:'-17px', marginRight:'8px'}}/>
+
                                                         <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                                     </DialogTitle>
                                                     <DialogContent className='dialogContentDatsGuardados'>
-                                                        <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se veran reflejados un unos minutos.</p>
+                                                        <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se verán reflejados un unos minutos.</p>
                                                     </DialogContent>
                                                     <DialogActions className='DialogActionsDatsGuardados'>
                                                         <div className='div1buttonDialog' >

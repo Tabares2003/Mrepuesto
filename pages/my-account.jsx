@@ -1315,10 +1315,10 @@ const MyAccountScreen = () => {
 
     useEffect(() => {
         irA.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
+            behavior: "smooth",
+            block: "start",
         });
-      }, []);
+    }, []);
 
 
     return (
@@ -1330,137 +1330,142 @@ const MyAccountScreen = () => {
 
 
 
-                        <div ref={irA} className="ContDatosDocs" style={{ padding: '.5rem' }}>
+                        <div ref={irA} className="ContDatosDocs" style={{ padding: '.5rem',  justifyContent:'center', display:'flex' }}>
 
-                            <div style={{ marginBottom: '2rem' }}>
-                                <p style={{ fontSize: '30px', color: '#2C2E82' }}>Mis datos</p>
-                            </div>
-                            <div onClick={abrirModal} style={{ borderRadius: '10px', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif' }}>
-                                <div style={{ width: '100%' }}>
-                                    <div>Nombre de usuario</div>
-                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.primernombre} {datUsers?.segundonombre} {datUsers?.primerapellido} </p>
+                            <Grid sx={{ width: isMdDown ? '100%' : '70%' }}>
+
+
+                                <div style={{ marginBottom: '2rem' }}>
+                                    <p style={{ fontSize: '30px', color: '#2D2E83', fontWeight:'600' }}>Mis datos</p>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
-                                </div>
-                            </div>
-                            {mostrarModal && (
-                                <div
-                                    className="modal-fondo mtmenos15"
-                                    onClick={() => {
-                                        cerrarModal();
-                                    }}
-                                >
-                                    <div
-                                        className="modal-mensajes-login redondearventamensajes"
-                                        onClick={(e) => {
-                                            // Evitar que se cierre el modal si se hace clic en su contenido
-                                            e.stopPropagation();
-                                        }}
-                                    >
-                                        {/* Contenido del modal */}
-                                        <Row>
-                                            <Col xl={1} lg={1} md={1} sm={1}>
-                                                <div className="iconoventanamensajes mtmenos14">
-                                                    <InfoIcon style={{ fontSize: 45 }} />
-                                                </div>
-                                            </Col>
-                                            <Col xl={9} lg={9} md={9} sm={9}>
-                                                <div className="ml-30 titulodetaildescription">
-                                                    Nombre de usuario
-                                                </div>
-                                            </Col>
-                                            <Col xl={1} lg={1} md={1} sm={1}>
-                                                <button
-                                                    type="button"
-                                                    className="cerrarmodal ml-40 sinborder colorbase"
-                                                    data-dismiss="modal"
-                                                    onClick={() => cerrarModal()}
-                                                >
-                                                    X
-                                                </button>
-                                            </Col>
-                                        </Row>
-
-                                        <div className="mt-35 textoventanamensajes">
-                                            <div>
-                                                {/* Aquí va el mensaje del modal */}
-                                                No es posible editar el nombre de usuario, ya que este es asignado de manera automática por la plataforma.
-                                            </div>
-                                        </div>
-
-                                        <div className="ml-330 mt-29">
-                                            <Row>
-                                                <Col xl={4} lg={4} md={4} xs={4}></Col>
-                                                <Col xl={6} lg={6} md={6} xs={6}>
-                                                    <Button
-                                                        variant="outline-light"
-                                                        className="ps-btn redondearborde"
-                                                        onClick={() => cerrarModal()}
-                                                    >
-                                                        Cerrar
-                                                    </Button>
-                                                </Col>
-                                            </Row>
-                                        </div>
+                                <div className="SubcontainerMisDatos" onClick={abrirModal}>
+                                    <div style={{ width: '100%' }}>
+                                        <p className="titleSubContMisD">Nombre de usuario</p>
+                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.primernombre} {datUsers?.segundonombre} {datUsers?.primerapellido} </p>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                     </div>
                                 </div>
-                            )}
+                                {mostrarModal && (
+                                    <div
+                                        className="modal-fondo mtmenos15"
+                                        onClick={() => {
+                                            cerrarModal();
+                                        }}
+                                    >
+                                        <div
+                                            className="modal-mensajes-login redondearventamensajes"
+                                            onClick={(e) => {
+                                                // Evitar que se cierre el modal si se hace clic en su contenido
+                                                e.stopPropagation();
+                                            }}
+                                        >
+                                            {/* Contenido del modal */}
+                                            <Row>
+                                                <Col xl={1} lg={1} md={1} sm={1}>
+                                                    <div className="iconoventanamensajes mtmenos14">
+                                                        <InfoIcon style={{ fontSize: 45 }} />
+                                                    </div>
+                                                </Col>
+                                                <Col xl={9} lg={9} md={9} sm={9}>
+                                                    <div className="ml-30 titulodetaildescription">
+                                                        Nombre de usuario
+                                                    </div>
+                                                </Col>
+                                                <Col xl={1} lg={1} md={1} sm={1}>
+                                                    <button
+                                                        type="button"
+                                                        className="cerrarmodal ml-40 sinborder colorbase"
+                                                        data-dismiss="modal"
+                                                        onClick={() => cerrarModal()}
+                                                    >
+                                                        X
+                                                    </button>
+                                                </Col>
+                                            </Row>
 
-                            <div onClick={() => editUser('nombres')} style={{ borderRadius: '10px', cursor: 'pointer', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif' }}>
-                                <div style={{ width: '100%' }}>
-                                    <div>Nombres y apellidos</div>
-                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.primernombre} {datUsers?.segundonombre} {datUsers?.primerapellido} {datUsers?.segundoapellido}</p>
+                                            <div className="mt-35 textoventanamensajes">
+                                                <div>
+                                                    {/* Aquí va el mensaje del modal */}
+                                                    No es posible editar el nombre de usuario, ya que este es asignado de manera automática por la plataforma.
+                                                </div>
+                                            </div>
+
+                                            <div className="ml-330 mt-29">
+                                                <Row>
+                                                    <Col xl={4} lg={4} md={4} xs={4}></Col>
+                                                    <Col xl={6} lg={6} md={6} xs={6}>
+                                                        <Button
+                                                            variant="outline-light"
+                                                            className="ps-btn redondearborde"
+                                                            onClick={() => cerrarModal()}
+                                                        >
+                                                            Cerrar
+                                                        </Button>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="SubcontainerMisDatos" onClick={() => editUser('nombres')} >
+                                    <div style={{ width: '100%' }}>
+                                        <p className="titleSubContMisD">Nombres y apellidos</p>
+                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.primernombre} {datUsers?.segundonombre} {datUsers?.primerapellido} {datUsers?.segundoapellido}</p>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                    </div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                <div className="SubcontainerMisDatos" onClick={() => editUser('email')} >
+                                    <div style={{ width: '100%' }}>
+                                        <p className="titleSubContMisD">Correo electrónico</p>
+                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.email} </p>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div onClick={() => editUser('email')} style={{ borderRadius: '10px', cursor: 'pointer', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif' }}>
-                                <div style={{ width: '100%' }}>
-                                    <div>Correo electrónico</div>
-                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.email} </p>
+                                <div className="SubcontainerMisDatos" onClick={() => editUser('DocIdentificacion')}>
+                                    <div style={{ width: '100%' }}>
+                                        <p className="titleSubContMisD">Tipo y número de documento</p>
+                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}>C.C {datUsers?.identificacion}</p>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                    </div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                <div className="SubcontainerMisDatos" onClick={() => editUser('teléfono')} >
+                                    <div style={{ width: '100%' }}>
+                                        <p className="titleSubContMisD">Teléfono</p>
+                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}> {datUsers?.celular} </p>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div onClick={() => editUser('DocIdentificacion')} style={{ borderRadius: '10px', cursor: 'pointer', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif', cursor: 'pointer' }}>
-                                <div style={{ width: '100%' }}>
-                                    <div>Tipo y número de documento</div>
-                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}>C.C {datUsers?.identificacion}</p>
+                                <div className="SubcontainerMisDatos" onClick={handleClickDomicilio}>
+                                    <div style={{ width: '100%' }}>
+                                        <p className="titleSubContMisD">Domicilio</p>
+                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.direccion ? datUsers.direccion : 'No tiene dirección'}</p>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                    </div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                <div className="SubcontainerMisDatos" onClick={handleClicPjuridica} style={{marginTop:'8rem'}}>
+                                    <div style={{ width: '100%', height: '100%' }}>
+                                        <div>Cambiar cuenta a cuenta de persona juridica</div>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div onClick={() => editUser('teléfono')} style={{ borderRadius: '10px', cursor: 'pointer', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif' }}>
-                                <div style={{ width: '100%' }}>
-                                    <div>Teléfono</div>
-                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}> {datUsers?.celular} </p>
-                                </div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
-                                </div>
-                            </div>
-                            <div onClick={handleClickDomicilio} style={{ cursor: 'pointer', borderRadius: '10px', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif' }}>
-                                <div style={{ width: '100%' }}>
-                                    <div>Domicilio</div>
-                                    <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.direccion ? datUsers.direccion : 'No tiene dirección'}</p>
-                                </div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
-                                </div>
-                            </div>
-                            <div onClick={handleClicPjuridica} style={{ cursor: 'pointer', borderRadius: '10px', marginBottom: '.6rem', width: '100%', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.1rem', width: '100%', fontSize: '2.3rem', fontWeight: '200', fontFamily: 'sans-serif', minHeight: '10rem', alignItems: 'center', marginTop: '10rem' }}>
-                                <div style={{ width: '100%', height: '100%' }}>
-                                    <div>Cambiar cuenta a cuenta de persona juridica</div>
-                                </div>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
-                                </div>
-                            </div>
+                            </Grid>
                         </div>
+
 
 
 
