@@ -128,7 +128,7 @@ export default function FormDocumento() {
             <Container title="Mi Cuenta">
                 <div className="ps-page ps-page--inner" id="myaccount" ref={irA}>
                     <div className="container">
-                        <div className="ps-page__header"> </div>
+                        <div className="ps-page__header"></div>
                         <div className="ps-page__content ps-account">
 
                             <div className='titlesformsUsers'>
