@@ -13,7 +13,8 @@ import { useRouter } from "next/router";
 import { Box, Grid, Typography, useMediaQuery, useTheme, Dialog, DialogTitle, DialogActions, DialogContent, Button } from '@mui/material';
 import React, { useState, useEffect, useRef } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-
+import { URL_BD_MR } from '../../../helpers/Constants';
+import axios from 'axios';
 
 
 const CustomDropdownButton = React.forwardRef(({ children, onClick, href }, ref) => (
@@ -51,10 +52,7 @@ export default function FormDocumento() {
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
 
-    const [selectedItem, setSelectedItem] = useState('Tipo documento');
 
-
-    const [nroDocumentoSeleccionado, setNroDocumentoSeleccionado] = useState("");
     const [showModalMensajes, setShowModalMensajes] = useState(false);
     const [alertBtnNroDcto, setAlertBtnNroDcto] = useState("cajanrodocto alertboton");
     const [tituloMensajes, setTituloMensajes] = useState("");
@@ -63,16 +61,23 @@ export default function FormDocumento() {
 
 
 
+    const [selectedItem, setSelectedItem] = useState('Tipo documento');
+    const [nroDocumentoSeleccionado, setNroDocumentoSeleccionado] = useState("");
+
     const handleSelect = (eventKey, event) => {
         setSelectedItem(eventKey);
         setTipoDocumentoValido(true); // Seleccionar un tipo de documento establece el estado en verdadero
     };
+
     const handleModalClose = () => {
         setShowModalMensajes(false);
     };
+
     const handleChangeInputCedula = (data) => {
         setNroDocumentoSeleccionado(data);
     };
+
+
     const handleValidacionCedula = () => {
         let control = false;
         // Validar caracteres de la cédula
@@ -106,9 +111,101 @@ export default function FormDocumento() {
             return;
         }
         if (!control) {
-            handleConfirmationOpen();
+            updateData();
         }
     };
+
+    const handleInputChange = (event) => {
+        const inputValue = event.target.value;
+        if (/^[0-9\s]+$/.test(inputValue) || inputValue === '') {
+            setNroDocumentoSeleccionado(inputValue);
+        }
+    };
+
+
+    const updateData = () => {
+        const url = 'https://gimcloud.com.co/mrp/api/+75';
+        const data = {
+            primernombre: 'Juan',
+            segundonombre: 'Pablo',
+            primerapellido: 'Rojas',
+            segundoapellido: 'Tabares',
+            razonsocial: '.',
+            tipoidentificacion: 1,
+            identificacion: nroDocumentoSeleccionado,
+            celular: '3045584405', // Utiliza el estado actualizado del teléfono
+            email: 'nmflorezr@gmail.com',
+            token: 3217,
+            activo: 'S',
+            direccion: 'XXXXXXX',
+            fechacreacion: '2023-11-30',
+            fechatoken: '2023-11-30',
+            uid: 1671495436242 
+            // ...resto de los datos
+        };
+
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+          .then(res => {
+            if (!res.ok) {
+              throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+          })
+          .then(response => {
+            console.log('Success:', response);
+            handleConfirmationOpen();  // Muestra el modal después de guardar los datos
+          })
+          .catch(error => console.error('Error:', error));
+    };
+
+
+
+
+    const [datUsers, SetDatUser] = useState(null);
+    const [nombresData, SetnombresData] = useState(null);
+    const [apellidosData, SetapellidosData] = useState(null);
+
+    const leerDatosUsuario = async () => {
+        let params = {
+            email: "nmflorezr@gmail.com",
+        };
+        await axios({
+            method: "post",
+            url: URL_BD_MR + "21",
+            params,
+        })
+            .then((res) => {
+                console.log("DAT XXXX: ", res.data);
+                SetnombresData(res.data[0].primernombre + " " + res.data[0].segundonombre);
+                SetapellidosData(res.data[0].primerapellido);
+                SetDatUser(res.data[0]);
+
+                // línea para actualizar el estado del teléfono
+                setNroDocumentoSeleccionado(res.data[0].identificacion);
+
+                // Actualiza los estados locales con los nuevos valores obtenidos
+                setNombres(res.data[0].primernombre);
+                setApellidos(res.data[0].primerapellido);
+                setNombreCompleto(res.data[0].primernombre + " " + res.data[0].segundonombre);
+                setApellidosCompletos(res.data[0].primerapellido + " " + res.data[0].segundoapellido);
+            })
+            .catch(function (error) {
+                console.log("Error leyendo el usuario");
+            });
+    };
+
+    useEffect(() => {
+        leerDatosUsuario();
+    }, []);
+
+
+
 
 
     const handleValidP = () => {
