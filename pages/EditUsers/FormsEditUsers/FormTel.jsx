@@ -29,14 +29,6 @@ export default function FormTel() {
         router.push(route);
     };
 
-    // Estado para manejar la visibilidad de los contenedores
-    const [mostrarContenedorExistente, setMostrarContenedorExistente] = useState(true);
-    const [mostrarNewContainer, setMostrarNewContainer] = useState(false);
-    const [showContainer, setShowContainer] = useState(false);
-
-
-    const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState("");
-    const [telefonoConfirmado, setTelefonoConfirmado] = useState("");
     const [showModalMensajes, setShowModalMensajes] = useState(false);
     const [alertBtnTelefono, setAlertBtnTelefono] = useState("telefonorecibe alertboton");
     const [tituloMensajes, setTituloMensajes] = useState("");
@@ -45,6 +37,23 @@ export default function FormTel() {
     const handleModalClose = () => {
         setShowModalMensajes(false);
     };
+
+    //cerrarModalNuevoCodigoEmailError
+    const handleModalCloseCodigo = () => {
+        setShowModalCodigo(false);
+    };
+
+
+    // Estado para manejar la visibilidad de los contenedores
+    const [mostrarContenedorExistente, setMostrarContenedorExistente] = useState(true);
+    const [mostrarNewContainer, setMostrarNewContainer] = useState(false);
+    const [showContainer, setShowContainer] = useState(false);
+
+
+    const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState("");
+    const [telefonoConfirmado, setTelefonoConfirmado] = useState("");
+
+
 
     const handleValidacionTelefono = () => {
         // Validación de la longitud del teléfono
@@ -77,6 +86,18 @@ export default function FormTel() {
         redirectToComponent();
     };
 
+    //componente que da  el codigo y que abre el modal
+    const redirectToComponent = () => {
+        const nuevoCodigo = Math.floor(100000 + Math.random() * 900000);
+        setCodigo(nuevoCodigo.toString());
+        console.log(nuevoCodigo);
+
+        // Mostrar el nuevo contenedor
+        setMostrarNewContainer(true);
+        setMostrarContenedorExistente(false);
+        setShowContainer(true);
+    };
+
     //Simulación Recibir codigo a nuevo número de teléfono con modales
     //Modales
     const [showModalCodigo, setShowModalCodigo] = useState(false);
@@ -97,20 +118,7 @@ export default function FormTel() {
     const input3Ref = useRef(null);
     const input4Ref = useRef(null);
     const input5Ref = useRef(null);
-    const input6Ref = useRef(null);
-
-
-
-    const redirectToComponent = () => {
-        const nuevoCodigo = Math.floor(100000 + Math.random() * 900000);
-        setCodigo(nuevoCodigo.toString());
-        console.log(nuevoCodigo);
-
-        // Mostrar el nuevo contenedor
-        setMostrarNewContainer(true);
-        setMostrarContenedorExistente(false);
-        setShowContainer(true);
-    };
+    const input6Ref = useRef(null); 
 
 
     const handleContinue = () => {
@@ -129,10 +137,6 @@ export default function FormTel() {
     };
 
 
-    //cerrarModalNuevoCodigoEmailError
-    const handleModalCloseCodigo = () => {
-        setShowModalCodigo(false);
-    };
 
 
 

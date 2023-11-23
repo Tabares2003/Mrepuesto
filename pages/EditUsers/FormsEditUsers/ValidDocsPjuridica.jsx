@@ -44,47 +44,33 @@ const ValidDocsPjuridica = () => {
         const file = event.target.files[0];
         if (file) {
             const allowedFileTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-            const maxImageSize = 819200; // 800 KB in bytes
             const maxPdfSize = 716800; // 700 KB in bytes
-            const maxImageDimensions = { width: 1024, height: 1024 };
-    
+
             if (allowedFileTypes.includes(file.type)) {
                 if (file.type.startsWith('image/')) {
-                    const img = new Image();
-                    img.src = URL.createObjectURL(file);
-    
-                    img.onload = () => {
-                        if (file.size > maxImageSize || img.width > maxImageDimensions.width || img.height > maxImageDimensions.height) {
-                            setShowModal(true);
-                            setTituloMensajes('Imagen incorrecta');
-                            setTextoMensajes(`Las imágenes deben ser de máximo 1024 x 1024 y pesar máximo 800 KB. `);
-                            return;
-                        }
-    
-                        const newFileData = {
-                            name: file.name,
-                            type: file.type,
-                            size: file.size,
-                            data: URL.createObjectURL(file),
-                        };
-    
-                        switch (index) {
-                            case 1:
-                                setFileData1(newFileData);
-                                localStorage.setItem('uploadedFile1', JSON.stringify(newFileData));
-                                break;
-                            case 2:
-                                setFileData2(newFileData);
-                                localStorage.setItem('uploadedFile2', JSON.stringify(newFileData));
-                                break;
-                            case 3:
-                                setFileData3(newFileData);
-                                localStorage.setItem('uploadedFile3', JSON.stringify(newFileData));
-                                break;
-                            default:
-                                break;
-                        }
+                    const newFileData = {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        data: URL.createObjectURL(file),
                     };
+
+                    switch (index) {
+                        case 1:
+                            setFileData1(newFileData);
+                            localStorage.setItem('uploadedFile1', JSON.stringify(newFileData));
+                            break;
+                        case 2:
+                            setFileData2(newFileData);
+                            localStorage.setItem('uploadedFile2', JSON.stringify(newFileData));
+                            break;
+                        case 3:
+                            setFileData3(newFileData);
+                            localStorage.setItem('uploadedFile3', JSON.stringify(newFileData));
+                            break;
+                        default:
+                            break;
+                    }
                 } else if (file.type === 'application/pdf') {
                     if (file.size > maxPdfSize) {
                         setShowModal(true);
@@ -92,14 +78,14 @@ const ValidDocsPjuridica = () => {
                         setTextoMensajes('Los archivos PDF deben pesar máximo 700 KB.');
                         return;
                     }
-    
+
                     const newFileData = {
                         name: file.name,
                         type: file.type,
                         size: file.size,
                         data: URL.createObjectURL(file),
                     };
-    
+
                     switch (index) {
                         case 1:
                             setFileData1(newFileData);
@@ -160,13 +146,13 @@ const ValidDocsPjuridica = () => {
         if (!fileData) {
             return <HiOutlineDocumentArrowUp size={65} style={{ color: '#2D2E83', position: 'relative', top: '30px' }} />;
         }
-    
+
         const { type, name, data } = fileData || {}; // Asegúrate de que fileData sea un objeto
-    
+
         if (type && type.startsWith('image/')) {
             return <img src={data} alt="Uploaded File" style={{ width: '65px', height: '65px', borderRadius: '50%' }} />;
         } else if (type === 'application/pdf') {
-            return <div style={{ position: 'absolute', top: '-15px', right:'-30px',fontSize: '12px', color: '#2D2E83' }}>{name}</div>;
+            return <div style={{ position: 'absolute', top: '-20px', right: '-8px', fontSize: '9px', color: '#2D2E83', width:'35px' }}> {name}  </div>;
         } else {
             return <HiOutlineDocumentArrowUp size={65} style={{ color: '#2D2E83', position: 'relative', top: '30px' }} />;
         }
@@ -330,33 +316,18 @@ const ValidDocsPjuridica = () => {
                                     </Grid>
                                     <Grid container mt={3} sx={{ display: 'flex', flexDirection: 'column' }}>
                                         <p style={{ color: '#2C2E82', fontSize: '20px' }}>Ten en cuenta que:</p>
- 
+  
                                         <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
-                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />El tamaño maximo de las imagenes es 1024 x 1024
-                                        </Box>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
-                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />Cada imagen debe pesar máximo 800KB 
-                                        </Box>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
-                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />Cada archivo pdf debe pesar máximo 700KB 
+                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />Cada archivo pdf debe pesar máximo 700KB
                                         </Box>
                                         <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
                                             <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} /> Los archivos deben ser en formato PNG, JPG, JPEG, PDF
                                         </Box>
                                         <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
-                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />El fondo de las imágenes debe ser color blanco o gris claro
-                                        </Box>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
-                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} /> Las imágenes deben se cuadradas, optimo 1024 x 1024
-                                        </Box>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
-                                            <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} /> Las imágenes deben llenar al menos el 85% o más del marco de la imagen
-                                        </Box>
-                                        <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '18px', fontWeight: '400', color: '#2C2E82' }}>
                                             <MdOutlineHorizontalRule style={{ marginRight: '5px' }} size={15} />La imagen debe estar enfocada
                                         </Box>
 
-                                        
+
                                     </Grid>
                                     <Grid container item xs={12} md={12}>
                                         <Grid item xs={12} md={7}></Grid>
@@ -385,7 +356,7 @@ const ValidDocsPjuridica = () => {
                                                     }}
                                                 >
                                                     <DialogTitle className='dialogtitleDtsGUardados' >
-                                                        <FaCheckCircle size={37} style={{color:'#10c045', marginLeft:'-17px', marginRight:'8px'}}/>
+                                                        <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
 
                                                         <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                                     </DialogTitle>

@@ -1230,6 +1230,10 @@ const MyAccountScreen = () => {
 
     const [datUsers, SetDatUser] = useState(null);
 
+
+    const [nombres, Setnombres] = useState(null);
+    const [apellidos, Setapellidos] = useState(null);
+
     const leerDatosUsuario = async () => {
         let params = {
             email: "nmflorezr@gmail.com",
@@ -1242,6 +1246,8 @@ const MyAccountScreen = () => {
         })
             .then((res) => {
                 console.log("DAT XXXX: ", res.data);
+                Setnombres(res.data[0].primernombre + " " + res.data[0].segundonombre)
+                Setapellidos(res.data[0].primerapellido)
                 SetDatUser(res.data[0])
             })
             .catch(function (error) {
@@ -1251,6 +1257,8 @@ const MyAccountScreen = () => {
             });
 
     };
+
+    console.log("Nombres:", nombres)
 
     useEffect(() => {
         leerDatosUsuario();
@@ -1332,7 +1340,7 @@ const MyAccountScreen = () => {
 
                         <div ref={irA} className="ContDatosDocs" style={{ padding: '.5rem',  justifyContent:'center', display:'flex' }}>
 
-                            <Grid sx={{ width: isMdDown ? '100%' : '70%' }}>
+                            <Grid sx={{ width: isMdDown ? '100%' : '65%' }}>
 
 
                                 <div style={{ marginBottom: '2rem' }}>
@@ -1341,7 +1349,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={abrirModal}>
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Nombre de usuario</p>
-                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.primernombre} {datUsers?.segundonombre} {datUsers?.primerapellido} </p>
+                                        <p style={{ fontWeight: '400', fontSize: '20px' }}>{datUsers?.primernombre} </p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
@@ -1413,7 +1421,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={() => editUser('nombres')} >
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Nombres y apellidos</p>
-                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.primernombre} {datUsers?.segundonombre} {datUsers?.primerapellido} {datUsers?.segundoapellido}</p>
+                                        <p style={{ fontWeight: '500', fontSize: '20px'  }}>{datUsers?.primernombre} {datUsers?.segundonombre} {datUsers?.primerapellido} {datUsers?.segundoapellido}</p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
@@ -1422,7 +1430,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={() => editUser('email')} >
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Correo electrónico</p>
-                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.email} </p>
+                                        <p style={{ fontWeight: '500', fontSize: '20px'  }}>{datUsers?.email} </p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
@@ -1431,7 +1439,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={() => editUser('DocIdentificacion')}>
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Tipo y número de documento</p>
-                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}>C.C {datUsers?.identificacion}</p>
+                                        <p style={{ fontWeight: '500', fontSize: '20px'  }}>C.C {datUsers?.identificacion}</p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
@@ -1440,7 +1448,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={() => editUser('teléfono')} >
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Teléfono</p>
-                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}> {datUsers?.celular} </p>
+                                        <p style={{ fontWeight: '500', fontSize: '20px'  }}> {datUsers?.celular} </p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
@@ -1449,7 +1457,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={handleClickDomicilio}>
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Domicilio</p>
-                                        <p style={{ fontWeight: '400', fontSize: '2rem' }}>{datUsers?.direccion ? datUsers.direccion : 'No tiene dirección'}</p>
+                                        <p style={{ fontWeight: '500', fontSize: '20px'  }}>{datUsers?.direccion ? datUsers.direccion : 'No tiene dirección'}</p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
