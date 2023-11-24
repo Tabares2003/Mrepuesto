@@ -10,7 +10,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link'; 
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import productos from "./producsQuemados";
+import productos from "../../utilities/producsQuemados";
 
 import { AiOutlineRight } from 'react-icons/ai';
 

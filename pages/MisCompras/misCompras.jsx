@@ -6,7 +6,7 @@ import axios from 'axios';
 import SearchIcon from '@material-ui/icons/Search';
 import { Dropdown } from "react-bootstrap";
 import { NextRouter } from "next/router";
-import productos from "./producsQuemados";
+import productos from "../../utilities/producsQuemados";
 import { useNavigate } from "react-router-dom";
 import { Router } from 'next/router';
 
