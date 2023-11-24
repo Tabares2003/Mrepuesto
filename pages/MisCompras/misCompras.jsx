@@ -114,8 +114,8 @@ export default function misCompras() {
                                             value={searchText}
                                             placeholder="Buscar en mis compras"
                                             sx={{
-                                                borderRadius: '20px',
-                                                backgroundColor: '#E1E2EC',
+                                                borderRadius: '10px',
+                                                backgroundColor: '#f1f2f6',
                                                 padding: '8px',
                                                 marginRight: '8px',
                                                 width: '90%',
