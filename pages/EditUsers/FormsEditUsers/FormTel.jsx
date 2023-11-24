@@ -6,12 +6,15 @@ import { useRouter } from "next/router";
 import { FaCheckCircle } from "react-icons/fa";
 import { URL_BD_MR } from '../../../helpers/Constants';
 import axios from 'axios';
+import { useDispatch, connect, useSelector } from "react-redux";
+
 // Función de validación directamente en el componente
 function validateTelefono(telefono) {
     // ajustar la expresión regular según requisitos
     const validation = /^[0-9]{10}$/;
     return validation.test(telefono);
 }
+
 
 export default function FormTel() {
 
@@ -20,8 +23,26 @@ export default function FormTel() {
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
     const router = useRouter();
 
+    // Estado para manejar la visibilidad de los contenedores
+    const [mostrarContenedorExistente, setMostrarContenedorExistente] = useState(true);
+    const [mostrarNewContainer, setMostrarNewContainer] = useState(false);
+    const [showContainer, setShowContainer] = useState(false);
+
+    const [showModalMensajes, setShowModalMensajes] = useState(false);
+    const [alertBtnTelefono, setAlertBtnTelefono] = useState("telefonorecibe alertboton");
+    const [tituloMensajes, setTituloMensajes] = useState("");
+    const [textoMensajes, setTextoMensajes] = useState("");
+
+    const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState("");
+    const [telefonoConfirmado, setTelefonoConfirmado] = useState("");
+
     //ModalDatosGUardados
     const [confirmationOpen, setConfirmationOpen] = useState(false);
+    //Simulación Recibir codigo a nuevo número de teléfono con modales
+    //Modales
+    const [showModalCodigo, setShowModalCodigo] = useState(false);
+    const [tituloMensajesCodigo, setTituloMensajesCodigo] = useState('');
+    const [textoMensajesCodigo, setTextoMensajesCodigo] = useState('');
 
     const handleConfirmationOpen = () => {
         setConfirmationOpen(true);
@@ -31,11 +52,6 @@ export default function FormTel() {
         router.push(route);
     };
 
-    const [showModalMensajes, setShowModalMensajes] = useState(false);
-    const [alertBtnTelefono, setAlertBtnTelefono] = useState("telefonorecibe alertboton");
-    const [tituloMensajes, setTituloMensajes] = useState("");
-    const [textoMensajes, setTextoMensajes] = useState("");
-
     const handleModalClose = () => {
         setShowModalMensajes(false);
     };
@@ -44,16 +60,20 @@ export default function FormTel() {
     const handleModalCloseCodigo = () => {
         setShowModalCodigo(false);
     };
-
-
-    // Estado para manejar la visibilidad de los contenedores
-    const [mostrarContenedorExistente, setMostrarContenedorExistente] = useState(true);
-    const [mostrarNewContainer, setMostrarNewContainer] = useState(false);
-    const [showContainer, setShowContainer] = useState(false);
-
-
-    const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState("");
-    const [telefonoConfirmado, setTelefonoConfirmado] = useState("");
+    //InpusPonerCodigoRecibido
+    const [input1, setInput1] = useState('');
+    const [input2, setInput2] = useState('');
+    const [input3, setInput3] = useState('');
+    const [input4, setInput4] = useState('');
+    const [input5, setInput5] = useState('');
+    const [input6, setInput6] = useState('');
+    const [codigo, setCodigo] = useState('');
+    const input1Ref = useRef(null);
+    const input2Ref = useRef(null);
+    const input3Ref = useRef(null);
+    const input4Ref = useRef(null);
+    const input5Ref = useRef(null);
+    const input6Ref = useRef(null);
 
 
 
@@ -100,27 +120,90 @@ export default function FormTel() {
         setShowContainer(true);
     };
 
-    //Simulación Recibir codigo a nuevo número de teléfono con modales
-    //Modales
-    const [showModalCodigo, setShowModalCodigo] = useState(false);
-    const [tituloMensajesCodigo, setTituloMensajesCodigo] = useState('');
-    const [textoMensajesCodigo, setTextoMensajesCodigo] = useState('');
 
 
-    //InpusPonerCodigoRecibido
-    const [input1, setInput1] = useState('');
-    const [input2, setInput2] = useState('');
-    const [input3, setInput3] = useState('');
-    const [input4, setInput4] = useState('');
-    const [input5, setInput5] = useState('');
-    const [input6, setInput6] = useState('');
-    const [codigo, setCodigo] = useState('');
-    const input1Ref = useRef(null);
-    const input2Ref = useRef(null);
-    const input3Ref = useRef(null);
-    const input4Ref = useRef(null);
-    const input5Ref = useRef(null);
-    const input6Ref = useRef(null);
+
+
+    const [nombres, setNombres] = useState("");
+    const [apellidos, setApellidos] = useState("");
+    const [nombresDos, setNombresDos] = useState("");
+    const [apellidosDos, setApellidosDos] = useState("");
+    const [datosUsuario, setDatosUsuario] = useState([]);
+    // Asignamos Datos al arreglo de Usuarios desde el state
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+
+    useEffect(() => {
+        const leerDatosUsuario = async () => {
+            let params = {
+                uid: datosusuarios.uid,
+            };
+            //console.log("VISITAS: ", params);
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "13",
+                params,
+            })
+                .then((res) => {
+                    //console.log("DAT USERS: ", res.data);
+                    setDatosUsuario(res.data[0]);
+                    setNombres(res.data[0].primernombre);
+                    setNombresDos(res.data[0].segundonombre);
+                    setApellidos(res.data[0].primerapellido);
+                    setApellidosDos(res.data[0].segundoapellido);
+                    //setNroDocumentoSeleccionado(res.data[0].identificacion);
+                    setTelefonoRecibeSeleccionado(res.data[0].celular)
+                })
+                .catch(function (error) {
+                    return;
+                });
+        };
+        leerDatosUsuario();
+    }, [datosusuarios]);
+
+    
+
+    const updateData = () => {
+        // Aquí coloca la lógica de actualización de datos del celular
+        const url = 'https://gimcloud.com.co/mrp/api/+75';
+        // celular: telefonoRecibeSeleccionado, //
+
+        let params = {
+            primernombre: nombres,
+            segundonombre: nombresDos,
+            primerapellido: apellidos,
+            segundoapellido: apellidosDos,
+            razonsocial: ".",
+            tipoidentificacion: 1,
+            identificacion: datosUsuario.identificacion,
+            celular: telefonoRecibeSeleccionado,
+            email: datosUsuario.email,
+            token: datosUsuario.token,
+            activo: datosUsuario.activo,
+            direccion: datosUsuario.direccion,
+            fechacreacion: datosUsuario.fechacreacion,
+            fechatoken: datosUsuario.fechatoken,
+            uid: datosUsuario.uid,
+            // ...resto de los datos
+        };
+        //console.log("Datos usuario : ", params);
+        //return
+        const updateDatosUsuario = async () => {
+            //console.log("VISITAS: ", params);
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "75",
+                params,
+            })
+                .then((res) => {
+                    handleConfirmationOpen();
+                    console.log("ACTULIZA DAT USERS: ", res.data);
+                })
+                .catch(function (error) {
+                    return;
+                });
+        };
+        updateDatosUsuario();
+    };
 
 
     const handleContinue = () => {
@@ -143,81 +226,10 @@ export default function FormTel() {
         }
     };
 
-    const updateData = () => {
-        // Aquí coloca la lógica de actualización de datos del celular
-        const url = 'https://gimcloud.com.co/mrp/api/+75';
-        const data = {
-            primernombre: 'Juan',
-            segundonombre: 'Pablo',
-            primerapellido: 'Rojas',
-            segundoapellido: 'Tabares',
-            razonsocial: '.',
-            tipoidentificacion: 1,
-            identificacion: 1081052559,
-            celular: telefonoRecibeSeleccionado, // Utiliza el estado actualizado del teléfono
-            email: 'nmflorezr@gmail.com',
-            token: 3217,
-            activo: 'S',
-            direccion: 'XXXXXXX',
-            fechacreacion: '2023-11-30',
-            fechatoken: '2023-11-30',
-            uid: 1671495436242
-        };
-
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-                return res.json();
-            })
-            .then(response => console.log('Success:', response))
-            .catch(error => console.error('Error:', error));
-    };
 
 
-    const [datUsers, SetDatUser] = useState(null);
-    const [nombresData, SetnombresData] = useState(null);
-    const [apellidosData, SetapellidosData] = useState(null);
 
-    const leerDatosUsuario = async () => {
-        let params = {
-            email: "nmflorezr@gmail.com",
-        };
-        await axios({
-            method: "post",
-            url: URL_BD_MR + "21",
-            params,
-        })
-            .then((res) => {
-                console.log("DAT XXXX: ", res.data);
-                SetnombresData(res.data[0].primernombre + " " + res.data[0].segundonombre);
-                SetapellidosData(res.data[0].primerapellido);
-                SetDatUser(res.data[0]);
 
-                // línea para actualizar el estado del teléfono
-                setTelefonoRecibeSeleccionado(res.data[0].celular);
-
-                // Actualiza los estados locales con los nuevos valores obtenidos
-                setNombres(res.data[0].primernombre);
-                setApellidos(res.data[0].primerapellido);
-                setNombreCompleto(res.data[0].primernombre + " " + res.data[0].segundonombre);
-                setApellidosCompletos(res.data[0].primerapellido + " " + res.data[0].segundoapellido);
-            })
-            .catch(function (error) {
-                console.log("Error leyendo el usuario");
-            });
-    };
-
-    useEffect(() => {
-        leerDatosUsuario();
-    }, []);
 
 
 
@@ -236,6 +248,7 @@ export default function FormTel() {
             block: "start",
         });
     }, []);
+
 
     return (
         <>

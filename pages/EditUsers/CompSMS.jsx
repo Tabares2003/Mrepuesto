@@ -12,7 +12,7 @@ import shortid from 'shortid';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import ModalMensajes from '../mensajes/ModalMensajes';
-
+import { useDispatch, connect, useSelector } from "react-redux";
 export default function CompSMS() {
 
     //Consts measured, 80% and in md 100%.
@@ -26,7 +26,7 @@ export default function CompSMS() {
 
     let titulo;
 
-    // Determinar el título según el tipo de información
+    // Determinar el título según el tipo de informac ión
     switch (tipoInformacion) {
         case 'nombres':
             titulo = 'Editar nombres y apellidos';
@@ -121,35 +121,46 @@ export default function CompSMS() {
     };
 
 
-    //Datos reales api
-
-    const [datUsers, SetDatUser] = useState(null);
-
-    const leerDatosUsuario = async () => {
-        let params = {
-            email: "nmflorezr@gmail.com",
-        };
-
-        await axios({
-            method: "post",
-            url: URL_BD_MR + "21",
-            params,
-        })
-            .then((res) => {
-                console.log("DAT XXXX: ", res.data);
-                SetDatUser(res.data[0])
-            })
-            .catch(function (error) {
-                console.log(
-                    "Error leyendo el usuario"
-                );
-            });
-
-    };
-
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+    const [datosUsuario, setDatosUsuario] = useState("");
+    const [nombres, setNombres] = useState("");
+    const [nombresDos, setNombresDos] = useState("");
+    const [apellidos, setApellidos] = useState("");
+    const [apellidosDos, setApellidosDos] = useState("");
+    const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState("");
+    const [correoElectronico, setCorreoElectronico] = useState("");
+    
     useEffect(() => {
+        const leerDatosUsuario = async () => {
+            let params = {
+                uid: datosusuarios.uid,
+            };
+    
+            try {
+                const res = await axios({
+                    method: "post",
+                    url: URL_BD_MR + "13",
+                    params,
+                });
+    
+                // Actualiza el estado con los datos adicionales que necesitas
+                setDatosUsuario(res.data[0]);
+                setNombres(res.data[0].primernombre);
+                setNombresDos(res.data[0].segundonombre);
+                setApellidos(res.data[0].primerapellido);
+                setApellidosDos(res.data[0].segundoapellido);
+                setTelefonoRecibeSeleccionado(res.data[0].celular);
+                setCorreoElectronico(res.data[0].email);
+                // Agrega más setState según sea necesario
+    
+            } catch (error) {
+                console.error("Error al leer los datos del usuario", error);
+                // Maneja el error según tus necesidades
+            }
+        };
+    
         leerDatosUsuario();
-    }, []);
+    }, [datosusuarios]);
 
     const [tituloSubcontainer, setTituloSubcontainer] = useState('Ingresa el código de verificación');
 
@@ -167,109 +178,109 @@ export default function CompSMS() {
 
 
         <>
-        <div ref={irA}>
+            <div ref={irA}>
 
-   
-            <Container title="Mi Cuenta">
-                <div className="ps-page ps-page--inner" id="myaccount">
-                    <div className="container">
-                        <div className="ps-page__header"> </div>
-                        <div className="ps-page__content ps-account">
 
-                            <div className='titlesformsUsers'>
-                                <p>{titulo}</p>
+                <Container title="Mi Cuenta">
+                    <div className="ps-page ps-page--inner" id="myaccount">
+                        <div className="container">
+                            <div className="ps-page__header"> </div>
+                            <div className="ps-page__content ps-account">
+
+                                <div className='titlesformsUsers'>
+                                    <p>{titulo}</p>
+                                </div>
+                                {!showContainer ? (
+                                    <Grid className="containerOptionsMassage" container style={{ width: isMdDown ? '100%' : '55%', display: 'flex', margin: '0', padding: '.5rem', margin: '0 auto', justifyContent: 'center' }}>
+
+                                        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+                                            <p style={{ fontSize: '28px', color: '#2C2E82' }}>Verifica que eres tu</p>
+                                            <p style={{ fontSize: '28px', color: '#2C2E82' }}>Por donde deseas recibir el codigo de verificación</p>
+                                        </div>
+
+                                        <Box sx={{ borderRadius: '10px', padding: '.3rem', width: '100%', cursor: 'pointer' }}>
+                                            <div onClick={() => redirectToComponent('Recibiste un número de 6 dígitos por SMS.')} style={{ borderRadius: '10px', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.4rem', width: '100%' }}>
+                                                <div style={{ width: '100%', borderRadius: '10px' }}>
+                                                    <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>SMS</p>
+                                                    <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Al celular terminado en {telefonoRecibeSeleccionado.slice(-4)}</p>
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                                </div>
+                                            </div>
+                                        </Box>
+                                        <Box sx={{ padding: '.3rem', width: '100%' }}>
+                                            <div onClick={() => redirectToComponent('Recibiste un número de 6 dígitos por Correo.')} style={{ borderRadius: '10px', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.4rem', width: '100%', cursor: 'pointer' }}>
+                                                <div style={{ width: '100%' }}>
+                                                    <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Correo Electrónico</p>
+                                                    <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Al correo: {correoElectronico}</p>
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                                </div>
+                                            </div>
+                                        </Box>
+
+                                        <Box sx={{ padding: '.3rem', width: '100%' }}>
+                                            <div onClick={() => redirectToComponent('Recibiste un número de 6 dígitos por Whatsapp.')} style={{ borderRadius: '10px', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.4rem', width: '100%', cursor: 'pointer' }}>
+                                                <div style={{ width: '100%' }}>
+                                                    <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Por WhatsApp</p>
+                                                    <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Al celular terminado en {telefonoRecibeSeleccionado.slice(-4)}</p>
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
+                                                </div>
+                                            </div>
+                                        </Box>
+                                    </Grid>
+                                ) : (
+
+
+                                    <Grid className="newContainer" container style={{ width: isMdDown ? '100%' : '50%', display: 'flex', margin: '0', padding: '.5rem', margin: '0 auto', backgroundColor: '#f0f1f5', padding: '5rem', borderRadius: '10px', justifyContent: 'center', marginTop: '3rem' }}>
+                                        <div style={{ width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                                            <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Ingresa el codigo que recibiste.</p>
+                                            <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>{tituloSubcontainer}</p>
+                                        </div>
+                                        <div className="input-fields" style={{ display: 'flex', width: '100%', marginTop: '2rem', marginBottom: '4.5rem', justifyContent: 'center' }}>
+                                            <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input1} onChange={(e) => { setInput1(e.target.value); if (e.target.value) input2Ref.current.focus(); }} onKeyDown={(e) => { if (e.key === 'Backspace' && !input1) input1Ref.current.focus(); }} ref={input1Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
+                                            <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input2} onChange={(e) => { setInput2(e.target.value); if (e.target.value) input3Ref.current.focus(); }} onKeyDown={(e) => { if (e.key === 'Backspace' && !input2) input1Ref.current.focus(); }} ref={input2Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
+                                            <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input3} onChange={(e) => { setInput3(e.target.value); if (e.target.value) input4Ref.current.focus(); }} onKeyDown={(e) => { if (e.key === 'Backspace' && !input3) input2Ref.current.focus(); }} ref={input3Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
+                                            <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input4} onChange={(e) => { setInput4(e.target.value); if (e.target.value) input5Ref.current.focus(); }} onKeyDown={(e) => { if (e.key === 'Backspace' && !input4) input3Ref.current.focus(); }} ref={input4Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
+                                            <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input5} onChange={(e) => { setInput5(e.target.value); if (e.target.value) input6Ref.current.focus(); }} onKeyDown={(e) => { if (e.key === 'Backspace' && !input5) input4Ref.current.focus(); }} ref={input5Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
+                                            <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input6} onChange={(e) => setInput6(e.target.value)} onKeyDown={(e) => { if (e.key === 'Backspace' && !input6) input5Ref.current.focus(); }} ref={input6Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
+                                        </div>
+                                        <div style={{ width: '67%' }}>
+
+                                            <button onClick={handleContinue} style={{ width: '100%', backgroundColor: '#2D2E83', color: '#F0F1F5', padding: '10px', borderRadius: '10px', fontSize: '1.8rem' }}>Continuar</button>
+                                            <button type="button" style={{ width: '100%', backgroundColor: '#F0F1F5', color: '#2D2E83', padding: '10px', borderRadius: '10px', fontSize: '1.8rem', border: '2px solid #2D2E83', marginTop: '1.5rem' }}>Reenviar código en 00:42</button>
+
+                                        </div>
+                                        <div style={{ width: '70%', justifyContent: 'center', display: 'flex' }}>
+
+                                            <button type="button" style={{ color: '#2D2E83', fontSize: '1.8rem', marginTop: '7rem' }}>Probar otro metodo</button>
+
+                                        </div>
+                                        <p>Código generado: {codigo}</p>
+                                        <ModalMensajes
+                                            shown={showModal}
+                                            close={handleModalClose}
+                                            titulo={tituloMensajes}
+                                            mensaje={textoMensajes}
+                                            tipo="error"
+                                        />
+                                    </Grid>
+
+                                )}
+
+
+
+
                             </div>
-                            {!showContainer ? (
-                                <Grid className="containerOptionsMassage" container style={{ width: isMdDown ? '100%' : '55%', display: 'flex', margin: '0', padding: '.5rem', margin: '0 auto', justifyContent: 'center' }}>
-
-                                    <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
-                                        <p style={{ fontSize: '28px', color: '#2C2E82' }}>Verifica que eres tu</p>
-                                        <p style={{ fontSize: '28px', color: '#2C2E82' }}>Por donde deseas recibir el codigo de verificación</p>
-                                    </div>
-
-                                    <Box sx={{ borderRadius: '10px', padding: '.3rem', width: '100%', cursor: 'pointer' }}>
-                                        <div onClick={() => redirectToComponent('Recibiste un número de 6 dígitos por SMS.')} style={{ borderRadius: '10px', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.4rem', width: '100%' }}>
-                                            <div style={{ width: '100%', borderRadius: '10px' }}>
-                                                <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>SMS</p>
-                                                <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Al celular terminado en {datUsers?.celular.slice(-4)}</p>
-                                            </div>
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
-                                            </div>
-                                        </div>
-                                    </Box>
-                                    <Box sx={{ padding: '.3rem', width: '100%' }}>
-                                        <div onClick={() => redirectToComponent('Recibiste un número de 6 dígitos por Correo.')} style={{ borderRadius: '10px', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.4rem', width: '100%', cursor: 'pointer' }}>
-                                            <div style={{ width: '100%' }}>
-                                                <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Correo Electrónico</p>
-                                                <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Al correo {datUsers?.email}</p>
-                                            </div>
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
-                                            </div>
-                                        </div>
-                                    </Box>
-
-                                    <Box sx={{ padding: '.3rem', width: '100%' }}>
-                                        <div onClick={() => redirectToComponent('Recibiste un número de 6 dígitos por Whatsapp.')} style={{ borderRadius: '10px', display: 'flex', justifyContent: 'space-between', color: '#2C2E82', backgroundColor: '#F0F1F5', padding: '2.4rem', width: '100%', cursor: 'pointer' }}>
-                                            <div style={{ width: '100%' }}>
-                                                <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Por WhatsApp</p>
-                                                <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Al celular terminado en {datUsers?.celular.slice(-4)}</p>
-                                            </div>
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
-                                            </div>
-                                        </div>
-                                    </Box>
-                                </Grid>
-                            ) : (
-
-
-                                <Grid className="newContainer" container style={{ width: isMdDown ? '100%' : '50%', display: 'flex', margin: '0', padding: '.5rem', margin: '0 auto', backgroundColor: '#f0f1f5', padding: '5rem', borderRadius: '10px', justifyContent: 'center', marginTop: '3rem' }}>
-                                    <div style={{ width: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-                                        <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>Ingresa el codigo que recibiste.</p>
-                                        <p style={{ fontWeight: '400', fontSize: '2.1rem', color: '#2C2E82' }}>{tituloSubcontainer}</p>
-                                    </div>
-                                    <div className="input-fields" style={{ display: 'flex', width: '100%', marginTop: '2rem', marginBottom: '4.5rem', justifyContent: 'center' }}>
-                                        <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input1} onChange={(e) => { setInput1(e.target.value); if (e.target.value) input2Ref.current.focus(); }} onKeyDown={(e) => { if (e.key === 'Backspace' && !input1) input1Ref.current.focus(); }} ref={input1Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
-                                        <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input2} onChange={(e) => { setInput2(e.target.value); if (e.target.value) input3Ref.current.focus(); }} onKeyDown={(e) => { if (e.key === 'Backspace' && !input2) input1Ref.current.focus(); }} ref={input2Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
-                                        <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input3} onChange={(e) => { setInput3(e.target.value); if (e.target.value) input4Ref.current.focus(); }} onKeyDown={(e) => { if (e.key === 'Backspace' && !input3) input2Ref.current.focus(); }} ref={input3Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
-                                        <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input4} onChange={(e) => { setInput4(e.target.value); if (e.target.value) input5Ref.current.focus(); }} onKeyDown={(e) => { if (e.key === 'Backspace' && !input4) input3Ref.current.focus(); }} ref={input4Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
-                                        <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input5} onChange={(e) => { setInput5(e.target.value); if (e.target.value) input6Ref.current.focus(); }} onKeyDown={(e) => { if (e.key === 'Backspace' && !input5) input4Ref.current.focus(); }} ref={input5Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
-                                        <input style={{ height: '3.7em', width: '3.2em', outline: 'none', textAlign: 'center', fontSize: '1.5rem', color: '#2C2E82', borderRadius: '5px', margin: '.5rem' }} maxLength="1" type="tel" value={input6} onChange={(e) => setInput6(e.target.value)} onKeyDown={(e) => { if (e.key === 'Backspace' && !input6) input5Ref.current.focus(); }} ref={input6Ref} onFocus={(e) => e.target.style.border = '2px solid #2d2e83'} onBlur={(e) => e.target.style.border = '1px solid #f0f1f5'} />
-                                    </div>
-                                    <div style={{ width: '67%' }}>
-
-                                        <button onClick={handleContinue} style={{ width: '100%', backgroundColor: '#2D2E83', color: '#F0F1F5', padding: '10px', borderRadius: '10px', fontSize: '1.8rem' }}>Continuar</button>
-                                        <button type="button" style={{ width: '100%', backgroundColor: '#F0F1F5', color: '#2D2E83', padding: '10px', borderRadius: '10px', fontSize: '1.8rem', border: '2px solid #2D2E83', marginTop: '1.5rem' }}>Reenviar código en 00:42</button>
-
-                                    </div>
-                                    <div style={{ width: '70%', justifyContent: 'center', display: 'flex' }}>
-
-                                        <button type="button" style={{ color: '#2D2E83', fontSize: '1.8rem', marginTop: '7rem' }}>Probar otro metodo</button>
-
-                                    </div>
-                                    <p>Código generado: {codigo}</p>
-                                    <ModalMensajes
-                                        shown={showModal}
-                                        close={handleModalClose}
-                                        titulo={tituloMensajes}
-                                        mensaje={textoMensajes}
-                                        tipo="error"
-                                    />
-                                </Grid>
-
-                            )}
-
-
-
-
                         </div>
+
                     </div>
 
-                </div>
-
-            </Container>
+                </Container>
             </div>
         </>
     )

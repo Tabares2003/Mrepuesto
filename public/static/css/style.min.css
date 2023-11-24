@@ -27858,3 +27858,134 @@ background-color: #F1F2F6 !important;
 }
 
 
+
+/*Mis compras*/
+.TopContMisCompras{
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdowncustomMiscomprasPersButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100% !important;
+    border-radius: 10px !important;
+    height: 44px !important;
+    background-color: transparent !important;
+    border: none !important;
+    color: #2D2E83 !important;
+    outline: none !important;
+    font-size: 20px !important;
+    padding-left: 13px; /* Ajusta este valor según tus necesidades */ 
+  }
+  
+  .dropdowncustomMiscomprasPersButton::after {
+    content: '';
+    width: 10px; 
+    height: 10px;  
+    background-image: url("../../../public/static/img/flechaazulpng_3.png") !important;
+    background-size: 10px !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+  }
+
+  .contProdcOMPR{
+    margin-top: 3rem;
+    display: flex; 
+    margin: 0 auto;
+  }
+
+
+  .productComprado{
+    display: flex;
+    border: 5px solid #EBEBEB;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+
+  /**/
+    /*Container mis datos my-account jsx*/
+.ContVendedor{
+    border-radius: 10px;
+    margin-bottom: .6rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #2C2E82;
+    background-color: #F0F1F5; 
+    font-size: 24px;
+    font-weight: 200; 
+    font-family: jost, sans-serif; 
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    padding-top: .8rem;
+    padding-bottom: .8rem;
+}
+.titlecontVend1{
+    font-size: 20px;
+    color: #2C2E82; 
+    font-weight: 700;
+}
+.ContVendedor2 {
+    margin-top: 4rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0; /* Sin redondeo en la esquina inferior izquierda */
+    border-bottom-right-radius: 0; /* Sin redondeo en la esquina inferior derecha */
+    margin-bottom: .6rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #2C2E82;
+    background-color: #F0F1F5;
+    font-size: 24px;
+    font-weight: 200;
+    font-family: jost, sans-serif;
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    flex-direction: column;
+}
+.titlecontVend2{
+    font-size: 24px;
+    color: #2C2E82; 
+    font-weight: 700;
+}
+.subContVendedor2{  
+    margin-bottom: .6rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #2C2E82;
+    background-color: #F0F1F5; 
+    font-size: 24px;
+    font-weight: 200; 
+    font-family: jost, sans-serif; 
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    flex-direction: column;
+}
+.UltsubContVendedor2{  
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-bottom: .5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #2C2E82;
+    background-color: #F0F1F5; 
+    font-size: 24px;
+    font-weight: 200; 
+    font-family: jost, sans-serif; 
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    flex-direction: column;
+}

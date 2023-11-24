@@ -1226,43 +1226,55 @@ const MyAccountScreen = () => {
 
 
 
-    //Datos reales api
-
-    const [datUsers, SetDatUser] = useState(null);
 
 
-    const [nombres, Setnombres] = useState(null);
-    const [apellidos, Setapellidos] = useState(null);
 
-    const leerDatosUsuario = async () => {
-        let params = {
-            email: "nmflorezr@gmail.com",
-        };
-
-        await axios({
-            method: "post",
-            url: URL_BD_MR + "21",
-            params,
-        })
-            .then((res) => {
-                console.log("DAT XXXX: ", res.data);
-                Setnombres(res.data[0].primernombre + " " + res.data[0].segundonombre)
-                Setapellidos(res.data[0].primerapellido)
-                SetDatUser(res.data[0])
-            })
-            .catch(function (error) {
-                console.log(
-                    "Error leyendo el usuario"
-                );
-            });
-
-    };
-
-    console.log("Nombres:", nombres)
+ 
+    const [datosUsuario, setDatosUsuario] = useState("");
+    const [nombres, setNombres] = useState("");
+    const [nombresDos, setNombresDos] = useState("");
+    const [apellidos, setApellidos] = useState("");
+    const [apellidosDos, setApellidosDos] = useState("");
+    const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState("");
+    const [correoElectronico, setCorreoElectronico] = useState("");
+    const [nroDocumentoSeleccionado, setNroDocumentoSeleccionado] = useState("");
 
     useEffect(() => {
+        const leerDatosUsuario = async () => {
+            let params = {
+                uid: datosusuarios.uid,
+            };
+
+            try {
+                const res = await axios({
+                    method: "post",
+                    url: URL_BD_MR + "13",
+                    params,
+                });
+
+                // Actualiza el estado con los datos adicionales que necesitas
+                setDatosUsuario(res.data[0]);
+                setNombres(res.data[0].primernombre);
+                setNombresDos(res.data[0].segundonombre);
+                setApellidos(res.data[0].primerapellido);
+                setApellidosDos(res.data[0].segundoapellido);
+                setTelefonoRecibeSeleccionado(res.data[0].celular);
+                setCorreoElectronico(res.data[0].email);
+                setNroDocumentoSeleccionado(res.data[0].identificacion);
+                // Agrega más setState según sea necesario
+
+            } catch (error) {
+                console.error("Error al leer los datos del usuario", error);
+                // Maneja el error según tus necesidades
+            }
+        };
+
         leerDatosUsuario();
-    }, []);
+    }, [datosusuarios]);
+
+
+
+
 
 
 
@@ -1338,18 +1350,18 @@ const MyAccountScreen = () => {
 
 
 
-                        <div ref={irA} className="ContDatosDocs" style={{ padding: '.5rem',  justifyContent:'center', display:'flex' }}>
+                        <div ref={irA} className="ContDatosDocs" style={{ padding: '.5rem', justifyContent: 'center', display: 'flex' }}>
 
                             <Grid sx={{ width: isMdDown ? '100%' : '65%' }}>
 
 
                                 <div style={{ marginBottom: '2rem' }}>
-                                    <p style={{ fontSize: '30px', color: '#2D2E83', fontWeight:'600' }}>Mis datos</p>
+                                    <p style={{ fontSize: '30px', color: '#2D2E83', fontWeight: '600' }}>Mis datos</p>
                                 </div>
                                 <div className="SubcontainerMisDatos" onClick={abrirModal}>
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Nombre de usuario</p>
-                                        <p style={{ fontWeight: '400', fontSize: '20px' }}>{datUsers?.primernombre} </p>
+                                        <p style={{ fontWeight: '400', fontSize: '20px' }}>{nombres} </p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
@@ -1421,7 +1433,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={() => editUser('nombres')} >
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Nombres y apellidos</p>
-                                        <p style={{ fontWeight: '500', fontSize: '20px'  }}>{datUsers?.primernombre} {datUsers?.segundonombre} {datUsers?.primerapellido} {datUsers?.segundoapellido}</p>
+                                        <p style={{ fontWeight: '500', fontSize: '20px' }}>{nombres} {nombresDos} {apellidos} {apellidosDos}</p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
@@ -1430,7 +1442,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={() => editUser('email')} >
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Correo electrónico</p>
-                                        <p style={{ fontWeight: '500', fontSize: '20px'  }}>{datUsers?.email} </p>
+                                        <p style={{ fontWeight: '500', fontSize: '20px' }}>{correoElectronico} </p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
@@ -1439,7 +1451,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={() => editUser('DocIdentificacion')}>
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Tipo y número de documento</p>
-                                        <p style={{ fontWeight: '500', fontSize: '20px'  }}>C.C {datUsers?.identificacion}</p>
+                                        <p style={{ fontWeight: '500', fontSize: '20px' }}>C.C {nroDocumentoSeleccionado}</p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
@@ -1448,7 +1460,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={() => editUser('teléfono')} >
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Teléfono</p>
-                                        <p style={{ fontWeight: '500', fontSize: '20px'  }}> {datUsers?.celular} </p>
+                                        <p style={{ fontWeight: '500', fontSize: '20px' }}> {telefonoRecibeSeleccionado} </p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
@@ -1457,13 +1469,13 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={handleClickDomicilio}>
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Domicilio</p>
-                                        <p style={{ fontWeight: '500', fontSize: '20px'  }}>{datUsers?.direccion ? datUsers.direccion : 'No tiene dirección'}</p>
+                                        <p style={{ fontWeight: '500', fontSize: '20px' }}>Tus direcciones</p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                     </div>
                                 </div>
-                                <div className="SubcontainerMisDatos" onClick={handleClicPjuridica} style={{marginTop:'8rem'}}>
+                                <div className="SubcontainerMisDatos" onClick={handleClicPjuridica} style={{ marginTop: '8rem' }}>
                                     <div style={{ width: '100%', height: '100%' }}>
                                         <div>Cambiar cuenta a cuenta de persona juridica</div>
                                     </div>

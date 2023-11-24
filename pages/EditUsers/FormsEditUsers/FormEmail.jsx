@@ -4,27 +4,19 @@ import { Box, Grid, Typography, useMediaQuery, useTheme, Dialog, DialogTitle, Di
 import React, { useState, useEffect, useRef } from "react";
 import { validateEmail } from "../../../utilities/Validations";
 import ModalMensajes from '../../mensajes/ModalMensajes';
-import { useRouter } from "next/router"; 
+import { useRouter } from "next/router";
 import { FaCheckCircle } from "react-icons/fa";
-
+import { useDispatch, connect, useSelector } from "react-redux";
+import axios from 'axios';
+import { URL_BD_MR } from '../../../helpers/Constants';
 
 export default function FormEmail() {
     //Consts measured, 80% and in md 100%.
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
     const router = useRouter();
-
     //ModalDatosGUardados
     const [confirmationOpen, setConfirmationOpen] = useState(false);
-
-    const handleConfirmationOpen = () => {
-        setConfirmationOpen(true);
-    };
-
-    const handleConfirmationSuccess = (route) => () => {
-        router.push(route);
-    };
-
     // Estado para manejar la visibilidad de los contenedores
     const [mostrarContenedorExistente, setMostrarContenedorExistente] = useState(true);
     const [mostrarNewContainer, setMostrarNewContainer] = useState(false);
@@ -35,11 +27,53 @@ export default function FormEmail() {
     const [showEmailError, setShowEmailError] = useState(false);
     const [datok, setDatok] = useState(true);
     const [alertBtnEmail, setAlertBtnEmail] = useState("nombrespasarela alertboton");
+    //Simulación Recibir codigo a nuevo número de teléfono con modales
+    //Modales
+    const [showModalCodigo, setShowModalCodigo] = useState(false);
+    const [tituloMensajesCodigo, setTituloMensajesCodigo] = useState('');
+    const [textoMensajesCodigo, setTextoMensajesCodigo] = useState('');
+
+    const handleConfirmationOpen = () => {
+        setConfirmationOpen(true);
+    };
+
+    const handleConfirmationSuccess = (route) => () => {
+        router.push(route);
+    };
+
+
+    const handleModalClose = () => {
+        setModalData({ shown: false, titulo: "", mensaje: "" });
+    };
+
+    //cerrarModalNuevoCodigoEmailError
+    const handleModalCloseCodigo = () => {
+        setShowModalCodigo(false);
+    };
+
+    //InpusPonerCodigoRecibido
+    const [input1, setInput1] = useState('');
+    const [input2, setInput2] = useState('');
+    const [input3, setInput3] = useState('');
+    const [input4, setInput4] = useState('');
+    const [input5, setInput5] = useState('');
+    const [input6, setInput6] = useState('');
+    const [codigo, setCodigo] = useState('');
+    const input1Ref = useRef(null);
+    const input2Ref = useRef(null);
+    const input3Ref = useRef(null);
+    const input4Ref = useRef(null);
+    const input5Ref = useRef(null);
+    const input6Ref = useRef(null);
+
     const [modalData, setModalData] = useState({
         shown: false,
         titulo: "",
         mensaje: "",
     });
+
+
+
 
     const handleChangeInputEmail = (data) => {
         setEmailSeleccionado(data);
@@ -55,9 +89,6 @@ export default function FormEmail() {
         setAlertBtnEmail("nombrespasarela alertboton");
     };
 
-    const handleModalClose = () => {
-        setModalData({ shown: false, titulo: "", mensaje: "" });
-    };
 
     //Si los datos son incorrectos mostrar modales, si son correctos enviarme a redirectToComponent
 
@@ -91,29 +122,6 @@ export default function FormEmail() {
         }
     };
 
-
-    //Simulación Recibir codigo a nuevo número de teléfono con modales
-    //Modales
-    const [showModalCodigo, setShowModalCodigo] = useState(false);
-    const [tituloMensajesCodigo, setTituloMensajesCodigo] = useState('');
-    const [textoMensajesCodigo, setTextoMensajesCodigo] = useState('');
-
-    //InpusPonerCodigoRecibido
-    const [input1, setInput1] = useState('');
-    const [input2, setInput2] = useState('');
-    const [input3, setInput3] = useState('');
-    const [input4, setInput4] = useState('');
-    const [input5, setInput5] = useState('');
-    const [input6, setInput6] = useState('');
-    const [codigo, setCodigo] = useState('');
-    const input1Ref = useRef(null);
-    const input2Ref = useRef(null);
-    const input3Ref = useRef(null);
-    const input4Ref = useRef(null);
-    const input5Ref = useRef(null);
-    const input6Ref = useRef(null);
-
-
     const redirectToComponent = () => {
         const nuevoCodigo = Math.floor(100000 + Math.random() * 900000);
         setCodigo(nuevoCodigo.toString());
@@ -126,12 +134,100 @@ export default function FormEmail() {
     };
 
 
+
+    const [nombres, setNombres] = useState("");
+    const [apellidos, setApellidos] = useState("");
+    const [nombresDos, setNombresDos] = useState("");
+    const [apellidosDos, setApellidosDos] = useState("");
+    const [datosUsuario, setDatosUsuario] = useState([]);
+    // Asignamos Datos al arreglo de Usuarios desde el state
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+
+    useEffect(() => {
+        const leerDatosUsuario = async () => {
+            let params = {
+                uid: datosusuarios.uid,
+            };
+            //console.log("VISITAS: ", params);
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "13",
+                params,
+            })
+                .then((res) => {
+                    //console.log("DAT USERS: ", res.data);
+                    setDatosUsuario(res.data[0]);
+                    setNombres(res.data[0].primernombre);
+                    setNombresDos(res.data[0].segundonombre);
+                    setApellidos(res.data[0].primerapellido);
+                    setApellidosDos(res.data[0].segundoapellido);
+                    //setNroDocumentoSeleccionado(res.data[0].identificacion); 
+                    setEmailSeleccionado(res.data[0].email)
+                })
+                .catch(function (error) {
+                    console.error("Error al leer los datos del usuario", error);
+         
+                });
+        };
+        leerDatosUsuario();
+    }, [datosusuarios]);
+
+
+    const updateData = () => {
+        // Aquí coloca la lógica de actualización de datos del celular
+        const url = 'https://gimcloud.com.co/mrp/api/+75';
+        // celular: telefonoRecibeSeleccionado, //
+
+        let params = {
+            primernombre: nombres,
+            segundonombre: nombresDos,
+            primerapellido: apellidos,
+            segundoapellido: apellidosDos,
+            razonsocial: ".",
+            tipoidentificacion: 1,
+            identificacion: datosUsuario.identificacion,
+            celular: datosUsuario.celular,
+            email: emailSeleccionado,
+            token: datosUsuario.token,
+            activo: datosUsuario.activo,
+            direccion: datosUsuario.direccion,
+            fechacreacion: datosUsuario.fechacreacion,
+            fechatoken: datosUsuario.fechatoken,
+            uid: datosUsuario.uid,
+            // ...resto de los datos
+        };
+        //console.log("Datos usuario : ", params);
+        //return
+        const updateDatosUsuario = async () => {
+            //console.log("VISITAS: ", params);
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "75",
+                params,
+            })
+                .then((res) => {
+                    handleConfirmationOpen();
+                    console.log("ACTULIZA DAT USERS: ", res.data);
+                })
+                .catch(function (error) {
+                    return;
+                });
+        };
+        updateDatosUsuario();
+    };
+
+
     const handleContinue = () => {
         const inputCodigo = input1 + input2 + input3 + input4 + input5 + input6;
         if (inputCodigo === codigo.toString()) {
-            // alert indicando que el código es correcto
-            handleConfirmationOpen();
+            updateData(); // Llama a la función de actualización de datos
 
+           // alert indicando que el código es correcto
+           handleConfirmationOpen();
+
+
+           setEmailSeleccionado('');
+           setConfirmarEmail('');
             // Realizar otras acciones dependiendo necesidades
         } else {
             //  modal indicando que el código es incorrecto
@@ -141,16 +237,15 @@ export default function FormEmail() {
         }
     };
 
-    //cerrarModalNuevoCodigoEmailError
-    const handleModalCloseCodigo = () => {
-        setShowModalCodigo(false);
-    };
+
+
+
+
 
 
     const handleValidP = () => {
         router.push('../../my-account');
     };
-
 
     const irA = useRef(null);
 
@@ -161,9 +256,10 @@ export default function FormEmail() {
         });
     }, []);
 
+
     return (
         <>
-            <div ref={irA}> 
+            <div ref={irA}>
                 <Container title="Mi Cuenta">
                     <div className="ps-page ps-page--inner" id="myaccount">
                         <div className="container">
@@ -186,7 +282,7 @@ export default function FormEmail() {
                                                             type="email"
                                                             placeholder="Ej: daniela1998@mail.com"
                                                             value={emailSeleccionado}
-                                                            onChange={(e) => handleChangeInputEmail(e.target.value)}
+                                                            onChange={(e) => setEmailSeleccionado(e.target.value)}
                                                         />
                                                     </div>
                                                 </Grid>
@@ -198,12 +294,12 @@ export default function FormEmail() {
                                                             type="email"
                                                             placeholder="Ej: daniela1998@mail.com"
                                                             value={confirmarEmail}
-                                                            onChange={(e) => handleChangeConfirmarEmail(e.target.value)}
+                                                            onChange={(e) => setConfirmarEmail(e.target.value)}
                                                         />
                                                     </div>
                                                     <Box display="flex" justifyContent="space-between" marginTop={15}>
                                                         <button onClick={handleValidP} className='CancelarFormButton'>Cancelar</button>
-                                                        <button className='GuardarFormButton' onClick={updateAddress} disabled={!datok}>Guardar</button>
+                                                        <button className='GuardarFormButton' onClick={updateAddress} >Guardar</button>
                                                         <ModalMensajes
                                                             shown={modalData.shown}
                                                             close={handleModalClose}
@@ -329,8 +425,8 @@ export default function FormEmail() {
                                             }}
                                         >
                                             <DialogTitle className='dialogtitleDtsGUardados' >
-                                            <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
-                                                 <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
+                                                <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
+                                                <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
                                             </DialogTitle>
                                             <DialogContent className='dialogContentDatsGuardados'>
                                                 <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se verán reflejados un unos minutos.</p>
@@ -348,12 +444,11 @@ export default function FormEmail() {
                                                 </div>
                                             </DialogActions>
                                         </Dialog>
-                                    </Grid> 
-                                )} 
+                                    </Grid>
+                                )}
                             </div>
                         </div>
                     </div>
-
                 </Container>
             </div>
         </>
