@@ -52,8 +52,8 @@ export default function ContactarConVendedor() {
                                     </div> 
                                 </Grid>
 
-                                <Grid className="ContVendedor2" container style={{ width: isMdDown ? '100%' : '90%' }}>
-                                    <div style={{marginBottom:'2rem'}}>
+                                <Grid className="ContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', display:'flex', flexDirection:'column' }}>
+                                    <div style={{marginBottom:'2rem', width:'100%'}}>
                                         <p className="titlecontVend2">Ayuda con mi compra</p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between' }}>

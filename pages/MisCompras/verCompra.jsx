@@ -134,7 +134,7 @@ export default function verCompra() {
                                     </Grid>
 
 
-                                    <Grid className="ContVendedor" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto', marginTop: '7rem' }}>
+                                    <Grid className="ContVendedor" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto', marginTop: '7rem',marginBottom:'.6rem'}}>
                                         <div className="SubcontainerMisDatos" >
                                             <div style={{ width: '85%' }}>
                                                 <p className="titlecontVend1">Contactar con vendedor</p>
@@ -145,7 +145,7 @@ export default function verCompra() {
                                             </div>
                                         </div>
                                     </Grid>
-                                    <Grid className="ContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto' }}>
+                                    <Grid className="ContVendedor3" container style={{ width: isMdDown ? '100%' : '90%'  }}>
                                         <div style={{ marginBottom: '2rem' }}>
                                             <p className="titlecontVend2">Ayuda con mi compra</p>
                                         </div>
@@ -154,19 +154,19 @@ export default function verCompra() {
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                         </div>
                                     </Grid>
-                                    <Grid className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto' }}>
+                                    <Grid className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto',marginBottom:'.6rem' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                             <p style={{ fontWeight: '400', fontSize: '22px', color: '#2C2E82' }}>Calificar vendedor</p>
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                         </div>
                                     </Grid>
-                                    <Grid className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto' }}>
+                                    <Grid className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto',marginBottom:'.6rem' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                             <p style={{ fontWeight: '400', fontSize: '22px', color: '#2C2E82' }}>Calificar producto</p>
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                         </div>
                                     </Grid>
-                                    <Grid className="UltsubContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto' }}>
+                                    <Grid className="UltsubContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto',marginBottom:'.6rem' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                             <p style={{ fontWeight: '400', fontSize: '22px', color: '#2C2E82' }}>No llegó mi compra</p>
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />

@@ -27989,3 +27989,27 @@ background-color: #F1F2F6 !important;
     padding-bottom: 2rem;
     flex-direction: column;
 }
+
+
+.ContVendedor3 {
+    margin: 0 auto;
+    margin-top: 4rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0; /* Sin redondeo en la esquina inferior izquierda */
+    border-bottom-right-radius: 0; /* Sin redondeo en la esquina inferior derecha */
+    margin-bottom: .6rem;
+    width: 100%;
+    display: flex;
+    
+    color: #2C2E82;
+    background-color: #F0F1F5;
+    font-size: 24px;
+    font-weight: 200;
+    font-family: jost, sans-serif;
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    flex-direction: column;
+}
