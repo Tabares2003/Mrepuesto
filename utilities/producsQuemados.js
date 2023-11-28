@@ -15,7 +15,10 @@ const productos = [
         nombreVendedor:'Juan Camilo',
         precioEnvio:'24.000',
         totalConEnvío:'9.256.000',
-        formaPago:'Wompi'
+        formaPago:'Wompi',
+        numeroAprobacion:'233.000',
+        direccionEnvío:'CR 56 # 33-23',
+        municipioDepart:'Medellín, Antioquia'
     },
 
     {
@@ -29,7 +32,10 @@ const productos = [
         nombreVendedor:'Julian Alexander',
         precioEnvio:'21.000',
         totalConEnvío:'699.000',
-        formaPago:'Targeta de debito'
+        formaPago:'Targeta de debito',
+        numeroAprobacion:'32.000',
+        direccionEnvío:'CR 18 # 11-22',
+        municipioDepart:'Cundinamarca, Antioquia'
     },
 
     {
@@ -43,7 +49,10 @@ const productos = [
         nombreVendedor:'Diana Patricia C',
         precioEnvio:'20.000',
         totalConEnvío:'560.000',
-        formaPago:'Wompi'
+        formaPago:'Wompi',
+        numeroAprobacion:'233.211',
+        direccionEnvío:'CR 12 # 78-32',
+        municipioDepart:'La honda, Antioquia'
     },
 
     {
@@ -57,7 +66,10 @@ const productos = [
         nombreVendedor:'Juan Pablo R',
         precioEnvio:'30.000',
         totalConEnvío:'2.300.000',
-        formaPago:'Efecty'
+        formaPago:'Efecty',
+        numeroAprobacion:'33.323',
+        direccionEnvío:'CR 56 # 32-98',
+        municipioDepart:'Apartadó, Antioquia'
     },
 
     {
@@ -71,7 +83,10 @@ const productos = [
         nombreVendedor:'Carlos Andrés R',
         precioEnvio:'20.500',
         totalConEnvío:'2.020.500',
-        formaPago:'Nequi'
+        formaPago:'Nequi',
+        numeroAprobacion:'323.332',
+        direccionEnvío:'CR 39 # 78-23',
+        municipioDepart:'Medellín, Antioquia'
 
     },
 

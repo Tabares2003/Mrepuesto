@@ -27616,9 +27616,10 @@ background-color: #F1F2F6 !important;
 .titlesformsUsers p{
     margin-bottom: 3rem;
     margin-top: -3rem;  
-    font-size: 30px !important;
+    font-size: 24px !important;
     color: #2D2E83;  
     font-weight: 600; 
+    font-family: "Jost", sans-serif; 
 } 
  
 .textodireccionesdos{
@@ -27638,11 +27639,18 @@ background-color: #F1F2F6 !important;
 /*inputsAndForms*/
 
 
- 
+ /*comp sms*/
+
+ .titlescompSMS{
+    font-size: 24px; 
+    color: #2C2E82;
+    font-family: "Jost", sans-serif; 
+    font-weight: 600;
+ }
 
 
 
-
+/*fin compsms*/
 
 
 .itemsdropdownTdocPersona {
@@ -27850,13 +27858,34 @@ background-color: #F1F2F6 !important;
     font-size: 24px;
     font-weight: 200;
     cursor: pointer;
-    font-family: jost, sans-serif;
+    font-family: "Jost", sans-serif; 
 }
 .titleSubContMisD{
-    font-size: 23px;
-    color: #2C2E82; 
-}
+    font-size: 21px;
+    color: #2C2E82;
+    font-family: "Jost", sans-serif; 
 
+}
+.subtitleSubContMisD{
+    font-size: 21px;
+    color: #2C2E82; 
+    font-family: "Jost", sans-serif; 
+}
+.titlemisD{
+    font-size: 24px;
+    color: #2D2E83;
+    font-weight: 600;
+    font-family: "Jost", sans-serif; 
+}
+.titlePJuridicaMisDatos{
+    font-size: 24px;
+    color: #2D2E83;
+    font-weight: 600;
+    font-family: "Jost", sans-serif; 
+}
+.modal-text {
+    text-transform: none; /* Esto evita que el texto esté en mayúsculas */
+}
 
 
 /*Mis compras*/
@@ -27910,19 +27939,21 @@ background-color: #F1F2F6 !important;
     /*Container mis datos my-account jsx*/
 .ContVendedor{
     border-radius: 10px;
-    margin-bottom: .6rem;
-    width: 100%;
+    margin-bottom: .6rem; 
     display: flex;
     justify-content: space-between;
     color: #2C2E82;
     background-color: #F0F1F5; 
     font-size: 24px;
     font-weight: 200; 
-    font-family: jost, sans-serif; 
+    font-family: "Jost", sans-serif; 
     padding-right: 1.5rem;
     padding-left: 1.5rem;
     padding-top: .8rem;
     padding-bottom: .8rem;
+    margin: 0 auto;
+    margin-top: 7rem;
+
 }
 .titlecontVend1{
     font-size: 20px;
@@ -27951,11 +27982,32 @@ background-color: #F1F2F6 !important;
     flex-direction: column;
 }
 .titlecontVend2{
-    font-size: 24px;
+    font-size: 20px;
     color: #2C2E82; 
     font-weight: 700;
 }
 .subContVendedor2{  
+    margin: 0 auto;
+
+    margin-bottom: .6rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #2C2E82;
+    background-color: #F0F1F5; 
+    font-size: 24px;
+    font-weight: 200; 
+    font-family: "Jost", sans-serif; 
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    flex-direction: column;
+}
+.UltsubContVendedor2{  
+     margin: 0 auto;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     margin-bottom: .6rem;
     width: 100%;
     display: flex;
@@ -27966,29 +28018,26 @@ background-color: #F1F2F6 !important;
     font-weight: 200; 
     font-family: jost, sans-serif; 
     padding-right: 2.5rem;
-    padding-left: 2.5rem;
-    padding-top: 2rem;
+    padding-left: 1.5rem;
+    padding-top: 1.5rem;
     padding-bottom: 2rem;
     flex-direction: column;
 }
-.UltsubContVendedor2{  
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    margin-bottom: .5rem;
+.ContPsubtitlesvercompra{
+    border-right: 3px solid #EBEBEB;
+    height: 21rem;
+
+}
+.detallesypagovercompra{
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    color: #2C2E82;
-    background-color: #F0F1F5; 
-    font-size: 24px;
-    font-weight: 200; 
-    font-family: jost, sans-serif; 
-    padding-right: 2.5rem;
-    padding-left: 2.5rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    flex-direction: column;
+    margin-bottom: 3rem;
 }
+.detallesypagovercompra p{
+    font-size: 24px;
+    color: #2D2E83;
+    font-weight: 700;
+}
+ 
 
 
 .ContVendedor3 {
@@ -28012,4 +28061,206 @@ background-color: #F1F2F6 !important;
     padding-top: 2rem;
     padding-bottom: 2rem;
     flex-direction: column;
+}
+
+
+.ContVendedor4 { 
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0; /* Sin redondeo en la esquina inferior izquierda */
+    border-bottom-right-radius: 0; /* Sin redondeo en la esquina inferior derecha */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #2C2E82;
+    background-color: #F0F1F5;
+    font-size: 18px;
+    font-weight: 200;
+    font-family: jost, sans-serif;
+    padding-right: 2.5rem;
+    padding-left: 2.5rem; 
+    flex-direction: column;
+    padding-top: 1rem;   
+}
+.titlecontVend3{
+    font-size: 18px;
+    color: #2C2E82; 
+    font-weight: 700;
+}
+.titlecontvendBottom{
+    font-weight: 400;
+    font-size: 20px;
+    color: #2C2E82;
+}
+.containerTitlecontvendBottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.subContVendedor3{  
+    cursor: pointer;
+    margin-bottom: .6rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #2C2E82;
+    background-color: #F0F1F5;  
+    font-weight: 200; 
+    font-family: jost, sans-serif; 
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+    flex-direction: column;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    height: 50px;
+}
+.titlesproblemas{
+    font-size: 18px;
+    color: #2C2E82; 
+    font-weight: 500;
+}
+.cajasProblemas{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 1rem;
+}
+.subContVendedor4{  
+    cursor: pointer;
+    margin-bottom: .6rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #2C2E82;
+    background-color: #F0F1F5;  
+    font-weight: 200; 
+    font-family: jost, sans-serif; 
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+    flex-direction: column;
+    padding-bottom: 1.1rem;
+    padding-top: 1.5rem; 
+}
+.subContVendedorUlt{  
+    cursor: pointer;
+    margin-bottom: .6rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #2C2E82;
+    background-color: #F0F1F5;  
+    font-weight: 200; 
+    font-family: jost, sans-serif; 
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+    flex-direction: column;
+    padding-bottom: 1.1rem;
+    padding-top: 1.5rem; 
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.ContTengoProblema1{ 
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 0; /* Sin redondeo en la esquina inferior izquierda */
+    border-bottom-right-radius: 0; /* Sin redondeo en la esquina inferior derecha */
+ 
+    display: flex;
+    align-items: center;
+    color: #2C2E82;
+    background-color: #F0F1F5;
+    font-size: 18px; 
+    font-family: jost, sans-serif;
+    padding-right: 2.5rem;
+    padding-left: 2.5rem; 
+    flex-direction: column;
+    padding-top: 1rem;   
+}
+.titleTproblema p{ 
+    margin-top: -2rem;  
+    font-size: 24px !important;
+    color: #2D2E83;  
+    font-weight: 600;  
+} 
+.titleTproblema{
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+
+.subtitlesvercompra {
+    display: flex;
+}
+.subtitlesvercompra p{
+    margin-right: 5px;
+    font-size: 18px;
+    color: #2D2E83;
+    font-weight: 500;
+}
+.direccionsubtcompraver{
+    display: flex;
+    flex-direction: column;
+}
+/*enviar mensaje buttons*/
+.EnviarmMsjVercompra{
+    display: flex;
+    align-items: center;
+    width: 25%;
+}
+.EnviarmMsjVercompra button{
+    background-color: #2C2E82;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    padding: 0.6rem;
+    margin: 0 auto;
+    width: 100%;
+    height: 40px;
+
+}
+.subtitlecontVend1{
+    font-weight: 500;
+    font-size: 20px;
+    color: #2C2E82;
+}
+/*rastriar mi envio ver compra*/
+
+
+.RastrMiEnvVerCompraButton{
+    background-color: #2C2E82;
+    border-radius: 10px;
+    font-size: 16px;
+    color: white;
+    padding: .6rem;
+    margin: 0 auto;
+    width: 80%;
+    margin-top: 2.5rem;
+    height: 40px;
+}
+
+/*calificar vendedor*/
+
+
+.GuardarFormButtonvendedor {
+    width: 30%;
+    background-color: #2D2E83;
+    color: white; 
+    border-radius: 10px;
+    font-size: 16px; 
+    align-items: center;
+    display: flex;
+    justify-content: center; 
+    height: 40px !important;
+  }
+  .titlecalifVended p{ 
+    margin-top: -2rem;  
+    font-size: 24px !important;
+    color: #2D2E83;  
+    font-weight: 600;  
+} 
+.titlecalifVended{
+    width: 100%; 
 }

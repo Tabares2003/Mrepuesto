@@ -194,8 +194,8 @@ export default function CompSMS() {
                                     <Grid className="containerOptionsMassage" container style={{ width: isMdDown ? '100%' : '55%', display: 'flex', margin: '0', padding: '.5rem', margin: '0 auto', justifyContent: 'center' }}>
 
                                         <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
-                                            <p style={{ fontSize: '28px', color: '#2C2E82' }}>Verifica que eres tu</p>
-                                            <p style={{ fontSize: '28px', color: '#2C2E82' }}>Por donde deseas recibir el codigo de verificación</p>
+                                            <p className='titlescompSMS'>Verifica que eres tu</p>
+                                            <p className='titlescompSMS'>Por donde deseas recibir el codigo de verificación</p>
                                         </div>
 
                                         <Box sx={{ borderRadius: '10px', padding: '.3rem', width: '100%', cursor: 'pointer' }}>

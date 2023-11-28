@@ -7,168 +7,208 @@ import SearchIcon from '@material-ui/icons/Search';
 import { Dropdown } from "react-bootstrap";
 import { NextRouter } from "next/router";
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import Link from '@mui/material/Link'; 
+import Link from '@mui/material/Link';
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import productos from "../../utilities/producsQuemados";
-
 import { AiOutlineRight } from 'react-icons/ai';
+import { GrNext } from "react-icons/gr";
+import { URL_BD_MR } from "../../helpers/Constants";
 
 
 export default function verCompra() {
 
-    //Consts measured, 80% and in md 100%.
+   
     const theme = useTheme();
-    const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
-    //PosiciónTopPage
+    const isMdDown = useMediaQuery(theme.breakpoints.down('md')); //Consts measured, 80% and in md 100%.
+    const router = useRouter(); 
+    const irA = useRef(null);//PosiciónTopPage
 
 
-    const router = useRouter();
-    const [producto, setProducto] = useState();
 
-    useEffect(() => {
-        let productoData;
+    //recibir los datos del producto comprado y guardar url para cuando reinicie seguir en el mismo
+    let producto = null
 
+    if (typeof window !== 'undefined') {
         if (router.query.producto) {
-            productoData = JSON.parse(router.query.producto);
-            localStorage.setItem('producto', JSON.stringify(productoData));
+            producto = JSON.parse(router.query.producto)
+            // Guardar los datos en el almacenamiento local
+            localStorage.setItem('producto', JSON.stringify(producto))
         } else {
-            productoData = JSON.parse(localStorage.getItem('producto'));
+            // Recuperar los datos del almacenamiento local
+            const data = localStorage.getItem('producto')
+            if (data) {
+                producto = JSON.parse(data)
+            }
         }
+    }
 
-        setProducto(productoData);
-    }, [router.query.producto]);
+
+
+
+
+    //toppagewhilesign
+    useEffect(() => {
+        irA.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    }, []);
 
     return (
-        producto ? (
-            < >
-                <div  >
+
+        < >
+
+            <div ref={irA}>
+                {producto ? (
                     <Container title="Mi Cuenta">
                         <div className="ps-page ps-page--inner" id="myaccount">
                             <div className="container">
                                 <div className="ps-page__header"> </div>
                                 <div className="ps-page__content ps-account">
-                                    <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '90%' }}>
-                                        <div className='titlesformsUsers' style={{ display: 'flex' }}>
-                                            <p style={{ marginRight: '2rem' }}>Mis compras  </p>
-                                            <p>Ver compra</p>
-                                        </div>
+                                    <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '90%', marginBottom: '4rem' }}>
+                                        <Breadcrumbs separator={<GrNext style={{ color: '#BEADCB' }} size={17} />} aria-label="breadcrumb">
+                                            <Link
+                                                underline="none"
+                                                color="inherit"
+                                                href="./misCompras"
+                                                onClick={(e) => { e.preventDefault(); router.push('./misCompras') }}
+                                                sx={{ color: '#BEADCB', fontSize: 25, fontWeight: 700 }}
+                                            >
+                                                Mis Compras
+                                            </Link>
+                                            <Typography sx={{ color: '#BEADCB', fontSize: 25, fontWeight: 700 }} color="textPrimary">Ver Compra</Typography>
+                                        </Breadcrumbs>
 
                                     </Grid>
                                     <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '90%' }}>
                                         <Grid item xs={12} md={8} style={{ borderRight: '3px solid #EBEBEB', height: '21rem' }}>
-                                            <div>
-                                                <p style={{ fontSize: '30px', color: '#2D2E83' }}> {producto.estadoCompra}</p>
+                                            <div >
+                                                <p style={{ fontSize: '24px', color: '#2D2E83', fontWeight: '700' }}> Estado compra </p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Numero de compra:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>{producto.numerocompra}</p>
+                                            <div className="subtitlesvercompra" style={{ display: 'flex' }}>
+                                                <p>Numero de compra:</p>
+                                                <p>{producto.numerodeaprobacion}</p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Fecha de compra:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>{producto.fecha}</p>
+                                            <div className="subtitlesvercompra">
+                                                <p>Fecha de compra:</p>
+                                                <p>{producto.fechacompra}</p>
                                             </div>
                                         </Grid>
                                         <Grid item xs={12} md={4} sx={{ paddingLeft: '4rem' }}>
                                             <div>
-                                                <p style={{ fontSize: '30px', color: '#2D2E83' }}>{producto.nombre}</p>
+                                                <p style={{ fontSize: '20px', color: '#2D2E83', fontWeight: '600' }}>{producto.titulonombre}</p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Unidades compradas:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>{producto.unidadesCompradas}</p>
+                                            <div className="subtitlesvercompra">
+                                                <p>Unidades compradas:</p>
+                                                <p>{producto.cantidad}</p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Precio del producto:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>${producto.precio}</p>
+                                            <div className="subtitlesvercompra" style={{ display: 'flex' }}>
+                                                <p>Precio del producto:</p>
+                                                <p>${producto.preciodeventa}</p>
                                             </div>
-                                            <div style={{ display: 'flex', marginBottom: '5rem' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Precio del envío:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>${producto.precioEnvio}</p>
+                                            <div className="subtitlesvercompra">
+                                                <p>Precio del envío:</p>
+                                                <p>${producto.precioenvio}</p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Total:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>${producto.totalConEnvío}</p>
+                                            <div className="subtitlesvercompra">
+                                                <p>Total:</p>
+                                                <p>${producto.nuevoValor}</p>
                                             </div>
                                         </Grid>
                                     </Grid>
-                                    <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '90%' }}>
-                                        <div style={{ width: '100%', marginBottom: '3rem' }}>
-                                            <p style={{ fontSize: '30px', color: '#2D2E83' }}>Detalles de pago y envio</p>
+                                    <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '90%', marginTop: '4rem' }}>
+                                        <div className="detallesypagovercompra">
+                                            <p>Detalles de pago y envio</p>
                                         </div>
-                                        <Grid item xs={12} md={8} style={{ borderRight: '3px solid #EBEBEB', height: '21rem' }}>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Forma de pago:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>{producto.formaPago}</p>
+                                        <Grid className="ContPsubtitlesvercompra" item xs={12} md={8}>
+                                            <div className="subtitlesvercompra">
+                                                <p>Forma de pago:</p>
+                                                <p>{producto.formadepago} </p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Valor pagado:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>$2.025.000</p>
+                                            <div className="subtitlesvercompra">
+                                                <p>Valor pagado:</p>
+                                                <p>${producto.nuevoValor}</p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Fecha de pago:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>2023-11-15</p>
+                                            <div className="subtitlesvercompra">
+                                                <p>Fecha de pago:</p>
+                                                <p>{producto.fechadepago} </p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Pago exitoso</p>
+                                            <div className="subtitlesvercompra">
+                                                <p>Estado de pago:</p>
+                                                <p> {producto.estadodeldespacho}</p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Valor pagado:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>$2.025.000</p>
+                                            <div className="subtitlesvercompra">
+                                                <p>Número de aprobación:</p>
+                                                <p>{producto.numerodeaprobacion}</p>
                                             </div>
                                         </Grid>
                                         <Grid item xs={12} md={4} sx={{ paddingLeft: '4rem' }}>
-                                            <div>
-
-                                                <p style={{ fontSize: '25px', color: '#2D2E83' }}>Entregado</p>
+                                            <div className="subtitlesvercompra">
+                                                <p>Estado compra</p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Dirección de envío:</p>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>CR 39 #89 A 23</p>
+                                            <div className="subtitlesvercompra direccionsubtcompraver">
+                                                <p>Dirección de envío:</p>
+                                                <p>{producto.direcciondeenvio} </p>
                                             </div>
-                                            <div style={{ display: 'flex' }}>
-                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Medellín, Antioquia</p>
+                                            <div className="subtitlesvercompra">
+                                                <p>{producto.nombreciudad}, {producto.nombre_dep} </p>
                                             </div>
-                                            <button style={{ backgroundColor: '#2C2E82', borderRadius: '10px', color: 'white', fontSize: '18px', padding: '.6rem', margin: '0 auto', width: '80%', marginTop: '2.5rem' }}>Rastrear mi envio</button>
+                                            <button className="RastrMiEnvVerCompraButton">Rastrear mi envio</button>
 
                                         </Grid>
                                     </Grid>
 
 
-                                    <Grid className="ContVendedor" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto', marginTop: '7rem',marginBottom:'.6rem'}}>
+                                    <Grid className="ContVendedor" container style={{ width: isMdDown ? '100%' : '90%' }}>
                                         <div className="SubcontainerMisDatos" >
                                             <div style={{ width: '85%' }}>
                                                 <p className="titlecontVend1">Contactar con vendedor</p>
-                                                <p style={{ fontWeight: '500', fontSize: '20px', color: '#2C2E82' }}>Juan pablo R </p>
+                                                <p className="subtitlecontVend1">{producto.nombres}</p>
                                             </div>
-                                            <div style={{ display: 'flex', alignItems: 'center', width: '25%' }}>
-                                                <button style={{ backgroundColor: '#2C2E82', borderRadius: '10px', color: 'white', fontSize: '16px', padding: '.6rem', margin: '0 auto', width: '100%', height: '40px' }}>Enviar mensaje</button>
+                                            <div className="EnviarmMsjVercompra">
+                                                <button>Enviar mensaje</button>
                                             </div>
                                         </div>
                                     </Grid>
-                                    <Grid className="ContVendedor3" container style={{ width: isMdDown ? '100%' : '90%'  }}>
-                                        <div style={{ marginBottom: '2rem' }}>
+                                    <Grid onClick={() => router.push({
+                                        pathname: './tengoUnProblema',
+                                        query: { producto: JSON.stringify(producto) }
+                                    })}
+                                        className="ContVendedor3" container style={{ width: isMdDown ? '100%' : '90%', cursor: 'pointer' }}>
+                                        <div style={{ marginBottom: '2rem', width: '100%' }}>
                                             <p className="titlecontVend2">Ayuda con mi compra</p>
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <p style={{ fontWeight: '400', fontSize: '22px', color: '#2C2E82' }}>Tengo un problema con el producto o con el paquete que me llegó</p>
+                                        <div className="containerTitlecontvendBottom">
+                                            <p className="titlecontvendBottom">Tengo un problema con el producto o con el paquete que me llegó</p>
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                         </div>
                                     </Grid>
-                                    <Grid className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto',marginBottom:'.6rem' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <p style={{ fontWeight: '400', fontSize: '22px', color: '#2C2E82' }}>Calificar vendedor</p>
+                                    <Grid
+                                        onClick={() => router.push({
+                                            pathname: './calificarVendedor',
+                                            query: { producto: JSON.stringify(producto) }
+                                        })}
+                                        className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', cursor:'pointer' }}>
+                                        <div className="containerTitlecontvendBottom">
+                                            <p className="titlecontvendBottom">Calificar vendedor</p>
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                         </div>
                                     </Grid>
-                                    <Grid className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto',marginBottom:'.6rem' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <p style={{ fontWeight: '400', fontSize: '22px', color: '#2C2E82' }}>Calificar producto</p>
+                                    <Grid
+                                    onClick={() => router.push({
+                                        pathname: './calificarProducto',
+                                        query: { producto: JSON.stringify(producto) }
+                                    })}
+                                    className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', cursor:'pointer' }}>
+                                        <div className="containerTitlecontvendBottom">
+                                            <p className="titlecontvendBottom">Calificar producto</p>
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                         </div>
                                     </Grid>
-                                    <Grid className="UltsubContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', margin: '0 auto',marginBottom:'.6rem' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                                            <p style={{ fontWeight: '400', fontSize: '22px', color: '#2C2E82' }}>No llegó mi compra</p>
+                                    <Grid className="UltsubContVendedor2" container style={{ width: isMdDown ? '100%' : '90%' }}>
+                                        <div className="containerTitlecontvendBottom">
+                                            <p className="titlecontvendBottom">No llegó mi compra</p>
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                         </div>
                                     </Grid>
@@ -176,8 +216,13 @@ export default function verCompra() {
                             </div>
                         </div>
                     </Container>
-                </div>
-            </>
-        ) : null
+                ) : (
+                    <div>
+                        {/* Aquí puedes manejar el caso en que 'producto' es 'null' */}
+                        <p>Cargando datos del producto...</p>
+                    </div>
+                )}
+            </div>
+        </>
     )
 }
