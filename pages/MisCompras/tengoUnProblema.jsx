@@ -19,6 +19,9 @@ import ModalMensajes from "../mensajes/ModalMensajes";
 import { URL_IMAGES_RESULTS } from "../../helpers/Constants";
 import { FaCheck } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
+import { IoIosSquareOutline } from "react-icons/io";
+import { BsSquare } from "react-icons/bs";
+import { PiSquare } from "react-icons/pi";
 
 
 export default function tengoUnProblema() {
@@ -287,7 +290,7 @@ export default function tengoUnProblema() {
                                                                     onChange={(event) => handleFileChange(1, event)}  
                                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                                 />
-                                                                <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquare    size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData1 ? (
                                                                     <div style={{ position: 'absolute' }}>{getFileIcon(fileData1)}</div>
                                                                 ) : (
@@ -307,7 +310,7 @@ export default function tengoUnProblema() {
                                                                     onChange={(event) => handleFileChange(2, event)} 
                                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                                 />
-                                                                <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquare    size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData2 ? (
                                                                     <div style={{ position: 'absolute' }}>{getFileIcon(fileData2)}</div>
                                                                 ) : (
@@ -327,7 +330,7 @@ export default function tengoUnProblema() {
                                                                     onChange={(event) => handleFileChange(3, event)} 
                                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                                 />
-                                                                <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquare    size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData3 ? (
                                                                     <div style={{ position: 'absolute' }}>{getFileIcon(fileData3)}</div>
                                                                 ) : (
@@ -347,7 +350,7 @@ export default function tengoUnProblema() {
                                                                     onChange={(event) => handleFileChange(4, event)} 
                                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                                 />
-                                                                <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquare    size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData4 ? (
                                                                     <div style={{ position: 'absolute' }}>{getFileIcon(fileData4)}</div>
                                                                 ) : (
@@ -367,7 +370,7 @@ export default function tengoUnProblema() {
                                                                     onChange={(event) => handleFileChange(5, event)} 
                                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                                 />
-                                                                <IoSquareOutline size={115}  style={{ color: '#2D2E83' }} />
+                                                                <PiSquare    size={115}  style={{ color: '#2D2E83' }} />
                                                                 {fileData5 ? (
                                                                     <div style={{ position: 'absolute' }}>{getFileIcon(fileData5)}</div>
                                                                 ) : (
