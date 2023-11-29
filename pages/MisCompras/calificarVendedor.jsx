@@ -66,18 +66,17 @@ export default function calificarVendedor() {
                                 <div className="ps-page__header"> </div>
                                 <div className="ps-page__content ps-account">
                                     <Grid container>
-                                        <Grid item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
-
+                                        <Grid className="subcprinccalific" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }} flexDirection={'column'}>
                                             <div className='titleTproblema'>
                                                 <p>Calificar vendedor</p>
                                             </div>
-                                            <Grid item xs={12} md={12} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-                                                <p style={{ fontSize: '18px', fontWeight: '500', color: '#2D2E83' }}>Elige de uno a cinco la calificación para tu vendedor, siendo uno lo más bajo y cinco lo más alto:</p>
-                                                <div style={{ display: 'flex', marginTop: '3rem', width:'100%' }}>
-                                                    <div>
-                                                        <p style={{ fontSize: '28px', marginRight: '2rem', color: '#2D2E83' }}>0.0</p>
+                                            <Grid className="calificSubC" item xs={12} md={12} sx={{ width: isMdDown ? '100%' : '90%' }} flexDirection={'column'} >
+                                                <p>Elige de uno a cinco la calificación para tu vendedor, siendo uno lo más bajo y cinco lo más alto:</p>
+                                                <div className="SubContcalificSubC">
+                                                    <div className="notanumero">
+                                                        <p>0.0</p>
                                                     </div>
-                                                    <div style={{ display: 'flex', gap: '1rem' }}>
+                                                    <div className="iconsConfig" >
                                                         <RiSettings5Fill size={40} style={{ color: '#acadcd' }} />
                                                         <RiSettings5Fill size={40} style={{ color: '#acadcd' }} />
                                                         <RiSettings5Fill size={40} style={{ color: '#acadcd' }} />
@@ -85,41 +84,24 @@ export default function calificarVendedor() {
                                                         <RiSettings5Fill size={40} style={{ color: '#acadcd' }} />
                                                     </div>
                                                 </div>
-                                                <div style={{width:'100%'}}>
-                                                <p style={{ fontSize: '18px', fontWeight: '500', color: '#2D2E83', marginTop: '3rem', marginBottom: '3rem' }}>Si deseas deja un comentario sobre tu experiencia con el vendedor:</p>
-
+                                                <div className="textmiddlecalific">
+                                                    <p>Si deseas deja un comentario sobre tu experiencia con el vendedor:</p>
                                                 </div>
-                                                <textarea
-                                                    placeholder="Describe tu problema aquí"
-                                                    style={{
-                                                        padding: '2rem',
-                                                        width: '100%',
-                                                        borderRadius: '15px',
-                                                        backgroundColor: '#F0F1F5',
-                                                        height: '20rem',
-                                                        color: '#2D2E83',
-                                                        fontSize: '20px',
-                                                        fontWeight: '400',
-                                                        resize: 'none',
-                                                    }}
-                                                />
-                                                <button className='GuardarFormButtonvendedor' style={{ marginTop: '3rem' }}>Enviar</button>
+                                                <textarea placeholder="Escribe un mensaje al vendedor" />
+                                                <button className='GuardarFormButtonvendedor btnsendcls'>Enviar</button>
                                             </Grid>
-
-
-
                                         </Grid>
-                                        <Grid item xs={12} md={5} sx={{ borderLeft: '3px solid #E1E2EC', height: '27%', paddingLeft: '2rem', display: 'flex', flexDirection: 'column' }}>
+                                        <Grid className="contInfoProdComprCalif" item xs={12} md={5} flexDirection={'column'}>
 
-                                            <div className='titlecalifVended' style={{ width: '100%' }}>
+                                            <div className='titlecalifVended'>
                                                 <p>Producto vendido: </p>
                                             </div>
                                             <Grid container>
-                                                <Grid item xs={12} md={4} sx={{ border: '4px solid #EBEBEB', borderRadius: '12px', height: '16rem', display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
-                                                    <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} style={{ width: '150px', height: '150px' }} />
+                                                <Grid item xs={12} md={4} className="contImgRighCalif" mt={'2rem'}>
+                                                    <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} />
                                                 </Grid>
-                                                <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', marginTop: '2rem', paddingLeft: '2.5rem' }}>
-                                                    <p style={{ fontSize: '20px', color: '#2D2E83', fontWeight: '600' }}>{producto.titulonombre}</p>
+                                                <Grid item xs={12} md={8} className="continfocalifimg" flexDirection={'column'}>
+                                                    <p className="pNameProductCalif">{producto.titulonombre}</p>
                                                     <div className="subtitlesvercompra">
                                                         <p>Unidades compradas:</p>
                                                         <p>{producto.cantidad}</p>
@@ -130,9 +112,7 @@ export default function calificarVendedor() {
                                                     </div>
                                                 </Grid>
                                             </Grid>
-
                                         </Grid>
-
                                     </Grid>
 
 

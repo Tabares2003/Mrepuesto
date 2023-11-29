@@ -28018,10 +28018,11 @@ background-color: #F1F2F6 !important;
     font-weight: 200; 
     font-family: jost, sans-serif; 
     padding-right: 2.5rem;
-    padding-left: 1.5rem;
+    padding-left: 2.5rem;
     padding-top: 1.5rem;
     padding-bottom: 2rem;
     flex-direction: column;
+
 }
 .ContPsubtitlesvercompra{
     border-right: 3px solid #EBEBEB;
@@ -28264,3 +28265,270 @@ background-color: #F1F2F6 !important;
 .titlecalifVended{
     width: 100%; 
 }
+
+/*Tengo un problema*/
+
+.subcPrincipTengoUnProblema{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+ .ConttitlecontVend3{
+    width: 100%;
+ }
+.ContPrinctextareatengounproblema{
+    display: flex;
+     flex-direction: column;
+     justify-content: flex-start;
+}
+.SubContPrinctextareatengounproblema textarea{
+    padding: 2rem;
+    width: 100%;
+    border-radius: 15px;
+    background-color: #F0F1F5;
+    height: 20rem;
+    color: #2D2E83;
+    font-size: 20px;
+    font-weight: 400;
+    resize: none;
+}
+.subcontImgTengoProblema{
+    border-left: 3px solid #E1E2EC;
+    height: 27%;
+    padding-left: 2rem;
+    display: flex;
+}
+.contImgTengoProblema{
+    border: 4px solid #EBEBEB;
+    border-radius: 12px;
+    height: 16rem;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+.contImgTengoProblema img{
+    width: 150px;
+    height: 150px;
+}
+ 
+.contTengoProblemadatos{
+    font-size: 20px;
+    color: #2D2E83;
+    font-weight: 600;
+}
+.contdatosprobls{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    padding-left: 2.5rem;
+}
+.contImg1TengounPrblema{
+    border-left: 3px solid #E1E2EC;
+    height: 50%;
+    padding: 2rem;
+    display: flex;
+}
+.contAGGFotosTengoProblema{
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 9rem;
+    margin-bottom: 5rem;
+}
+.contSendImgsTengoProblema{
+    border: 4px solid #EBEBEB;
+    border-radius: 12px;
+    min-height: 25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.aggfotosubcaja{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.aggfotosubcaja input{
+    display: none;
+}  
+.icCam{
+    color: #2d2e83;
+    position: absolute;
+    top: 30px;
+
+}
+.rectextprobl{
+    display: flex;
+    flex-direction: column;
+}
+.rectextprobl p{
+    font-size: 18px;
+    color: #2D2E83;
+}
+
+/*calificaciones producto y vendedor*/
+.calificSubC textarea{
+    padding: 2rem;
+    width: 100%;
+    border-radius: 15px;
+    background-color: #F0F1F5;
+    height: 20rem;
+    color: #2D2E83;
+    font-size: 20px;
+    font-weight: 400;
+    resize: none;
+}
+.calificSubC p{
+font-size: 18px;
+font-weight: 500;
+color: #2D2E83;
+}
+.SubContcalificSubC{
+    display: flex;
+    margin-top: 3rem;
+    width: 100%;
+} 
+.textmiddlecalific{
+    width: 100%;
+}
+.textmiddlecalific p{
+    font-size: 18px;
+    font-weight: 500;
+    color: #2D2E83;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+.notanumero p{
+    font-size: 28px;
+    margin-right: 2rem;
+    color: #2D2E83;
+}
+.iconsConfig{
+    display: flex;
+    gap: 1rem;
+}
+.contImgRighCalif{
+    border: 4px solid #EBEBEB;
+    border-radius: 12px;
+    height: 16rem;
+    display: flex;
+    justify-content: center; 
+}
+.contImgRighCalif img{
+    height: 150px;
+    width: 150px;
+}
+.continfocalifimg{
+    display: flex; 
+    margin-top: 2rem;
+    padding: 2.5rem;
+}
+.pNameProductCalif{
+    font-size: 20px;
+    color: #2D2E83;
+    font-weight: 600;
+}
+.contInfoProdComprCalif{
+    border-left: 3px solid #E1E2EC;
+    height: 27%;
+    padding-left: 2rem;
+    display: flex; 
+}
+.subcprinccalific{
+    display: flex;
+    justify-content: flex-start;
+}
+.calificSubC{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+.btnsendcls{
+    margin-top: 3rem;
+}
+
+/*Enviar mensaje vendedor*/
+.contMensajes{
+    height: 40rem;
+    width: 100%;
+    padding-right: 1.5rem; 
+}
+.contPrincMsjVend{
+    background-color: #F0F1F5;
+    border-radius: 16px;
+}
+.fstdivmsjV{
+    width: 100%;
+    padding-left: 2rem;
+    border-bottom: 3px solid #E1E2EC; 
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+}
+.fstdivmsjV p{
+    font-size: 20px;
+    font-weight: 500;
+}
+.diaMsj{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+}
+.contMensajesVendedor{
+    width: 100%;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+ 
+
+.msjVendedor{  
+    padding: 2rem;
+    width: 100%;
+    background-color: white;
+    border-radius: 12px;
+    height: 11rem;   
+    flex-direction: column;
+}
+.namevendedor{
+    width: 10%; 
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.BallNamEv{
+    background-color: white;
+    color: blue;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    width: 70%;
+    height: 90%;
+    align-items: center;
+}
+.BallNamEv p{
+    font-size: 18px;
+}
+.inputandsendMsjVendedor{
+    margin-bottom: 1rem;
+    display: flex;
+    padding-left: 1.5rem;
+}
+.contMensajes {
+    display: flex;
+    flex-direction: column;
+    height: 40rem;
+    width: 100%;
+    padding-right: 1.5rem;
+  }
+  
+  .inputandsendMsjVendedor {
+    display: flex;
+    padding-left: 1.5rem;
+    justify-content: flex-end; /* Ajusta según tus necesidades */
+    align-items: flex-end; /* Ajusta según tus necesidades */
+    margin-top: auto; /* Esto empujará el contenedor hacia la parte inferior */
+  }

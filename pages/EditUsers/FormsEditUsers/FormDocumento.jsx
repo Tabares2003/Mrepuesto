@@ -58,9 +58,12 @@ export default function FormDocumento() {
     const [alertBtnNroDcto, setAlertBtnNroDcto] = useState("cajanrodocto alertboton");
     const [tituloMensajes, setTituloMensajes] = useState("");
     const [textoMensajes, setTextoMensajes] = useState("");
-    const [tipoDocumentoValido, setTipoDocumentoValido] = useState(false); // Nuevo estado
 
+
+    const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState(null); // Nuevo estado
     const [selectedItem, setSelectedItem] = useState('Tipo documento');
+
+
     const [nroDocumentoSeleccionado, setNroDocumentoSeleccionado] = useState("");
     const [nombres, setNombres] = useState("");
     const [apellidos, setApellidos] = useState("");
@@ -88,6 +91,7 @@ export default function FormDocumento() {
                     setApellidos(res.data[0].primerapellido);
                     setApellidosDos(res.data[0].segundoapellido);
                     setNroDocumentoSeleccionado(res.data[0].identificacion);
+                    setSelectedItem(res.data[0].nombredocumento);
                 })
                 .catch(function (error) {
                     return;
@@ -96,9 +100,9 @@ export default function FormDocumento() {
         leerDatosUsuario();
     }, [datosusuarios]);
 
-    const handleSelect = (eventKey, event) => {
-        setSelectedItem(eventKey);
-        setTipoDocumentoValido(true); // Seleccionar un tipo de documento establece el estado en verdadero
+    const handleSelect = (data, name) => {
+        setSelectedItem(name);
+        setTipoDocumentoSeleccionado(data); // Seleccionar un tipo de documento establece el estado en verdadero
     };
 
     const handleModalClose = () => {
@@ -135,7 +139,7 @@ export default function FormDocumento() {
             setTextoMensajes("Por favor ingresa una identificación válida!");
         }
         // Validar si se ha seleccionado un tipo de documento
-        if (tipoDocumentoValido === false) {
+        if (tipoDocumentoSeleccionado === false) {
             setShowModalMensajes(true);
             setTituloMensajes("Datos de pago");
             setTextoMensajes("Por favor, selecciona un tipo de documento.");
@@ -162,7 +166,7 @@ export default function FormDocumento() {
             primerapellido: apellidos,
             segundoapellido: apellidosDos,
             razonsocial: ".",
-            tipoidentificacion: 1,
+            tipoidentificacion: tipoDocumentoSeleccionado,
             identificacion: nroDocumentoSeleccionado,
             celular: datosUsuario.celular,
             email: datosUsuario.email,
@@ -199,6 +203,18 @@ export default function FormDocumento() {
         //leerDatosUsuario();
     }, []);
 
+
+
+    const tipoDocumento = [
+        { value: 1, nombre: "Cedula de ciudadanía" },
+        { value: 2, nombre: "Cedula de extranjería" },
+        { value: 3, nombre: "Pasaporte" },
+        { value: 6, nombre: "Numero de identificación tributaria" }
+    ];
+
+
+
+
     const handleValidP = () => {
         router.push('../../my-account');
     };
@@ -215,7 +231,7 @@ export default function FormDocumento() {
 
     return (
         <>
-             <div ref={irA}>
+            <div ref={irA}>
                 <Container title="Mi Cuenta">
                     <div className="ps-page ps-page--inner" id="myaccount" ref={irA}>
                         <div className="container">
@@ -231,7 +247,7 @@ export default function FormDocumento() {
                                     <Grid container spacing={3}>
                                         <Grid item xs={12} md={4}>
                                             <p className='titlesFormsUsers2'>Tipo de documento</p>
-                                            <Dropdown style={{ width: '100%' }} onSelect={handleSelect}>
+                                            <Dropdown style={{ width: '100%' }} >
                                                 <Dropdown.Toggle
                                                     as={CustomDropdownButton}
                                                     id="dropdown-basic"
@@ -239,10 +255,30 @@ export default function FormDocumento() {
                                                     {selectedItem}
                                                 </Dropdown.Toggle>
                                                 <Dropdown.Menu className="tamañocajaoptionsTdocPersona">
-                                                    <Dropdown.Item eventKey="C.C" className="itemsdropdownTdocPersona">C.C</Dropdown.Item>
-                                                    <Dropdown.Item eventKey="T.I" className="itemsdropdownTdocPersona">T.I</Dropdown.Item>
-                                                    <Dropdown.Item eventKey="Cédula de Extranjería" className="itemsdropdownTdocPersona">Cédula de Extranjería</Dropdown.Item>
-                                                    <Dropdown.Item eventKey="Pasaporte" className="itemsdropdownTdocPersona">Pasaporte</Dropdown.Item>
+                                                    {tipoDocumento &&
+                                                        tipoDocumento.map(
+                                                            (item) => {
+                                                                return (
+                                                                    <Dropdown.Item
+                                                                        className="itemsdropdowncustomcity"
+                                                                        onClick={() =>
+                                                                            handleSelect(
+                                                                                item.value,
+                                                                                item.nombre
+                                                                            )
+                                                                        }
+                                                                        eventKey={
+                                                                            item.value
+                                                                        }>
+                                                                        {
+                                                                            item.nombre
+                                                                        }
+                                                                    </Dropdown.Item>
+                                                                )
+                                                            }
+                                                        )
+                                                    }
+                                                   
                                                 </Dropdown.Menu>
                                             </Dropdown>
                                         </Grid>

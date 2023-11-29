@@ -17,6 +17,8 @@ import { IoIosCamera } from "react-icons/io";
 import { IoSquareOutline } from "react-icons/io5";
 import ModalMensajes from "../mensajes/ModalMensajes";
 import { URL_IMAGES_RESULTS } from "../../helpers/Constants";
+import { FaCheck } from "react-icons/fa6";
+import { FaCheckCircle } from "react-icons/fa";
 
 
 export default function tengoUnProblema() {
@@ -25,11 +27,35 @@ export default function tengoUnProblema() {
     //Consts measured, 80% and in md 100%.
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
-    const irA = useRef(null);
+    const irA = useRef(null); //useref top page
     const router = useRouter();
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(true); //abrir contenedor de problemas etc
+    const [confirmationOpen, setConfirmationOpen] = useState(false); //estado confirmación modal
+    const [fileData1, setFileData1] = useState(null); //primerArchivoImagen
+    const [fileData2, setFileData2] = useState(null); //segundoArchivoImagen
+    const [fileData3, setFileData3] = useState(null); //tercerArchivoImagen
+    const [fileData4, setFileData4] = useState(null); //cuartoArchivoImagen
+    const [fileData5, setFileData5] = useState(null); //quintoArchivoImagen
+    const [showModal, setShowModal] = useState(false); //Estado de modal
+    const [tituloMensajes, setTituloMensajes] = useState(''); //titulo modal
+    const [textoMensajes, setTextoMensajes] = useState(''); //texto modal
 
+    //cerrar modal advertencia
+    const handleModalClose = () => {
+        setShowModal(false);
+    };
 
+    //Ruta de confirmación de modal
+    const handleConfirmationSuccess = (route) => () => {
+        router.push(route);
+    };
+
+    //handle de confirmación
+    const handleConfirmationOpen = () => {
+        setConfirmationOpen(true);
+    };
+
+    //top page transición
     useEffect(() => {
         irA.current.scrollIntoView({
             behavior: "smooth",
@@ -37,8 +63,10 @@ export default function tengoUnProblema() {
         });
     }, []);
 
+    //recibir producto y guardarlo y almacenarlo after en el localstorage
 
     let producto = null
+
     if (typeof window !== 'undefined') {
         if (router.query.producto) {
             producto = JSON.parse(router.query.producto)
@@ -55,173 +83,374 @@ export default function tengoUnProblema() {
 
 
 
+    const handleFileChange = (index, event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const allowedFileTypes = ['image/jpeg', 'image/png'];
+            const maxImageSize = 819200; // 800 KB in bytes
+
+            if (allowedFileTypes.includes(file.type)) {
+                if (file.size > maxImageSize) {
+                    setShowModal(true);
+                    setTituloMensajes('Tamaño incorrecto');
+                    setTextoMensajes('Las imágenes deben pesar máximo 800 KB.');
+                    return;
+                }
+
+                const newFileData = {
+                    name: file.name,
+                    type: file.type,
+                    size: file.size,
+                    data: URL.createObjectURL(file),
+                };
+
+                switch (index) {
+                    case 1:
+                        setFileData1(newFileData);
+                        localStorage.setItem('uploadedFile1', JSON.stringify(newFileData));
+                        break;
+                    case 2:
+                        setFileData2(newFileData);
+                        localStorage.setItem('uploadedFile2', JSON.stringify(newFileData));
+                        break;
+                    case 3:
+                        setFileData3(newFileData);
+                        localStorage.setItem('uploadedFile3', JSON.stringify(newFileData));
+                        break;
+                    case 4:
+                        setFileData4(newFileData);
+                        localStorage.setItem('uploadedFile4', JSON.stringify(newFileData));
+                        break;
+                    case 5:
+                        setFileData5(newFileData);
+                        localStorage.setItem('uploadedFile5', JSON.stringify(newFileData));
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                setShowModal(true);
+                setTituloMensajes('Archivo incorrecto');
+                setTextoMensajes('Solo se permiten archivos JPG, JPEG y PNG.');
+            }
+        }
+    };
+
+    const handleSquareClick = (index) => {
+        document.getElementById(`fileInput${index}`).click();
+    };
+
+    const handleValidacion = () => {
+        const requiredFiles = [fileData1, fileData2, fileData3, fileData4, fileData5];
+
+        // Check if all required files are present
+        const allFilesPresent = requiredFiles.every((fileData) => fileData !== null);
+
+        if (!allFilesPresent) {
+            setTituloMensajes('Validación de Archivos');
+            setTextoMensajes('Debes subir todos los archivos requeridos.');
+            setShowModal(true);
+            return;
+        }
+
+        handleConfirmationOpen();
+    }; 
+
+    const getFileIcon = (fileData) => {
+        if (!fileData) {
+            return <IoIosCamera size={65} style={{ color: '#2D2E83', position: 'relative', top: '30px' }} />;
+        }
+
+        const { type, data } = fileData || {}; // Asegúrate de que fileData sea un objeto
+
+        if (type && type.startsWith('image/')) {
+            return <img src={data} alt="Uploaded File" style={{ width: '65px', height: '65px', borderRadius: '50%' }} />;
+        } else {
+            return <IoIosCamera size={65} style={{ color: '#2D2E83', position: 'relative', top: '30px' }} />;
+        }
+    };
 
 
 
 
     return (
-        <div ref={irA}> 
-                <div >
-                    {producto ? (
-                        <Container title="Mi Cuenta">
-                            <div className="ps-page ps-page--inner" id="myaccount">
-                                <div className="container">
-                                    <div className="ps-page__header"> </div>
-                                    <div className="ps-page__content ps-account">
+        <div ref={irA}>
+            <div >
+                {producto ? (
+                    <Container title="Mi Cuenta">
+                        <div className="ps-page ps-page--inner" id="myaccount">
+                            <div className="container">
+                                <div className="ps-page__header"> </div>
+                                <div className="ps-page__content ps-account">
 
-                                        <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '100%', marginBottom: '20rem' }}>
-                                            {isOpen ? (
-                                                <Grid container>
+                                    <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '100%', marginBottom: '20rem' }}>
+                                        {isOpen ? (
+                                            <Grid container>
 
-                                                    <Grid item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
-                                                        <Grid className="ContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
-                                                            <div style={{ width: '100%' }}>
-                                                                <p className="titlecontVend3">¿Que pasó con tu compra?</p>
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid onClick={() => setIsOpen(false)} className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }} >
-                                                            <div className="cajasProblemas">
-                                                                <p className="titlesproblemas">El producto tiene defectos</p>
-                                                                <AiOutlineRight size={23} style={{ cursor: 'pointer' }} />
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
-                                                            <div className="cajasProblemas">
-                                                                <p className="titlesproblemas">La compra llegó incompleta</p>
-                                                                <AiOutlineRight size={23} style={{ cursor: 'pointer' }} />
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
-                                                            <div className="cajasProblemas">
-                                                                <p className="titlesproblemas">Mi compra es diferente al producto recibido</p>
-                                                                <AiOutlineRight size={23} style={{ cursor: 'pointer' }} />
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
-                                                            <div className="cajasProblemas">
-                                                                <p className="titlesproblemas">Yo no realicé la compra</p>
-                                                                <AiOutlineRight size={23} style={{ cursor: 'pointer' }} />
-                                                            </div>
-                                                        </Grid>
-                                                        <Grid className="subContVendedorUlt" container sx={{ width: isMdDown ? '100%' : '90%' }} >
-                                                            <div className="cajasProblemas">
-                                                                <p className="titlesproblemas">Recibí el producto pero lo quiero devolver</p>
-                                                                <AiOutlineRight size={23} style={{ cursor: 'pointer' }} />
-                                                            </div>
-                                                        </Grid>
+                                                <Grid className="subcPrincipTengoUnProblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', flexDirection:'column' }}>
+                                                    <Grid className="ContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
+                                                        <div className="ConttitlecontVend3">
+                                                            <p className="titlecontVend3">¿Que pasó con tu compra?</p>
+                                                        </div>
                                                     </Grid>
-                                                    <Grid item xs={12} md={5} sx={{ borderLeft: '3px solid #E1E2EC', height: '50%', paddingLeft: '2rem', display: 'flex', }}>
-                                                        <Grid item xs={12} md={4} sx={{ border: '4px solid #EBEBEB', borderRadius: '12px', height: '16rem', display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
-                                                            <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} style={{ width: '150px', height: '150px' }} />
-                                                        </Grid>
-                                                        <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', marginTop: '2rem', paddingLeft: '2.5rem' }}>
-                                                            <p style={{ fontSize: '20px', color: '#2D2E83', fontWeight: '600' }}>{producto.titulonombre}</p>
-                                                            <div style={{ display: 'flex' }}>
-                                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Unidades compradas:</p>
-                                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>{producto.cantidad}</p>
-                                                            </div>
-                                                            <div style={{ display: 'flex' }}>
-                                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Precio del producto:</p>
-                                                                <p style={{ marginRight: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>{producto.preciodeventa}</p>
-                                                            </div>
-                                                        </Grid>
+                                                    <Grid onClick={() => setIsOpen(false)} className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }} >
+                                                        <div className="cajasProblemas">
+                                                            <p className="titlesproblemas">El producto tiene defectos</p>
+                                                            <AiOutlineRight size={23} />
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid onClick={() => setIsOpen(false)} className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
+                                                        <div className="cajasProblemas">
+                                                            <p className="titlesproblemas">La compra llegó incompleta</p>
+                                                            <AiOutlineRight size={23} />
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid onClick={() => setIsOpen(false)} className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
+                                                        <div className="cajasProblemas">
+                                                            <p className="titlesproblemas">Mi compra es diferente al producto recibido</p>
+                                                            <AiOutlineRight size={23} />
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid onClick={() => setIsOpen(false)} className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
+                                                        <div className="cajasProblemas">
+                                                            <p className="titlesproblemas">Yo no realicé la compra</p>
+                                                            <AiOutlineRight size={23}/>
+                                                        </div>
+                                                    </Grid>
+                                                    <Grid onClick={() => setIsOpen(false)} className="subContVendedorUlt" container sx={{ width: isMdDown ? '100%' : '90%' }} >
+                                                        <div className="cajasProblemas">
+                                                            <p className="titlesproblemas">Recibí el producto pero lo quiero devolver</p>
+                                                            <AiOutlineRight size={23} />
+                                                        </div>
                                                     </Grid>
                                                 </Grid>
-                                            ) : (
-                                                <Grid container>
-                                                    <div className='titleTproblema'>
-                                                        <p>Cuentanos qué pasó con tu compra</p>
+                                                <Grid item xs={12} md={5} className="contImg1TengounPrblema">
+                                                    <Grid className="contImgTengoProblema" item xs={12} md={4}>
+                                                        <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`}/>
+                                                    </Grid>
+                                                    <Grid className="contdatosprobls"  item xs={12} md={8} sx={{flexDirection: 'column'}}>
+                                                        <p className="contTengoProblemadatos">{producto.titulonombre}</p>
+                                                        <div className="subtitlesvercompra">
+                                                            <p>Unidades compradas:</p>
+                                                            <p>{producto.cantidad}</p>
+                                                        </div>
+                                                        <div className="subtitlesvercompra">
+                                                            <p>Precio del producto:</p>
+                                                            <p>{producto.preciodeventa}</p>
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                        ) : (
+                                            <Grid container>
+                                                <div className='titleTproblema'>
+                                                    <p>Cuentanos qué pasó con tu compra</p>
+                                                </div>
+                                                <Grid className="ContPrinctextareatengounproblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }}>
+                                                    <Grid className="SubContPrinctextareatengounproblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>
+                                                        <textarea
+                                                            placeholder="Describe tu problema aquí"
+                                                        />
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid className="subcontImgTengoProblema" item xs={12} md={5}>
+                                                    <Grid className="contImgTengoProblema" item xs={12} md={4}>
+                                                        <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} />
+                                                    </Grid>
+                                                    <Grid className="contdatosprobls" item xs={12} md={8} sx={{ flexDirection: 'column' }}>
+                                                        <p className="contTengoProblemadatos">{producto.titulonombre}</p>
+                                                        <div className="subtitlesvercompra">
+                                                            <p>Unidades compradas:</p>
+                                                            <p>{producto.cantidad}</p>
+                                                        </div>
+                                                        <div className="subtitlesvercompra">
+                                                            <p>Precio del producto:</p>
+                                                            <p>{producto.preciodeventa}</p>
+                                                        </div>
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid className="contAGGFotosTengoProblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', marginTop: '9rem', marginBottom: '5rem' }}>
+                                                    <div className='titleTproblema' >
+                                                        <p>Agregar fotos del producto o del paquete</p>
                                                     </div>
-                                                    <Grid item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
-                                                        <Grid container sx={{ width: isMdDown ? '100%' : '85%' }}>
-                                                            <textarea
-                                                                placeholder="Describe tu problema aquí"
-                                                                style={{
-                                                                    padding: '2rem',
-                                                                    width: '100%',
-                                                                    borderRadius: '15px',
-                                                                    backgroundColor: '#F0F1F5',
-                                                                    height: '20rem',
-                                                                    color: '#2D2E83',
-                                                                    fontSize: '20px',
-                                                                    fontWeight: '400',
-                                                                    resize: 'none',
-                                                                }}
-                                                            />
-                                                        </Grid>
+                                                    <Grid className="contSendImgsTengoProblema" container sx={{width: isMdDown ? '100%' : '85%'}}>
 
-                                                    </Grid>
-                                                    <Grid item xs={12} md={5} sx={{ borderLeft: '3px solid #E1E2EC', height: '27%', paddingLeft: '2rem', display: 'flex', }}>
-                                                        <Grid item xs={12} md={4} sx={{ border: '4px solid #EBEBEB', borderRadius: '12px', height: '16rem', display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
-                                                            <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} style={{ width: '150px', height: '150px' }} />
-                                                        </Grid>
-                                                        <Grid item xs={12} md={8} sx={{ display: 'flex', flexDirection: 'column', marginTop: '2rem', paddingLeft: '2.5rem' }}>
-                                                            <p style={{ fontSize: '20px', color: '#2D2E83', fontWeight: '600' }}>{producto.titulonombre}</p>
-                                                            <div className="subtitlesvercompra">
-                                                                <p>Unidades compradas:</p>
-                                                                <p>{producto.cantidad}</p>
-                                                            </div>
-                                                            <div className="subtitlesvercompra">
-                                                                <p>Precio del producto:</p>
-                                                                <p>{producto.preciodeventa}</p>
-                                                            </div>
-                                                        </Grid>
-                                                    </Grid>
-                                                    <Grid item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', marginTop: '9rem', marginBottom: '5rem' }}>
-                                                        <div className='titleTproblema' >
-                                                            <p>Agregar fotos del producto o del paquete</p>
-                                                        </div>
-                                                        <Grid container sx={{
-                                                            width: isMdDown ? '100%' : '85%',
-                                                            border: '4px solid #EBEBEB',
-                                                            borderRadius: '12px',
-                                                            height: '25rem',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            position: 'relative'
-                                                        }}>
-                                                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                                                                <IoSquareOutline size={94} style={{ color: '#2D2E83' }} />
-                                                            </div>
-                                                            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                                                                <IoIosCamera size={42} style={{ color: '#2D2E83' }} />
-                                                            </div>
-                                                        </Grid>
-                                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                            <p style={{ fontSize: '18px', color: '#2D2E83' }}>- Cada imagen debe pesar máximo 800KB</p>
-                                                            <p style={{ fontSize: '18px', color: '#2D2E83' }}>- Tus imagenes debens ser en formato jpg, jpeg o png</p>
+
+                                                        {/* Primer div */}
+                                                        <div>
+                                                            <div className="aggfotosubcaja" 
+                                                                onClick={() => handleSquareClick(1)}
+                                                            >
+                                                                <input
+                                                                    type="file"
+                                                                    id="fileInput1"
+                                                                    onChange={(event) => handleFileChange(1, event)}  
+                                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                                />
+                                                                <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
+                                                                {fileData1 ? (
+                                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData1)}</div>
+                                                                ) : (
+                                                                    <IoIosCamera size={55} className="icCam"/>
+                                                                )}
+                                                            </div> 
                                                         </div>
 
-                                                    </Grid>
-                                                    <Grid item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', marginTop: '3rem', }}>
-                                                        <Grid item xs={12} md={4}>
+                                                        {/* Segundo div */}
+                                                        <div>
+                                                            <div className="aggfotosubcaja"  
+                                                                onClick={() => handleSquareClick(2)}
+                                                            >
+                                                                <input
+                                                                    type="file"
+                                                                    id="fileInput2"
+                                                                    onChange={(event) => handleFileChange(2, event)} 
+                                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                                />
+                                                                <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
+                                                                {fileData2 ? (
+                                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData2)}</div>
+                                                                ) : (
+                                                                    <IoIosCamera size={55} className="icCam"/>
+                                                                )}
+                                                            </div> 
+                                                        </div>
 
-                                                        </Grid>
-                                                        <Grid item xs={12} md={8}>
-                                                            <Box display="flex" justifyContent="space-between"  sx={{width:'80%'}}>
-                                                                <button className='CancelarFormButton'>Cancelar</button>
-                                                                <button className='GuardarFormButton'>Enviar</button>
-                                                            </Box>
+                                                        {/* Tercer div */}
+                                                        <div>
+                                                            <div className="aggfotosubcaja"  
+                                                                onClick={() => handleSquareClick(3)}
+                                                            >
+                                                                <input
+                                                                    type="file"
+                                                                    id="fileInput3"
+                                                                    onChange={(event) => handleFileChange(3, event)} 
+                                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                                />
+                                                                <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
+                                                                {fileData3 ? (
+                                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData3)}</div>
+                                                                ) : (
+                                                                    <IoIosCamera size={55} className="icCam"/>
+                                                                )}
+                                                            </div> 
+                                                        </div>
 
-                                                        </Grid>
+                                                        {/* cuarto div */}
+                                                        <div>
+                                                            <div className="aggfotosubcaja"  
+                                                                onClick={() => handleSquareClick(4)}
+                                                            >
+                                                                <input
+                                                                    type="file"
+                                                                    id="fileInput4"
+                                                                    onChange={(event) => handleFileChange(4, event)} 
+                                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                                />
+                                                                <IoSquareOutline size={115} style={{ color: '#2D2E83' }} />
+                                                                {fileData4 ? (
+                                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData4)}</div>
+                                                                ) : (
+                                                                    <IoIosCamera size={55} className="icCam"/>
+                                                                )}
+                                                            </div> 
+                                                        </div>
+
+                                                        {/* cuarto div */}
+                                                        <div>
+                                                            <div className="aggfotosubcaja"  
+                                                                onClick={() => handleSquareClick(5)}
+                                                            >
+                                                                <input
+                                                                    type="file"
+                                                                    id="fileInput5"
+                                                                    onChange={(event) => handleFileChange(5, event)} 
+                                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                                />
+                                                                <IoSquareOutline size={115}  style={{ color: '#2D2E83' }} />
+                                                                {fileData5 ? (
+                                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData5)}</div>
+                                                                ) : (
+                                                                    <IoIosCamera size={55} className="icCam"/>
+                                                                )}
+                                                            </div> 
+                                                        </div>
+
+
                                                     </Grid>
+                                                    <div className="rectextprobl">
+                                                        <p>- Cada imagen debe pesar máximo 800KB</p>
+                                                        <p>- Tus imagenes debens ser en formato jpg, jpeg o png</p>
+                                                    </div>
 
                                                 </Grid>
-                                            )}
-                                        </Grid>
+                                                <Grid item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', marginTop: '3rem', }}>
+                                                    <Grid item xs={12} md={4}></Grid>
+                                                    <Grid item xs={12} md={8}>
+                                                        <Box display="flex" justifyContent="space-between" sx={{ width: '80%' }}>
+                                                            <button className='CancelarFormButton'>Cancelar</button>
+                                                            <button onClick={handleValidacion} className='GuardarFormButton'>Enviar</button>
+                                                            <ModalMensajes
+                                                                shown={showModal}
+                                                                close={handleModalClose}
+                                                                titulo={tituloMensajes}
+                                                                mensaje={textoMensajes}
+                                                                tipo="error"
+                                                            />
+                                                            <Dialog
+                                                                className='dialogDatsGuardados'
+                                                                open={confirmationOpen}
+                                                                PaperProps={{
+                                                                    style: {
+                                                                        width: isMdDown ? '80%' : '35%',
+                                                                        backgroundColor: 'white',
+                                                                        border: '2px solid gray',
+                                                                        padding: '1.4rem',
+                                                                        borderRadius: '10px'
+                                                                    },
+                                                                }}
+                                                            >
+                                                                <DialogTitle className='dialogtitleDtsGUardados' >
+                                                                    <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
 
-                                    </div>
+                                                                    <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
+                                                                </DialogTitle>
+                                                                <DialogContent className='dialogContentDatsGuardados'>
+                                                                    <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se verán reflejados un unos minutos.</p>
+                                                                </DialogContent>
+                                                                <DialogActions className='DialogActionsDatsGuardados'>
+                                                                    <div className='div1buttonDialog' >
+                                                                        <button className='button2DialogDatsGuardados' onClick={handleConfirmationSuccess('./misCompras')} >
+                                                                            Ir a Mis compras
+                                                                        </button>
+                                                                    </div>
+                                                                    <div className='div1buttonDialog' >
+                                                                        <button className='button1DialogDatsGuardados' onClick={handleConfirmationSuccess('/')} >
+                                                                            Ir al inicio
+                                                                        </button>
+                                                                    </div>
+                                                                </DialogActions>
+                                                            </Dialog>
+                                                        </Box>
+
+                                                    </Grid>
+                                                </Grid>
+
+                                            </Grid>
+                                        )}
+                                    </Grid>
+
                                 </div>
                             </div>
-                        </Container>
-                    ) : (
-                        <div>
-                            {/* Aquí puedes manejar el caso en que 'producto' es 'null' */}
-                            <p>Cargando datos del producto...</p>
                         </div>
-                    )}
-                </div> 
+                    </Container>
+                ) : (
+                    <div>
+                        {/*Si el producto es null */}
+                        <p>Cargando datos del producto...</p>
+                    </div>
+                )}
+            </div>
         </div>
     )
 

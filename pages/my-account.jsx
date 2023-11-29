@@ -1238,7 +1238,7 @@ const MyAccountScreen = () => {
     const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState("");
     const [correoElectronico, setCorreoElectronico] = useState("");
     const [nroDocumentoSeleccionado, setNroDocumentoSeleccionado] = useState("");
-
+    const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState("");
     useEffect(() => {
         const leerDatosUsuario = async () => {
             let params = { 
@@ -1261,6 +1261,8 @@ const MyAccountScreen = () => {
                 setTelefonoRecibeSeleccionado(res.data[0].celular);
                 setCorreoElectronico(res.data[0].email);
                 setNroDocumentoSeleccionado(res.data[0].identificacion);
+                setTipoDocumentoSeleccionado(res.data[0].nombredocumento) 
+
                 // Agrega más setState según sea necesario
 
             } catch (error) {
@@ -1451,7 +1453,7 @@ const MyAccountScreen = () => {
                                 <div className="SubcontainerMisDatos" onClick={() => editUser('DocIdentificacion')}>
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Tipo y número de documento</p>
-                                        <p className="subtitleSubContMisD">C.C {nroDocumentoSeleccionado}</p>
+                                        <p className="subtitleSubContMisD">{tipoDocumentoSeleccionado}, {nroDocumentoSeleccionado}</p>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />

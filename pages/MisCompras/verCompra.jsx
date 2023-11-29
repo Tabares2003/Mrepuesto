@@ -18,10 +18,10 @@ import { URL_BD_MR } from "../../helpers/Constants";
 
 export default function verCompra() {
 
-   
+
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md')); //Consts measured, 80% and in md 100%.
-    const router = useRouter(); 
+    const router = useRouter();
     const irA = useRef(null);//PosiciónTopPage
 
 
@@ -167,7 +167,10 @@ export default function verCompra() {
                                                 <p className="subtitlecontVend1">{producto.nombres}</p>
                                             </div>
                                             <div className="EnviarmMsjVercompra">
-                                                <button>Enviar mensaje</button>
+                                                <button onClick={() => router.push({
+                                                    pathname: './msjVendedor',
+                                                    query: { producto: JSON.stringify(producto) }
+                                                })}>Enviar mensaje</button>
                                             </div>
                                         </div>
                                     </Grid>
@@ -189,18 +192,18 @@ export default function verCompra() {
                                             pathname: './calificarVendedor',
                                             query: { producto: JSON.stringify(producto) }
                                         })}
-                                        className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', cursor:'pointer' }}>
+                                        className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', cursor: 'pointer' }}>
                                         <div className="containerTitlecontvendBottom">
                                             <p className="titlecontvendBottom">Calificar vendedor</p>
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                         </div>
                                     </Grid>
                                     <Grid
-                                    onClick={() => router.push({
-                                        pathname: './calificarProducto',
-                                        query: { producto: JSON.stringify(producto) }
-                                    })}
-                                    className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', cursor:'pointer' }}>
+                                        onClick={() => router.push({
+                                            pathname: './calificarProducto',
+                                            query: { producto: JSON.stringify(producto) }
+                                        })}
+                                        className="subContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', cursor: 'pointer' }}>
                                         <div className="containerTitlecontvendBottom">
                                             <p className="titlecontvendBottom">Calificar producto</p>
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
