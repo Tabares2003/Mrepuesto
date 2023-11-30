@@ -22,6 +22,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import { IoIosSquareOutline } from "react-icons/io";
 import { BsSquare } from "react-icons/bs";
 import { PiSquare } from "react-icons/pi";
+import { PiSquareThin } from "react-icons/pi";
+import { IoMdClose } from "react-icons/io";
 
 
 export default function tengoUnProblema() {
@@ -37,6 +39,15 @@ export default function tengoUnProblema() {
             setContadorCaracteres(nuevoComentario.length);
         }
     };
+
+
+
+
+    const [imagePresent1, setImagePresent1] = useState(false);
+    const [imagePresent2, setImagePresent2] = useState(false);
+    const [imagePresent3, setImagePresent3] = useState(false);
+    const [imagePresent4, setImagePresent4] = useState(false);
+    const [imagePresent5, setImagePresent5] = useState(false);
 
     //Consts measured, 80% and in md 100%.
     const theme = useTheme();
@@ -121,22 +132,27 @@ export default function tengoUnProblema() {
                     case 1:
                         setFileData1(newFileData);
                         localStorage.setItem('uploadedFile1', JSON.stringify(newFileData));
+                        setImagePresent1(true); // Agrega esta línea
                         break;
                     case 2:
                         setFileData2(newFileData);
                         localStorage.setItem('uploadedFile2', JSON.stringify(newFileData));
+                        setImagePresent2(true); // Agrega esta línea
                         break;
                     case 3:
                         setFileData3(newFileData);
                         localStorage.setItem('uploadedFile3', JSON.stringify(newFileData));
+                        setImagePresent3(true); // Agrega esta línea
                         break;
                     case 4:
                         setFileData4(newFileData);
                         localStorage.setItem('uploadedFile4', JSON.stringify(newFileData));
+                        setImagePresent4(true); // Agrega esta línea
                         break;
                     case 5:
                         setFileData5(newFileData);
                         localStorage.setItem('uploadedFile5', JSON.stringify(newFileData));
+                        setImagePresent5(true); // Agrega esta línea
                         break;
                     default:
                         break;
@@ -155,13 +171,19 @@ export default function tengoUnProblema() {
 
     const handleValidacion = () => {
         const requiredFiles = [fileData1, fileData2, fileData3, fileData4, fileData5];
-
-        // Check if at least one required file is present
         const atLeastOneFilePresent = requiredFiles.some((fileData) => fileData !== null);
 
         if (!atLeastOneFilePresent) {
             setTituloMensajes('Validación de Archivos');
             setTextoMensajes('Debes subir al menos una imagen.');
+            setShowModal(true);
+            return;
+        }
+
+        // Validación del textarea
+        if (!comentario.trim()) {
+            setTituloMensajes('Validación de mensaje');
+            setTextoMensajes('Debes rellenar el formulario del mensaje.');
             setShowModal(true);
             return;
         }
@@ -177,14 +199,43 @@ export default function tengoUnProblema() {
         const { type, data } = fileData || {}; // Asegúrate de que fileData sea un objeto
 
         if (type && type.startsWith('image/')) {
-            return <img src={data} alt="Uploaded File" style={{ width: '65px', height: '65px', borderRadius: '50%' }} />;
+            return <img src={data} alt="Uploaded File" style={{ width: '65px', height: '65px' }} />;
         } else {
             return <IoIosCamera size={65} style={{ color: '#2D2E83', position: 'relative', top: '30px' }} />;
         }
     };
 
 
-
+    const handleDeleteImage = (index) => {
+        switch (index) {
+            case 1:
+                setFileData1(null);
+                localStorage.removeItem('uploadedFile1');
+                setImagePresent1(false);
+                break;
+            case 2:
+                setFileData2(null);
+                localStorage.removeItem('uploadedFile2');
+                setImagePresent2(true); // Agrega esta línea
+                break;
+            case 3:
+                setFileData3(null);
+                localStorage.removeItem('uploadedFile3');
+                setImagePresent3(true); // Agrega esta línea
+                break;
+            case 4:
+                setFileData4(null);
+                localStorage.removeItem('uploadedFile4');
+                setImagePresent4(true); // Agrega esta línea
+                break;
+            case 5:
+                setFileData5(null);
+                localStorage.removeItem('uploadedFile5');
+                setImagePresent5(true); // Agrega esta línea
+                break;
+            // Repite esto para cada caso
+        }
+    };
 
     return (
         <div ref={irA}>
@@ -261,7 +312,7 @@ export default function tengoUnProblema() {
                                                 </div>
                                                 <Grid className="ContPrinctextareatengounproblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }}>
                                                     <Grid className="SubContPrinctextareatengounproblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>
-                                                        <div style={{width:'100%'}}>
+                                                        <div style={{ width: '100%' }}>
                                                             <textarea
                                                                 value={comentario}
                                                                 onChange={handleComentarioChange}
@@ -299,103 +350,140 @@ export default function tengoUnProblema() {
 
                                                         {/* Primer div */}
                                                         <div>
-                                                            <div className="aggfotosubcaja"
-                                                                onClick={() => handleSquareClick(1)}
-                                                            >
+                                                            <div className="aggfotosubcaja" onClick={() => handleSquareClick(1)} style={{ position: 'relative', textAlign: 'center' }}>
                                                                 <input
                                                                     type="file"
                                                                     id="fileInput1"
                                                                     onChange={(event) => handleFileChange(1, event)}
-                                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                                    accept=".jpg, .jpeg, .png,"
+                                                                    style={{ display: 'none' }}
                                                                 />
-                                                                <PiSquare size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData1 ? (
-                                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData1)}</div>
+                                                                    <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                                                                        {getFileIcon(fileData1)}
+                                                                        {imagePresent1 && (
+                                                                            <button className="buttonquitarIMG" onClick={() => handleDeleteImage(1)} >
+                                                                                <IoMdClose onClick={() => handleDeleteImage(1)} size={25} style={{ marginTop: '.5rem', }} />
+                                                                            </button>
+
+                                                                        )}
+                                                                    </div>
                                                                 ) : (
-                                                                    <IoIosCamera size={55} className="icCam" />
+                                                                    <IoIosCamera size={50} className="icCam" />
                                                                 )}
                                                             </div>
                                                         </div>
 
                                                         {/* Segundo div */}
                                                         <div>
-                                                            <div className="aggfotosubcaja"
-                                                                onClick={() => handleSquareClick(2)}
-                                                            >
+                                                            <div className="aggfotosubcaja" onClick={() => handleSquareClick(2)} style={{ position: 'relative', textAlign: 'center' }}>
                                                                 <input
                                                                     type="file"
                                                                     id="fileInput2"
                                                                     onChange={(event) => handleFileChange(2, event)}
-                                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                                    accept=".jpg, .jpeg, .png,"
+                                                                    style={{ display: 'none' }}
                                                                 />
-                                                                <PiSquare size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData2 ? (
-                                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData2)}</div>
+                                                                    <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                                                                        {getFileIcon(fileData2)}
+                                                                        {imagePresent2 && (
+                                                                            <button className="buttonquitarIMG" onClick={() => handleDeleteImage(2)} >
+                                                                                <IoMdClose onClick={() => handleDeleteImage(2)} size={25} style={{ marginTop: '.5rem', }} />
+                                                                            </button>
+
+                                                                        )}
+                                                                    </div>
                                                                 ) : (
-                                                                    <IoIosCamera size={55} className="icCam" />
+                                                                    <IoIosCamera size={50} className="icCam" />
                                                                 )}
                                                             </div>
                                                         </div>
 
                                                         {/* Tercer div */}
                                                         <div>
-                                                            <div className="aggfotosubcaja"
-                                                                onClick={() => handleSquareClick(3)}
-                                                            >
+                                                            <div className="aggfotosubcaja" onClick={() => handleSquareClick(3)} style={{ position: 'relative', textAlign: 'center' }}>
                                                                 <input
                                                                     type="file"
                                                                     id="fileInput3"
                                                                     onChange={(event) => handleFileChange(3, event)}
-                                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                                    accept=".jpg, .jpeg, .png,"
+                                                                    style={{ display: 'none' }}
                                                                 />
-                                                                <PiSquare size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData3 ? (
-                                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData3)}</div>
+                                                                    <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                                                                        {getFileIcon(fileData3)}
+                                                                        {imagePresent3 && (
+                                                                            <button className="buttonquitarIMG" onClick={() => handleDeleteImage(3)} >
+                                                                                <IoMdClose onClick={() => handleDeleteImage(3)} size={25} style={{ marginTop: '.5rem', }} />
+                                                                            </button>
+
+                                                                        )}
+                                                                    </div>
                                                                 ) : (
-                                                                    <IoIosCamera size={55} className="icCam" />
+                                                                    <IoIosCamera size={50} className="icCam" />
                                                                 )}
                                                             </div>
                                                         </div>
 
                                                         {/* cuarto div */}
                                                         <div>
-                                                            <div className="aggfotosubcaja"
-                                                                onClick={() => handleSquareClick(4)}
-                                                            >
+                                                            <div className="aggfotosubcaja" onClick={() => handleSquareClick(4)} style={{ position: 'relative', textAlign: 'center' }}>
                                                                 <input
                                                                     type="file"
                                                                     id="fileInput4"
                                                                     onChange={(event) => handleFileChange(4, event)}
-                                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                                    accept=".jpg, .jpeg, .png,"
+                                                                    style={{ display: 'none' }}
                                                                 />
-                                                                <PiSquare size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData4 ? (
-                                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData4)}</div>
+                                                                    <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                                                                        {getFileIcon(fileData4)}
+                                                                        {imagePresent4 && (
+                                                                            <button className="buttonquitarIMG" onClick={() => handleDeleteImage(4)} >
+                                                                                <IoMdClose onClick={() => handleDeleteImage(4)} size={25} style={{ marginTop: '.5rem', }} />
+                                                                            </button>
+
+                                                                        )}
+                                                                    </div>
                                                                 ) : (
-                                                                    <IoIosCamera size={55} className="icCam" />
+                                                                    <IoIosCamera size={50} className="icCam" />
                                                                 )}
                                                             </div>
                                                         </div>
 
                                                         {/* quinto div div */}
+
                                                         <div>
-                                                            <div className="aggfotosubcaja"
-                                                                onClick={() => handleSquareClick(5)}
-                                                            >
+                                                            <div className="aggfotosubcaja" onClick={() => handleSquareClick(5)} style={{ position: 'relative', textAlign: 'center' }}>
                                                                 <input
                                                                     type="file"
                                                                     id="fileInput5"
                                                                     onChange={(event) => handleFileChange(5, event)}
-                                                                    accept=".jpg, .jpeg, .png, .pdf"
+                                                                    accept=".jpg, .jpeg, .png,"
+                                                                    style={{ display: 'none' }}
                                                                 />
-                                                                <PiSquare size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData5 ? (
-                                                                    <div style={{ position: 'absolute' }}>{getFileIcon(fileData5)}</div>
+                                                                    <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                                                                        {getFileIcon(fileData5)}
+                                                                        {imagePresent5 && (
+                                                                            <button className="buttonquitarIMG" onClick={() => handleDeleteImage(5)} >
+                                                                                <IoMdClose onClick={() => handleDeleteImage(5)} size={25} style={{ marginTop: '.5rem', }} />
+                                                                            </button>
+
+                                                                        )}
+                                                                    </div>
                                                                 ) : (
-                                                                    <IoIosCamera size={55} className="icCam" />
+                                                                    <IoIosCamera size={50} className="icCam" />
                                                                 )}
                                                             </div>
                                                         </div>
+
 
 
                                                     </Grid>
@@ -409,7 +497,7 @@ export default function tengoUnProblema() {
                                                     <Grid item xs={12} md={4}></Grid>
                                                     <Grid item xs={12} md={8}>
                                                         <Box display="flex" justifyContent="space-between" sx={{ width: '80%' }}>
-                                                            <button className='CancelarFormButton'>Cancelar</button>
+                                                            <button className='CancelarFormButton' onClick={handleConfirmationSuccess('./misCompras')}>Ir a mis compras</button>
                                                             <button onClick={handleValidacion} className='GuardarFormButton'>Enviar</button>
                                                             <ModalMensajes
                                                                 shown={showModal}

@@ -28343,6 +28343,7 @@ background-color: #F1F2F6 !important;
     justify-content: center;
 }
 .aggfotosubcaja{
+    flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28353,6 +28354,13 @@ background-color: #F1F2F6 !important;
 .aggfotosubcaja input{
     display: none;
 }  
+.buttonquitarIMG{
+    display: block;
+    margin: 5px auto;
+    background: transparent;
+    border: none;
+    color: #2D2E83;
+}
 .icCam{
     color: #2d2e83;
     position: absolute;
