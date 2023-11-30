@@ -66,17 +66,17 @@ export default function verCompra() {
                                 <div className="ps-page__header"> </div>
                                 <div className="ps-page__content ps-account">
                                     <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '90%', marginBottom: '4rem' }}>
-                                        <Breadcrumbs separator={<GrNext style={{ color: '#BEADCB' }} size={17} />} aria-label="breadcrumb">
+                                        <Breadcrumbs separator={<GrNext style={{ color: '#D9D9D9' }} size={17} />} aria-label="breadcrumb">
                                             <Link
                                                 underline="none"
                                                 color="inherit"
                                                 href="./misCompras"
                                                 onClick={(e) => { e.preventDefault(); router.push('./misCompras') }}
-                                                sx={{ color: '#BEADCB', fontSize: 25, fontWeight: 700 }}
+                                                sx={{ color: '#D9D9D9', fontSize: 25, fontWeight: 700 }}
                                             >
                                                 Mis Compras
                                             </Link>
-                                            <Typography sx={{ color: '#BEADCB', fontSize: 25, fontWeight: 700 }} color="textPrimary">Ver Compra</Typography>
+                                            <Typography sx={{ color: '#D9D9D9', fontSize: 25, fontWeight: 700 }} color="textPrimary">Ver Compra</Typography>
                                         </Breadcrumbs>
 
                                     </Grid>
