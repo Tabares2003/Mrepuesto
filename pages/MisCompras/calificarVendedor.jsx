@@ -76,33 +76,24 @@ export default function calificarVendedor() {
 
     //envío calificación vendedor con mvalidaciones
     const enviarCalificacion = async () => {
-        if (!calificacionSeleccionada && !comentario) { //modal si no puso nada
-            setShowAmbosModal(true);
-            return;
-        }
-
-        if (!calificacionSeleccionada) {  //modal si no puso calificacion
+        if (!calificacionSeleccionada) {
+            // Modal si no seleccionó calificación
             setShowCalificacionModal(true);
             return;
         }
-
-        if (!comentario) {  //modal si no puso comment
-            setShowComentarioModal(true);
-            return;
-        }
-
-        const uid = producto.usuario; //recupera el uid del usuario por medio de producto.usuario
-
-        const nuevaCalificacion = { //envia la calificacion al endpoint
+    
+        const uid = producto.usuario; // Recupera el UID del usuario por medio de producto.usuario
+    
+        const nuevaCalificacion = {
             uid,
             calificacion: calificacionSeleccionada,
             comentario,
         };
-
+    
         try {
             const response = await axios.post(`${URL_BD_MR}49`, nuevaCalificacion);
             console.log("Respuesta del servidor:", response.data);
-
+    
             setConfirmationOpen(true);
             // Actualizar lógica adicional según sea necesario
         } catch (error) {

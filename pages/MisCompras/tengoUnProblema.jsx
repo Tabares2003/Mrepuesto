@@ -64,6 +64,8 @@ export default function tengoUnProblema() {
     const [showModal, setShowModal] = useState(false); //Estado de modal
     const [tituloMensajes, setTituloMensajes] = useState(''); //titulo modal
     const [textoMensajes, setTextoMensajes] = useState(''); //texto modal 
+
+    
     //cerrar modal advertencia
     const handleModalClose = () => {
         setShowModal(false);
@@ -106,7 +108,7 @@ export default function tengoUnProblema() {
     }
 
 
-
+    //validación imagenes
     const handleFileChange = (index, event) => {
         const file = event.target.files[0];
         if (file) {
@@ -169,6 +171,7 @@ export default function tengoUnProblema() {
         document.getElementById(`fileInput${index}`).click();
     };
 
+    //validación que me valida si hay almenos 1 imagen y si hay almenos 1 caracter
     const handleValidacion = () => {
         const requiredFiles = [fileData1, fileData2, fileData3, fileData4, fileData5];
         const atLeastOneFilePresent = requiredFiles.some((fileData) => fileData !== null);
@@ -206,6 +209,7 @@ export default function tengoUnProblema() {
     };
 
 
+    //Handle función para eliminar imagenes
     const handleDeleteImage = (index) => {
         switch (index) {
             case 1:
@@ -216,26 +220,27 @@ export default function tengoUnProblema() {
             case 2:
                 setFileData2(null);
                 localStorage.removeItem('uploadedFile2');
-                setImagePresent2(true); // Agrega esta línea
+                setImagePresent2(true);
                 break;
             case 3:
                 setFileData3(null);
                 localStorage.removeItem('uploadedFile3');
-                setImagePresent3(true); // Agrega esta línea
+                setImagePresent3(true);
                 break;
             case 4:
                 setFileData4(null);
                 localStorage.removeItem('uploadedFile4');
-                setImagePresent4(true); // Agrega esta línea
+                setImagePresent4(true);
                 break;
             case 5:
                 setFileData5(null);
                 localStorage.removeItem('uploadedFile5');
-                setImagePresent5(true); // Agrega esta línea
+                setImagePresent5(true);
                 break;
-            // Repite esto para cada caso
+
         }
     };
+
 
     return (
         <div ref={irA}>

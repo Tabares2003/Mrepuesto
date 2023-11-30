@@ -76,24 +76,15 @@ export default function calificarProducto() {
 
     //envío calificación vendedor con mvalidaciones
     const enviarCalificacion = async () => {
-        if (!calificacionSeleccionada && !comentario) { //modal si no puso nada
-            setShowAmbosModal(true);
-            return;
-        }
-
-        if (!calificacionSeleccionada) {  //modal si no puso calificacion
+        if (!calificacionSeleccionada) {
+            // Modal si no seleccionó calificación
             setShowCalificacionModal(true);
             return;
         }
 
-        if (!comentario) {  //modal si no puso comment
-            setShowComentarioModal(true);
-            return;
-        }
+        const compatible = producto.compatible; // Recupera el valor compatible del usuario por medio de producto.compatible
 
-        const compatible = producto.compatible; //recupera el compatible del usuario por medio de producto.compatible
-
-        const nuevaCalificacion = { //envia la calificacion al endpoint
+        const nuevaCalificacion = {
             compatible,
             calificacion: calificacionSeleccionada,
             comentario,
