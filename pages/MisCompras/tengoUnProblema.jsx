@@ -26,6 +26,17 @@ import { PiSquare } from "react-icons/pi";
 
 export default function tengoUnProblema() {
 
+    const [comentario, setComentario] = useState('');
+    const [contadorCaracteres, setContadorCaracteres] = useState(0);
+
+    const handleComentarioChange = (event) => {
+        const nuevoComentario = event.target.value;
+
+        if (nuevoComentario.length <= 180) {
+            setComentario(nuevoComentario);
+            setContadorCaracteres(nuevoComentario.length);
+        }
+    };
 
     //Consts measured, 80% and in md 100%.
     const theme = useTheme();
@@ -41,8 +52,7 @@ export default function tengoUnProblema() {
     const [fileData5, setFileData5] = useState(null); //quintoArchivoImagen
     const [showModal, setShowModal] = useState(false); //Estado de modal
     const [tituloMensajes, setTituloMensajes] = useState(''); //titulo modal
-    const [textoMensajes, setTextoMensajes] = useState(''); //texto modal
-
+    const [textoMensajes, setTextoMensajes] = useState(''); //texto modal 
     //cerrar modal advertencia
     const handleModalClose = () => {
         setShowModal(false);
@@ -146,18 +156,18 @@ export default function tengoUnProblema() {
     const handleValidacion = () => {
         const requiredFiles = [fileData1, fileData2, fileData3, fileData4, fileData5];
 
-        // Check if all required files are present
-        const allFilesPresent = requiredFiles.every((fileData) => fileData !== null);
+        // Check if at least one required file is present
+        const atLeastOneFilePresent = requiredFiles.some((fileData) => fileData !== null);
 
-        if (!allFilesPresent) {
+        if (!atLeastOneFilePresent) {
             setTituloMensajes('Validación de Archivos');
-            setTextoMensajes('Debes subir todos los archivos requeridos.');
+            setTextoMensajes('Debes subir al menos una imagen.');
             setShowModal(true);
             return;
         }
 
         handleConfirmationOpen();
-    }; 
+    };
 
     const getFileIcon = (fileData) => {
         if (!fileData) {
@@ -190,7 +200,7 @@ export default function tengoUnProblema() {
                                         {isOpen ? (
                                             <Grid container>
 
-                                                <Grid className="subcPrincipTengoUnProblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', flexDirection:'column' }}>
+                                                <Grid className="subcPrincipTengoUnProblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', flexDirection: 'column' }}>
                                                     <Grid className="ContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
                                                         <div className="ConttitlecontVend3">
                                                             <p className="titlecontVend3">¿Que pasó con tu compra?</p>
@@ -217,7 +227,7 @@ export default function tengoUnProblema() {
                                                     <Grid onClick={() => setIsOpen(false)} className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
                                                         <div className="cajasProblemas">
                                                             <p className="titlesproblemas">Yo no realicé la compra</p>
-                                                            <AiOutlineRight size={23}/>
+                                                            <AiOutlineRight size={23} />
                                                         </div>
                                                     </Grid>
                                                     <Grid onClick={() => setIsOpen(false)} className="subContVendedorUlt" container sx={{ width: isMdDown ? '100%' : '90%' }} >
@@ -229,9 +239,9 @@ export default function tengoUnProblema() {
                                                 </Grid>
                                                 <Grid item xs={12} md={5} className="contImg1TengounPrblema">
                                                     <Grid className="contImgTengoProblema" item xs={12} md={4}>
-                                                        <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`}/>
+                                                        <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} />
                                                     </Grid>
-                                                    <Grid className="contdatosprobls"  item xs={12} md={8} sx={{flexDirection: 'column'}}>
+                                                    <Grid className="contdatosprobls" item xs={12} md={8} sx={{ flexDirection: 'column' }}>
                                                         <p className="contTengoProblemadatos">{producto.titulonombre}</p>
                                                         <div className="subtitlesvercompra">
                                                             <p>Unidades compradas:</p>
@@ -251,9 +261,17 @@ export default function tengoUnProblema() {
                                                 </div>
                                                 <Grid className="ContPrinctextareatengounproblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }}>
                                                     <Grid className="SubContPrinctextareatengounproblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>
-                                                        <textarea
-                                                            placeholder="Describe tu problema aquí"
-                                                        />
+                                                        <div style={{width:'100%'}}>
+                                                            <textarea
+                                                                value={comentario}
+                                                                onChange={handleComentarioChange}
+                                                                placeholder="Escribe un mensaje al vendedor"
+                                                                style={{ height: '160px', width: '100%', resize: 'none' }}
+                                                            />
+                                                            <div style={{ textAlign: 'right', marginTop: '0.5rem', color: '#2C2E82', fontSize: '14px' }}>
+                                                                {contadorCaracteres}/180
+                                                            </div>
+                                                        </div>
                                                     </Grid>
                                                 </Grid>
                                                 <Grid className="subcontImgTengoProblema" item xs={12} md={5}>
@@ -276,107 +294,107 @@ export default function tengoUnProblema() {
                                                     <div className='titleTproblema' >
                                                         <p>Agregar fotos del producto o del paquete</p>
                                                     </div>
-                                                    <Grid className="contSendImgsTengoProblema" container sx={{width: isMdDown ? '100%' : '85%'}}>
+                                                    <Grid className="contSendImgsTengoProblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>
 
 
                                                         {/* Primer div */}
                                                         <div>
-                                                            <div className="aggfotosubcaja" 
+                                                            <div className="aggfotosubcaja"
                                                                 onClick={() => handleSquareClick(1)}
                                                             >
                                                                 <input
                                                                     type="file"
                                                                     id="fileInput1"
-                                                                    onChange={(event) => handleFileChange(1, event)}  
+                                                                    onChange={(event) => handleFileChange(1, event)}
                                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                                 />
-                                                                <PiSquare    size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquare size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData1 ? (
                                                                     <div style={{ position: 'absolute' }}>{getFileIcon(fileData1)}</div>
                                                                 ) : (
-                                                                    <IoIosCamera size={55} className="icCam"/>
+                                                                    <IoIosCamera size={55} className="icCam" />
                                                                 )}
-                                                            </div> 
+                                                            </div>
                                                         </div>
 
                                                         {/* Segundo div */}
                                                         <div>
-                                                            <div className="aggfotosubcaja"  
+                                                            <div className="aggfotosubcaja"
                                                                 onClick={() => handleSquareClick(2)}
                                                             >
                                                                 <input
                                                                     type="file"
                                                                     id="fileInput2"
-                                                                    onChange={(event) => handleFileChange(2, event)} 
+                                                                    onChange={(event) => handleFileChange(2, event)}
                                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                                 />
-                                                                <PiSquare    size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquare size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData2 ? (
                                                                     <div style={{ position: 'absolute' }}>{getFileIcon(fileData2)}</div>
                                                                 ) : (
-                                                                    <IoIosCamera size={55} className="icCam"/>
+                                                                    <IoIosCamera size={55} className="icCam" />
                                                                 )}
-                                                            </div> 
+                                                            </div>
                                                         </div>
 
                                                         {/* Tercer div */}
                                                         <div>
-                                                            <div className="aggfotosubcaja"  
+                                                            <div className="aggfotosubcaja"
                                                                 onClick={() => handleSquareClick(3)}
                                                             >
                                                                 <input
                                                                     type="file"
                                                                     id="fileInput3"
-                                                                    onChange={(event) => handleFileChange(3, event)} 
+                                                                    onChange={(event) => handleFileChange(3, event)}
                                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                                 />
-                                                                <PiSquare    size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquare size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData3 ? (
                                                                     <div style={{ position: 'absolute' }}>{getFileIcon(fileData3)}</div>
                                                                 ) : (
-                                                                    <IoIosCamera size={55} className="icCam"/>
+                                                                    <IoIosCamera size={55} className="icCam" />
                                                                 )}
-                                                            </div> 
+                                                            </div>
                                                         </div>
 
                                                         {/* cuarto div */}
                                                         <div>
-                                                            <div className="aggfotosubcaja"  
+                                                            <div className="aggfotosubcaja"
                                                                 onClick={() => handleSquareClick(4)}
                                                             >
                                                                 <input
                                                                     type="file"
                                                                     id="fileInput4"
-                                                                    onChange={(event) => handleFileChange(4, event)} 
+                                                                    onChange={(event) => handleFileChange(4, event)}
                                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                                 />
-                                                                <PiSquare    size={115} style={{ color: '#2D2E83' }} />
+                                                                <PiSquare size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData4 ? (
                                                                     <div style={{ position: 'absolute' }}>{getFileIcon(fileData4)}</div>
                                                                 ) : (
-                                                                    <IoIosCamera size={55} className="icCam"/>
+                                                                    <IoIosCamera size={55} className="icCam" />
                                                                 )}
-                                                            </div> 
+                                                            </div>
                                                         </div>
 
-                                                        {/* cuarto div */}
+                                                        {/* quinto div div */}
                                                         <div>
-                                                            <div className="aggfotosubcaja"  
+                                                            <div className="aggfotosubcaja"
                                                                 onClick={() => handleSquareClick(5)}
                                                             >
                                                                 <input
                                                                     type="file"
                                                                     id="fileInput5"
-                                                                    onChange={(event) => handleFileChange(5, event)} 
+                                                                    onChange={(event) => handleFileChange(5, event)}
                                                                     accept=".jpg, .jpeg, .png, .pdf"
                                                                 />
-                                                                <PiSquare    size={115}  style={{ color: '#2D2E83' }} />
+                                                                <PiSquare size={115} style={{ color: '#2D2E83' }} />
                                                                 {fileData5 ? (
                                                                     <div style={{ position: 'absolute' }}>{getFileIcon(fileData5)}</div>
                                                                 ) : (
-                                                                    <IoIosCamera size={55} className="icCam"/>
+                                                                    <IoIosCamera size={55} className="icCam" />
                                                                 )}
-                                                            </div> 
+                                                            </div>
                                                         </div>
 
 
@@ -416,15 +434,15 @@ export default function tengoUnProblema() {
                                                                 <DialogTitle className='dialogtitleDtsGUardados' >
                                                                     <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
 
-                                                                    <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
+                                                                    <p className='dialogtituloP'>Información enviada con éxito!</p>
                                                                 </DialogTitle>
                                                                 <DialogContent className='dialogContentDatsGuardados'>
-                                                                    <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se verán reflejados un unos minutos.</p>
+                                                                    <p className='PdialogContent'>Tu información fue enviada con exito. tendrás la respuesta en X días habiles.</p>
                                                                 </DialogContent>
                                                                 <DialogActions className='DialogActionsDatsGuardados'>
                                                                     <div className='div1buttonDialog' >
                                                                         <button className='button2DialogDatsGuardados' onClick={handleConfirmationSuccess('./misCompras')} >
-                                                                            Ir a Mis compras
+                                                                            Ir a mis compras
                                                                         </button>
                                                                     </div>
                                                                     <div className='div1buttonDialog' >
