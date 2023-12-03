@@ -107,6 +107,12 @@ export default function msjVendedor() {
                                                         </div>
                                                     </div>
 
+
+
+
+
+
+
                                                     <div className="inputandsendMsjVendedor">
                                                         <div style={{ width: '10%',  height: '4rem', display: 'flex', justifyContent: 'center' }}>
                                                             <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', }}>
@@ -122,6 +128,12 @@ export default function msjVendedor() {
                                                             </div>
                                                         </div>
                                                     </div>
+
+
+
+
+
+
 
                                                 </div>
                                             </Grid>

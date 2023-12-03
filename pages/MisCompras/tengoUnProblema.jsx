@@ -24,31 +24,18 @@ import { BsSquare } from "react-icons/bs";
 import { PiSquare } from "react-icons/pi";
 import { PiSquareThin } from "react-icons/pi";
 import { IoMdClose } from "react-icons/io";
-
+import { URL_BD_MR } from "../../helpers/Constants";
 
 export default function tengoUnProblema() {
 
+
     const [comentario, setComentario] = useState('');
+    const [usuariorecibe, setUsuariorecibe] = useState(null);
+    const [fechacreacion, setFechacreacion] = useState(null);
+    const [observacionintera, setObservacionintera] = useState(null);
+
+
     const [contadorCaracteres, setContadorCaracteres] = useState(0);
-
-    const handleComentarioChange = (event) => {
-        const nuevoComentario = event.target.value;
-
-        if (nuevoComentario.length <= 180) {
-            setComentario(nuevoComentario);
-            setContadorCaracteres(nuevoComentario.length);
-        }
-    };
-
-
-
-
-    const [imagePresent1, setImagePresent1] = useState(false);
-    const [imagePresent2, setImagePresent2] = useState(false);
-    const [imagePresent3, setImagePresent3] = useState(false);
-    const [imagePresent4, setImagePresent4] = useState(false);
-    const [imagePresent5, setImagePresent5] = useState(false);
-
     //Consts measured, 80% and in md 100%.
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
@@ -64,8 +51,28 @@ export default function tengoUnProblema() {
     const [showModal, setShowModal] = useState(false); //Estado de modal
     const [tituloMensajes, setTituloMensajes] = useState(''); //titulo modal
     const [textoMensajes, setTextoMensajes] = useState(''); //texto modal 
+    const [imagePresent1, setImagePresent1] = useState(false);
+    const [imagePresent2, setImagePresent2] = useState(false);
+    const [imagePresent3, setImagePresent3] = useState(false);
+    const [imagePresent4, setImagePresent4] = useState(false);
+    const [imagePresent5, setImagePresent5] = useState(false);
 
-    
+
+    const [nombreImagen1, setNombreImagen1] = useState(null);
+    const [nombreImagen2, setNombreImagen2] = useState(null);
+    const [nombreImagen3, setNombreImagen3] = useState(null);
+    const [nombreImagen4, setNombreImagen4] = useState(null);
+    const [nombreImagen5, setNombreImagen5] = useState(null);
+    //handleComentario
+    const handleComentarioChange = (event) => {
+        const nuevoComentario = event.target.value;
+
+        if (nuevoComentario.length <= 180) {
+            setComentario(nuevoComentario);
+            setContadorCaracteres(nuevoComentario.length);
+        }
+    };
+
     //cerrar modal advertencia
     const handleModalClose = () => {
         setShowModal(false);
@@ -89,6 +96,16 @@ export default function tengoUnProblema() {
         });
     }, []);
 
+    //mostrar cont letras
+    const [showAll, setShowAll] = useState(false);
+
+    const toggleShowAll = () => {
+        setShowAll(!showAll);
+    };
+    //envío calificación vendedor con mvalidaciones
+
+
+
     //recibir producto y guardarlo y almacenarlo after en el localstorage
 
     let producto = null
@@ -109,17 +126,38 @@ export default function tengoUnProblema() {
 
 
     //validación imagenes
-    const handleFileChange = (index, event) => {
+    const handleFileChange = async (index, event) => {
         const file = event.target.files[0];
+
         if (file) {
             const allowedFileTypes = ['image/jpeg', 'image/png'];
             const maxImageSize = 819200; // 800 KB in bytes
+            const maxImageWidth = 1024;
+            const maxImageHeight = 1024;
 
             if (allowedFileTypes.includes(file.type)) {
                 if (file.size > maxImageSize) {
                     setShowModal(true);
                     setTituloMensajes('Tamaño incorrecto');
                     setTextoMensajes('Las imágenes deben pesar máximo 800 KB.');
+                    return;
+                }
+
+                const image = new Image();
+                image.src = URL.createObjectURL(file);
+
+                // Esperar a que la imagen cargue antes de realizar las validaciones
+                await new Promise(resolve => {
+                    image.onload = resolve;
+                });
+
+                const imageWidth = image.width;
+                const imageHeight = image.height;
+
+                if (imageWidth > maxImageWidth || imageHeight > maxImageHeight) {
+                    setShowModal(true);
+                    setTituloMensajes('Dimensiones incorrectas');
+                    setTextoMensajes(`Las dimensiones de las imágenes deben ser como máximo ${maxImageWidth} x ${maxImageHeight}.`);
                     return;
                 }
 
@@ -133,28 +171,33 @@ export default function tengoUnProblema() {
                 switch (index) {
                     case 1:
                         setFileData1(newFileData);
+                        setNombreImagen1(file.name); // Agregar esta línea
                         localStorage.setItem('uploadedFile1', JSON.stringify(newFileData));
-                        setImagePresent1(true); // Agrega esta línea
+                        setImagePresent1(true);
                         break;
                     case 2:
                         setFileData2(newFileData);
+                        setNombreImagen2(file.name); // Agregar esta línea
                         localStorage.setItem('uploadedFile2', JSON.stringify(newFileData));
-                        setImagePresent2(true); // Agrega esta línea
+                        setImagePresent2(true);
                         break;
                     case 3:
                         setFileData3(newFileData);
+                        setNombreImagen3(file.name); // Agregar esta línea
                         localStorage.setItem('uploadedFile3', JSON.stringify(newFileData));
-                        setImagePresent3(true); // Agrega esta línea
+                        setImagePresent3(true);
                         break;
                     case 4:
                         setFileData4(newFileData);
+                        setNombreImagen4(file.name); // Agregar esta línea
                         localStorage.setItem('uploadedFile4', JSON.stringify(newFileData));
-                        setImagePresent4(true); // Agrega esta línea
+                        setImagePresent4(true);
                         break;
                     case 5:
                         setFileData5(newFileData);
+                        setNombreImagen5(file.name); // Agregar esta línea
                         localStorage.setItem('uploadedFile5', JSON.stringify(newFileData));
-                        setImagePresent5(true); // Agrega esta línea
+                        setImagePresent5(true);
                         break;
                     default:
                         break;
@@ -172,7 +215,7 @@ export default function tengoUnProblema() {
     };
 
     //validación que me valida si hay almenos 1 imagen y si hay almenos 1 caracter
-    const handleValidacion = () => {
+    const handleValidacion = async () => {
         const requiredFiles = [fileData1, fileData2, fileData3, fileData4, fileData5];
         const atLeastOneFilePresent = requiredFiles.some((fileData) => fileData !== null);
 
@@ -191,8 +234,35 @@ export default function tengoUnProblema() {
             return;
         }
 
-        handleConfirmationOpen();
+        const usuarioenvia = producto.usuario; // Recupera el UID del usuario por medio de producto.usuario
+
+        const nuevaCalificacion = {
+            usuarioenvia,
+            usuariorecibe,
+            fechacreacion,
+            estado: 32,
+            comentario,
+            observacionintera,
+            nombreimagen1: nombreImagen1,
+            nombreimagen2: nombreImagen2,
+            nombreimagen3: nombreImagen3,
+            nombreimagen4: nombreImagen4,
+            nombreimagen5: nombreImagen5
+        };
+
+        try {
+            // Modifica la URL del endpoint para incluir "+83"
+            const response = await axios.post(`${URL_BD_MR}83`, nuevaCalificacion);
+            console.log("Respuesta del servidor:", response.data);
+
+            setConfirmationOpen(true);
+            // Actualizar lógica adicional según sea necesario
+        } catch (error) {
+            console.error('Error al enviar la calificación:', error);
+        }
     };
+
+
 
     const getFileIcon = (fileData) => {
         if (!fileData) {
@@ -493,8 +563,39 @@ export default function tengoUnProblema() {
 
                                                     </Grid>
                                                     <div className="rectextprobl">
-                                                        <p>- Cada imagen debe pesar máximo 800KB</p>
-                                                        <p>- Tus imagenes debens ser en formato jpg, jpeg o png</p>
+                                                        {showAll ? (
+                                                            <>
+
+                                                                <p>- Debes agregar como mínimo una(01) imagen y como máximo cinco(05)</p>
+                                                                <p>- El tamaño máximo de las imágenes es 1024 x 1024</p>
+                                                                <p>- La proporción de las imágenes debe ser de 4:3, <br /> es decir 4 unidades de alto por 3 de ancho</p>
+                                                                <p>- Cada imagen debe pesar máximo 800KB</p>
+                                                                <p>- Tus imágenes deben ser en formato jpg, jpeg o png</p>
+                                                                <p>- Las imágenes deben ser cuadradas, óptimo 1024 x 1024</p>
+                                                                <p>- Las imágenes deben llenar al menos el 85% o más del marco de la imagen</p>
+                                                                <p>- La imagen debe estar enfocada</p>
+                                                                <p>- No incluir datos de teléfonos</p>
+                                                                <p>- No incluir datos de contactos</p>
+                                                                <p>- Las imágenes deben ser nítidas</p>
+                                                                <div className="contButtonVermasomenos">
+                                                                    <button onClick={toggleShowAll}>Ver menos...</button>
+                                                                </div>
+
+                                                            </>
+                                                        ) : (
+                                                            <>
+                                                                <p>**Ten en cuenta que:</p>
+                                                                <p>- Debes agregar como mínimo una(01) imagen y como máximo cinco(05)</p>
+                                                                <p>- El tamaño máximo de las imágenes es 1024 x 1024</p>
+                                                                <p>- La proporción de las imágenes debe ser de 4:3, <br /> es decir 4 unidades de alto por 3 de ancho</p>
+                                                                <p>- Cada imagen debe pesar máximo 800KB</p>
+                                                                <p>- Tus imágenes deben ser en formato jpg, jpeg o png</p>
+                                                                <div className="contButtonVermasomenos">
+                                                                    <button onClick={toggleShowAll}>Ver más...</button>
+                                                                </div>
+
+                                                            </>
+                                                        )}
                                                     </div>
 
                                                 </Grid>

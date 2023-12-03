@@ -27,7 +27,7 @@ export default function verCompra() {
 
 
     //recibir los datos del producto comprado y guardar url para cuando reinicie seguir en el mismo
-    let producto = null 
+    let producto = null
     if (typeof window !== 'undefined') {
         if (router.query.producto) {
             producto = JSON.parse(router.query.producto)
@@ -208,7 +208,10 @@ export default function verCompra() {
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                         </div>
                                     </Grid>
-                                    <Grid className="UltsubContVendedor2" container style={{ width: isMdDown ? '100%' : '90%' }}>
+                                    <Grid onClick={() => router.push({
+                                        pathname: './tengoUnProblema',
+                                        query: { producto: JSON.stringify(producto) }
+                                    })} className="UltsubContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', cursor:'pointer' }}>
                                         <div className="containerTitlecontvendBottom">
                                             <p className="titlecontvendBottom">No llegó mi compra</p>
                                             <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />

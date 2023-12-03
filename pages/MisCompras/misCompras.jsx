@@ -209,7 +209,13 @@ export default function misCompras() {
                                                 <Grid item xs={12} md={3} sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', padding: '1.5rem', alignItems: 'center' }}>
                                                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                         <p style={{ marginBottom: '5px', fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>{producto.nombres} </p>
-                                                        <p style={{ fontSize: '18px', color: '#2D2E83', fontWeight: '500' }}>Enviar mensaje al vendedor</p>
+                                                        <p onClick={() => router.push({
+                                                            pathname: './msjVendedor',
+                                                            query: { producto: JSON.stringify(producto) }
+                                                        })}
+                                                            style={{ fontSize: '18px', color: '#2D2E83', fontWeight: '500', cursor:'pointer' }}>
+                                                            Enviar mensaje al vendedor
+                                                        </p>
                                                     </div>
                                                     <div style={{ marginTop: '3rem', width: '100%' }}>
                                                         <button
