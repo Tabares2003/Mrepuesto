@@ -29,10 +29,10 @@ export default function calificarVendedor() {
     const [showCalificacionModal, setShowCalificacionModal] = useState(false); //Modal que avisa si no puso calificación
     const [showComentarioModal, setShowComentarioModal] = useState(false);//Modal que avisa si no puso comeents
     const [showAmbosModal, setShowAmbosModal] = useState(false);//Modal que avisa si no puso nada
- 
+
     const [calificacionSeleccionada, setCalificacionSeleccionada] = useState(0);
     const [comentario, setComentario] = useState("");
-    
+
     //Consts measured, 80% and in md 100%.
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
@@ -60,7 +60,7 @@ export default function calificarVendedor() {
     //router push si los datos son colocados correctamente sale esto en el dialog
     const handleConfirmationSuccess = (route) => () => {
         router.push(route);
-    }; 
+    };
 
     //handlechange calificación
     const handleCalificacionIconClick = (calificacion) => {
@@ -74,37 +74,78 @@ export default function calificarVendedor() {
     };
 
 
-    //envío calificación vendedor con mvalidaciones
-    const enviarCalificacion = async () => {
+
+
+    const validarCalificacion = () => {
         if (!calificacionSeleccionada) {
             // Modal si no seleccionó calificación
             setShowCalificacionModal(true);
-            return;
+            return false;
         }
-    
-        const uid = producto.usuario; // Recupera el UID del usuario por medio de producto.usuario
-    
+        return true;
+    };
+
+    const enviarCalificacion = async (uid) => {
         const nuevaCalificacion = {
             uid,
             calificacion: calificacionSeleccionada,
             comentario,
         };
-    
-        try {
-            const response = await axios.post(`${URL_BD_MR}49`, nuevaCalificacion);
-            console.log("Respuesta del servidor:", response.data);
-    
-            setConfirmationOpen(true);
-            // Actualizar lógica adicional según sea necesario
-        } catch (error) {
-            console.error('Error al enviar la calificación:', error);
+
+        await axios({
+            method: "post",
+            url: `${URL_BD_MR}49`,
+            params: nuevaCalificacion,
+        })
+            .then((res) => {
+                console.log("Respuesta del servidor:", res.data);
+                setConfirmationOpen(true);
+                // Actualizar lógica adicional según sea necesario
+            })
+            .catch((error) => {
+                console.error('Error al enviar la calificación:', error);
+            });
+    };
+
+    const manejarEnvioCalificacion = () => {
+        const uid = producto.usuario; // Recupera el UID del usuario por medio de producto.usuario
+        if (validarCalificacion()) {
+            enviarCalificacion(uid);
         }
     };
 
 
+    const [fechacreacion, setFechacreacion] = useState('');
+    const [calificacion, setCalificacion] = useState('');
+    const [calificaciones, setCalificaciones] = useState([]);
 
- 
+    const obtenerCalificaciones = async () => {
+        const uid = producto.usuario; // Recupera el UID del usuario por medio de producto.usuario
 
+        let params = {
+            uid,
+            fechacreacion,
+            calificacion,
+            comentario
+        };
+
+        await axios({
+            method: "post",
+            url: `${URL_BD_MR}50`,
+            params,
+        })
+            .then((res) => {
+                console.log("Respuesta del servidor:", res.data);
+                setCalificaciones(res.data);
+            })
+            .catch(function (error) {
+                console.error('Error al obtener las calificaciones:', error);
+            });
+    };
+
+    useEffect(() => {
+        obtenerCalificaciones();
+    }, []);
 
 
 
@@ -134,6 +175,7 @@ export default function calificarVendedor() {
                                         <Grid className="subcprinccalific" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }} flexDirection={'column'}>
                                             <div className='titleTproblema'>
                                                 <p>Calificar vendedor</p>
+
                                             </div>
                                             <Grid className="calificSubC" item xs={12} md={12} sx={{ width: isMdDown ? '100%' : '90%' }} flexDirection={'column'} >
                                                 <form style={{ display: 'flex', justifyContent: 'flex-end', flexDirection: 'column' }}>
@@ -157,6 +199,7 @@ export default function calificarVendedor() {
                                                     </div>
                                                     <div className="textmiddlecalific">
                                                         <p>Si deseas deja un comentario sobre tu experiencia con el vendedor:</p>
+                                                      
                                                     </div>
                                                     <div>
                                                         <textarea
@@ -168,6 +211,9 @@ export default function calificarVendedor() {
                                                         <div style={{ textAlign: 'right', marginTop: '0.5rem', color: '#2C2E82', fontSize: '14px' }}>
                                                             {contadorCaracteres}
                                                         </div>
+
+                                                        
+
                                                     </div>
                                                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '3rem' }}>
                                                         <button
@@ -179,7 +225,7 @@ export default function calificarVendedor() {
                                                                 fontSize: '16px',
                                                                 height: '40px'
                                                             }}
-                                                            onClick={enviarCalificacion}
+                                                            onClick={manejarEnvioCalificacion}
                                                             type="button"
                                                         >
                                                             Enviar

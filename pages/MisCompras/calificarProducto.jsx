@@ -75,29 +75,40 @@ export default function calificarProducto() {
     };
 
     //envío calificación vendedor con mvalidaciones
-    const enviarCalificacion = async () => {
+    const validarCalificacion = () => {
         if (!calificacionSeleccionada) {
             // Modal si no seleccionó calificación
             setShowCalificacionModal(true);
-            return;
+            return false;
         }
+        return true;
+    };
 
-        const compatible = producto.compatible; // Recupera el valor compatible del usuario por medio de producto.compatible
-
+    const enviarCalificacion = async (compatible) => {
         const nuevaCalificacion = {
             compatible,
             calificacion: calificacionSeleccionada,
             comentario,
         };
-
-        try {
-            const response = await axios.post(`${URL_BD_MR}47`, nuevaCalificacion);
-            console.log("Respuesta del servidor:", response.data);
-
+    
+        await axios({
+            method: "post",
+            url: `${URL_BD_MR}47`,
+            params: nuevaCalificacion,
+        })
+        .then((res) => {
+            console.log("Respuesta del servidor:", res.data);
             setConfirmationOpen(true);
             // Actualizar lógica adicional según sea necesario
-        } catch (error) {
+        })
+        .catch((error) => {
             console.error('Error al enviar la calificación:', error);
+        });
+    };
+    const manejarEnvioCalificacion = () => {
+        const compatible = producto.compatible; // Recupera el valor compatible del usuario por medio de producto.compatible
+        if (validarCalificacion()) {
+            enviarCalificacion(compatible);
         }
     };
 
@@ -193,7 +204,7 @@ export default function calificarProducto() {
                                                                 fontSize: '16px',
                                                                 height: '40px'
                                                             }}
-                                                            onClick={enviarCalificacion}
+                                                            onClick={manejarEnvioCalificacion}
                                                             type="button"
                                                         >
                                                             Enviar

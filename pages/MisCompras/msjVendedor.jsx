@@ -61,13 +61,36 @@ export default function msjVendedor() {
     }, []);
 
 
+    const URL_BD_MR = 'https://gimcloud.com.co/mrp/api/';
     const scrollRef = useRef(null);
     const [fechacreacion, setFechacreacion] = useState(null);
     const [inputMessage, setInputMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const usuarioenvia = '1653147206453'; // Tu UID de usuario
     const usuariorecibe = '1653147206453'; // UID del vendedor
-    const URL_BD_MR = 'https://gimcloud.com.co/mrp/api/';
+
+    // Función para enviar un mensaje
+
+
+    const manejarEnvioMensaje = () => {
+        if (validarMensaje()) {
+            sendMessage();
+        }
+    };
+
+
+    // Función para validar el mensaje
+    const validarMensaje = () => {
+        // Validación del textarea
+        if (!inputMessage.trim()) {
+            setTituloMensajes('Validación de mensaje');
+            setTextoMensajes('Debes rellenar el formulario del mensaje.');
+            setShowModal(true);
+            return false;
+        }
+
+        return true;
+    };
 
     // Función para enviar un mensaje
     const sendMessage = async () => {
@@ -87,26 +110,37 @@ export default function msjVendedor() {
             nombreimagen5: ''
         };
 
-        try {
-            // Enviar el mensaje
-            await axios.post(`${URL_BD_MR}83`, nuevoMensaje);
+        await axios({
+            method: "post",
+            url: `${URL_BD_MR}83`,
+            params: nuevoMensaje,
+        })
+            .then((res) => {
+                console.log("Respuesta del servidor:", res.data);
 
-            // Actualizar la lista de mensajes después de enviar
-            setMessages((prevMessages) => {
-                if (!Array.isArray(prevMessages)) {
-                    // Si prevMessages no es un array, devolvemos un array con el nuevo mensaje
-                    return [nuevoMensaje];
-                }
-                // Si prevMessages es un array, agregamos el nuevo mensaje
-                return [...prevMessages, nuevoMensaje];
+                // Actualizar la lista de mensajes después de enviar
+                setMessages((prevMessages) => {
+                    if (!Array.isArray(prevMessages)) {
+                        // Si prevMessages no es un array, devolvemos un array con el nuevo mensaje
+                        return [nuevoMensaje];
+                    }
+                    // Si prevMessages es un array, agregamos el nuevo mensaje
+                    return [...prevMessages, nuevoMensaje];
+                });
+
+                // Limpiar el campo de entrada después de enviar
+                setInputMessage('');
+            })
+            .catch((error) => {
+                console.error('Error al enviar el mensaje:', error);
             });
-
-            // Limpiar el campo de entrada después de enviar
-            setInputMessage('');
-        } catch (error) {
-            console.error('Error al enviar el mensaje:', error);
-        }
     };
+
+
+
+
+
+
 
     // Función para leer mensajes
     const leerMensajes = async () => {
@@ -220,7 +254,7 @@ export default function msjVendedor() {
                                                     </div>
                                                     <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
                                                         <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', }}>
-                                                            <LuSendHorizonal size={25} style={{ color: '#2D2E83', cursor: inputMessage.trim() ? 'pointer' : 'not-allowed' }} onClick={inputMessage.trim() ? sendMessage : undefined} />
+                                                            <LuSendHorizonal size={25} style={{ color: '#2D2E83', cursor: inputMessage.trim() ? 'pointer' : 'not-allowed' }} onClick={manejarEnvioMensaje} />
                                                         </div>
                                                     </div>
                                                 </div>

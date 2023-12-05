@@ -126,6 +126,28 @@ export default function tengoUnProblema() {
     }
 
 
+    const validarDatos = async () => {
+        const requiredFiles = [fileData1, fileData2, fileData3, fileData4, fileData5];
+        const atLeastOneFilePresent = requiredFiles.some((fileData) => fileData !== null);
+    
+        if (!atLeastOneFilePresent) {
+            setTituloMensajes('Validación de Archivos');
+            setTextoMensajes('Debes subir al menos una imagen.');
+            setShowModal(true);
+            return false;
+        }
+    
+        // Validación del textarea
+        if (!comentario.trim()) {
+            setTituloMensajes('Validación de mensaje');
+            setTextoMensajes('Debes rellenar el formulario del mensaje.');
+            setShowModal(true);
+            return false;
+        }
+    
+        return true;
+    };
+
     //validación imagenes
     const handleFileChange = async (index, event) => {
         const file = event.target.files[0];
@@ -215,28 +237,9 @@ export default function tengoUnProblema() {
         document.getElementById(`fileInput${index}`).click();
     };
 
-    //validación que me valida si hay almenos 1 imagen y si hay almenos 1 caracter
     const handleValidacion = async () => {
-        const requiredFiles = [fileData1, fileData2, fileData3, fileData4, fileData5];
-        const atLeastOneFilePresent = requiredFiles.some((fileData) => fileData !== null);
-
-        if (!atLeastOneFilePresent) {
-            setTituloMensajes('Validación de Archivos');
-            setTextoMensajes('Debes subir al menos una imagen.');
-            setShowModal(true);
-            return;
-        }
-
-        // Validación del textarea
-        if (!comentario.trim()) {
-            setTituloMensajes('Validación de mensaje');
-            setTextoMensajes('Debes rellenar el formulario del mensaje.');
-            setShowModal(true);
-            return;
-        }
-
         const usuarioenvia = producto.usuario; // Recupera el UID del usuario por medio de producto.usuario
-
+    
         const nuevoMensaje = {
             usuarioenvia,
             usuariorecibe,
@@ -250,16 +253,26 @@ export default function tengoUnProblema() {
             nombreimagen4: nombreImagen4,
             nombreimagen5: nombreImagen5
         };
-
-        try {
-            // Modifica la URL del endpoint para incluir "+83"
-            const response = await axios.post(`${URL_BD_MR}83`, nuevoMensaje);
-            console.log("Respuesta del servidor:", response.data);
-
+    
+        await axios({
+            method: "post",
+            url: `${URL_BD_MR}83`,
+            params: nuevoMensaje,
+        })
+        .then((res) => {
+            console.log("Respuesta del servidor:", res.data);
             setConfirmationOpen(true);
             // Actualizar lógica adicional según sea necesario
-        } catch (error) {
+        })
+        .catch((error) => {
             console.error('Error al enviar la calificación:', error);
+        });
+    };
+
+
+    const manejarEnvioDatos = async () => {
+        if (await validarDatos()) {
+            handleValidacion();
         }
     };
 
@@ -552,7 +565,7 @@ export default function tengoUnProblema() {
                                                     <Grid item xs={12} md={8}>
                                                         <Box display="flex" justifyContent="space-between" sx={{ width: '80%' }}>
                                                             <button className='CancelarFormButton' onClick={handleConfirmationSuccess('./misCompras')}>Ir a mis compras</button>
-                                                            <button onClick={handleValidacion} className='GuardarFormButton'>Enviar</button>
+                                                            <button onClick={manejarEnvioDatos} className='GuardarFormButton'>Enviar</button>
                                                             <ModalMensajes
                                                                 shown={showModal}
                                                                 close={handleModalClose}
