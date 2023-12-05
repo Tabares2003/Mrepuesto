@@ -40,7 +40,7 @@ export default function tengoUnProblema() {
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
     const irA = useRef(null); //useref top page
-    const router = useRouter(); 
+    const router = useRouter();
     const [confirmationOpen, setConfirmationOpen] = useState(false); //estado confirmación modal
     const [fileData1, setFileData1] = useState(null); //primerArchivoImagen
     const [fileData2, setFileData2] = useState(null); //segundoArchivoImagen
@@ -62,18 +62,26 @@ export default function tengoUnProblema() {
     const [nombreImagen3, setNombreImagen3] = useState(null);
     const [nombreImagen4, setNombreImagen4] = useState(null);
     const [nombreImagen5, setNombreImagen5] = useState(null);
-    //handleComentario
+
+
     const handleComentarioChange = (event) => {
         const nuevoComentario = event.target.value;
-
-        if (nuevoComentario.length <= 180) {
+    
+        // Expresiones regulares para detectar emails y números de teléfono
+        const emailRegex = /[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}/;
+        const phoneRegex = /\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d/;
+    
+        if (emailRegex.test(nuevoComentario) || phoneRegex.test(nuevoComentario)) {
+            setShowModal(true);
+            setTituloMensajes('Entrada inválida');
+            setTextoMensajes('No se permiten emails ni números de teléfono.');
+        } else if (nuevoComentario.length <= 180) {
             setComentario(nuevoComentario);
             setContadorCaracteres(nuevoComentario.length);
         }
     };
 
 
-    
     //cerrar modal advertencia
     const handleModalClose = () => {
         setShowModal(false);
@@ -129,14 +137,14 @@ export default function tengoUnProblema() {
     const validarDatos = async () => {
         const requiredFiles = [fileData1, fileData2, fileData3, fileData4, fileData5];
         const atLeastOneFilePresent = requiredFiles.some((fileData) => fileData !== null);
-    
+
         if (!atLeastOneFilePresent) {
             setTituloMensajes('Validación de Archivos');
             setTextoMensajes('Debes subir al menos una imagen.');
             setShowModal(true);
             return false;
         }
-    
+
         // Validación del textarea
         if (!comentario.trim()) {
             setTituloMensajes('Validación de mensaje');
@@ -144,7 +152,7 @@ export default function tengoUnProblema() {
             setShowModal(true);
             return false;
         }
-    
+
         return true;
     };
 
@@ -239,7 +247,7 @@ export default function tengoUnProblema() {
 
     const handleValidacion = async () => {
         const usuarioenvia = producto.usuario; // Recupera el UID del usuario por medio de producto.usuario
-    
+
         const nuevoMensaje = {
             usuarioenvia,
             usuariorecibe,
@@ -253,20 +261,20 @@ export default function tengoUnProblema() {
             nombreimagen4: nombreImagen4,
             nombreimagen5: nombreImagen5
         };
-    
+
         await axios({
             method: "post",
             url: `${URL_BD_MR}83`,
             params: nuevoMensaje,
         })
-        .then((res) => {
-            console.log("Respuesta del servidor:", res.data);
-            setConfirmationOpen(true);
-            // Actualizar lógica adicional según sea necesario
-        })
-        .catch((error) => {
-            console.error('Error al enviar la calificación:', error);
-        });
+            .then((res) => {
+                console.log("Respuesta del servidor:", res.data);
+                setConfirmationOpen(true);
+                // Actualizar lógica adicional según sea necesario
+            })
+            .catch((error) => {
+                console.error('Error al enviar la calificación:', error);
+            });
     };
 
 
@@ -341,278 +349,278 @@ export default function tengoUnProblema() {
                                 <div className="ps-page__content ps-account">
 
                                     <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '100%', marginBottom: '20rem' }}>
-                                        
-                                            <Grid container>
-                                                <div className='titleTproblema'>
-                                                    <p>Cuentanos qué pasó con tu compra</p>
+
+                                        <Grid container>
+                                            <div className='titleTproblema'>
+                                                <p>Cuentanos qué pasó con tu compra</p>
+                                            </div>
+                                            <Grid className="ContPrinctextareatengounproblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }}>
+                                                <Grid className="SubContPrinctextareatengounproblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>
+                                                    <div style={{ width: '100%' }}>
+                                                        <textarea
+                                                            value={comentario}
+                                                            onChange={handleComentarioChange}
+                                                            placeholder="Escribe un mensaje al vendedor"
+                                                            style={{ height: '160px', width: '100%', resize: 'none' }}
+                                                        />
+                                                        <div style={{ textAlign: 'right', marginTop: '0.5rem', color: '#2C2E82', fontSize: '14px' }}>
+                                                            {contadorCaracteres}/180
+                                                        </div>
+                                                    </div>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid className="subcontImgTengoProblema" item xs={12} md={5}>
+                                                <Grid className="contImgTengoProblema" item xs={12} md={4}>
+                                                    <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} />
+                                                </Grid>
+                                                <Grid className="contdatosprobls" item xs={12} md={8} sx={{ flexDirection: 'column' }}>
+                                                    <p className="contTengoProblemadatos">{producto.titulonombre}</p>
+                                                    <div className="subtitlesvercompra">
+                                                        <p>Unidades compradas:</p>
+                                                        <p>{producto.cantidad}</p>
+                                                    </div>
+                                                    <div className="subtitlesvercompra">
+                                                        <p>Precio del producto:</p>
+                                                        <p>{producto.preciodeventa}</p>
+                                                    </div>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid className="contAGGFotosTengoProblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', marginTop: '9rem', marginBottom: '5rem' }}>
+                                                <div className='titleTproblema' >
+                                                    <p>Agregar fotos del producto o del paquete</p>
                                                 </div>
-                                                <Grid className="ContPrinctextareatengounproblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }}>
-                                                    <Grid className="SubContPrinctextareatengounproblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>
-                                                        <div style={{ width: '100%' }}>
-                                                            <textarea
-                                                                value={comentario}
-                                                                onChange={handleComentarioChange}
-                                                                placeholder="Escribe un mensaje al vendedor"
-                                                                style={{ height: '160px', width: '100%', resize: 'none' }}
+                                                <Grid className="contSendImgsTengoProblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>
+
+
+                                                    {/* Primer div */}
+                                                    <div>
+                                                        <div className="aggfotosubcaja" onClick={() => handleSquareClick(1)} style={{ position: 'relative', textAlign: 'center' }}>
+                                                            <input
+                                                                type="file"
+                                                                id="fileInput1"
+                                                                onChange={(event) => handleFileChange(1, event)}
+                                                                accept=".jpg, .jpeg, .png,"
+                                                                style={{ display: 'none' }}
                                                             />
-                                                            <div style={{ textAlign: 'right', marginTop: '0.5rem', color: '#2C2E82', fontSize: '14px' }}>
-                                                                {contadorCaracteres}/180
-                                                            </div>
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
-                                                <Grid className="subcontImgTengoProblema" item xs={12} md={5}>
-                                                    <Grid className="contImgTengoProblema" item xs={12} md={4}>
-                                                        <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} />
-                                                    </Grid>
-                                                    <Grid className="contdatosprobls" item xs={12} md={8} sx={{ flexDirection: 'column' }}>
-                                                        <p className="contTengoProblemadatos">{producto.titulonombre}</p>
-                                                        <div className="subtitlesvercompra">
-                                                            <p>Unidades compradas:</p>
-                                                            <p>{producto.cantidad}</p>
-                                                        </div>
-                                                        <div className="subtitlesvercompra">
-                                                            <p>Precio del producto:</p>
-                                                            <p>{producto.preciodeventa}</p>
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
-                                                <Grid className="contAGGFotosTengoProblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', marginTop: '9rem', marginBottom: '5rem' }}>
-                                                    <div className='titleTproblema' >
-                                                        <p>Agregar fotos del producto o del paquete</p>
-                                                    </div>
-                                                    <Grid className="contSendImgsTengoProblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>
+                                                            <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
+                                                            {fileData1 ? (
+                                                                <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                                                                    {getFileIcon(fileData1)}
+                                                                    {imagePresent1 && (
+                                                                        <button className="buttonquitarIMG" onClick={() => handleDeleteImage(1)} >
+                                                                            <IoMdClose onClick={() => handleDeleteImage(1)} size={25} style={{ marginTop: '.5rem', }} />
+                                                                        </button>
 
-
-                                                        {/* Primer div */}
-                                                        <div>
-                                                            <div className="aggfotosubcaja" onClick={() => handleSquareClick(1)} style={{ position: 'relative', textAlign: 'center' }}>
-                                                                <input
-                                                                    type="file"
-                                                                    id="fileInput1"
-                                                                    onChange={(event) => handleFileChange(1, event)}
-                                                                    accept=".jpg, .jpeg, .png,"
-                                                                    style={{ display: 'none' }}
-                                                                />
-                                                                <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
-                                                                {fileData1 ? (
-                                                                    <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                                                                        {getFileIcon(fileData1)}
-                                                                        {imagePresent1 && (
-                                                                            <button className="buttonquitarIMG" onClick={() => handleDeleteImage(1)} >
-                                                                                <IoMdClose onClick={() => handleDeleteImage(1)} size={25} style={{ marginTop: '.5rem', }} />
-                                                                            </button>
-
-                                                                        )}
-                                                                    </div>
-                                                                ) : (
-                                                                    <IoIosCamera size={50} className="icCam" />
-                                                                )}
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Segundo div */}
-                                                        <div>
-                                                            <div className="aggfotosubcaja" onClick={() => handleSquareClick(2)} style={{ position: 'relative', textAlign: 'center' }}>
-                                                                <input
-                                                                    type="file"
-                                                                    id="fileInput2"
-                                                                    onChange={(event) => handleFileChange(2, event)}
-                                                                    accept=".jpg, .jpeg, .png,"
-                                                                    style={{ display: 'none' }}
-                                                                />
-                                                                <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
-                                                                {fileData2 ? (
-                                                                    <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                                                                        {getFileIcon(fileData2)}
-                                                                        {imagePresent2 && (
-                                                                            <button className="buttonquitarIMG" onClick={() => handleDeleteImage(2)} >
-                                                                                <IoMdClose onClick={() => handleDeleteImage(2)} size={25} style={{ marginTop: '.5rem', }} />
-                                                                            </button>
-
-                                                                        )}
-                                                                    </div>
-                                                                ) : (
-                                                                    <IoIosCamera size={50} className="icCam" />
-                                                                )}
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Tercer div */}
-                                                        <div>
-                                                            <div className="aggfotosubcaja" onClick={() => handleSquareClick(3)} style={{ position: 'relative', textAlign: 'center' }}>
-                                                                <input
-                                                                    type="file"
-                                                                    id="fileInput3"
-                                                                    onChange={(event) => handleFileChange(3, event)}
-                                                                    accept=".jpg, .jpeg, .png,"
-                                                                    style={{ display: 'none' }}
-                                                                />
-                                                                <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
-                                                                {fileData3 ? (
-                                                                    <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                                                                        {getFileIcon(fileData3)}
-                                                                        {imagePresent3 && (
-                                                                            <button className="buttonquitarIMG" onClick={() => handleDeleteImage(3)} >
-                                                                                <IoMdClose onClick={() => handleDeleteImage(3)} size={25} style={{ marginTop: '.5rem', }} />
-                                                                            </button>
-
-                                                                        )}
-                                                                    </div>
-                                                                ) : (
-                                                                    <IoIosCamera size={50} className="icCam" />
-                                                                )}
-                                                            </div>
-                                                        </div>
-
-                                                        {/* cuarto div */}
-                                                        <div>
-                                                            <div className="aggfotosubcaja" onClick={() => handleSquareClick(4)} style={{ position: 'relative', textAlign: 'center' }}>
-                                                                <input
-                                                                    type="file"
-                                                                    id="fileInput4"
-                                                                    onChange={(event) => handleFileChange(4, event)}
-                                                                    accept=".jpg, .jpeg, .png,"
-                                                                    style={{ display: 'none' }}
-                                                                />
-                                                                <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
-                                                                {fileData4 ? (
-                                                                    <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                                                                        {getFileIcon(fileData4)}
-                                                                        {imagePresent4 && (
-                                                                            <button className="buttonquitarIMG" onClick={() => handleDeleteImage(4)} >
-                                                                                <IoMdClose onClick={() => handleDeleteImage(4)} size={25} style={{ marginTop: '.5rem', }} />
-                                                                            </button>
-
-                                                                        )}
-                                                                    </div>
-                                                                ) : (
-                                                                    <IoIosCamera size={50} className="icCam" />
-                                                                )}
-                                                            </div>
-                                                        </div>
-
-                                                        {/* quinto div div */}
-
-                                                        <div>
-                                                            <div className="aggfotosubcaja" onClick={() => handleSquareClick(5)} style={{ position: 'relative', textAlign: 'center' }}>
-                                                                <input
-                                                                    type="file"
-                                                                    id="fileInput5"
-                                                                    onChange={(event) => handleFileChange(5, event)}
-                                                                    accept=".jpg, .jpeg, .png,"
-                                                                    style={{ display: 'none' }}
-                                                                />
-                                                                <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
-                                                                {fileData5 ? (
-                                                                    <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-                                                                        {getFileIcon(fileData5)}
-                                                                        {imagePresent5 && (
-                                                                            <button className="buttonquitarIMG" onClick={() => handleDeleteImage(5)} >
-                                                                                <IoMdClose onClick={() => handleDeleteImage(5)} size={25} style={{ marginTop: '.5rem', }} />
-                                                                            </button>
-
-                                                                        )}
-                                                                    </div>
-                                                                ) : (
-                                                                    <IoIosCamera size={50} className="icCam" />
-                                                                )}
-                                                            </div>
-                                                        </div>
-
-
-
-                                                    </Grid>
-                                                    <div className="rectextprobl">
-                                                        {showAll ? (
-                                                            <>
-
-                                                                <p>- Debes agregar como mínimo una(01) imagen y como máximo cinco(05)</p>
-                                                                <p>- El tamaño máximo de las imágenes es 1024 x 1024</p>
-                                                                <p>- La proporción de las imágenes debe ser de 4:3, <br /> es decir 4 unidades de alto por 3 de ancho</p>
-                                                                <p>- Cada imagen debe pesar máximo 800KB</p>
-                                                                <p>- Tus imágenes deben ser en formato jpg, jpeg o png</p>
-                                                                <p>- Las imágenes deben ser cuadradas, óptimo 1024 x 1024</p>
-                                                                <p>- Las imágenes deben llenar al menos el 85% o más del marco de la imagen</p>
-                                                                <p>- La imagen debe estar enfocada</p>
-                                                                <p>- No incluir datos de teléfonos</p>
-                                                                <p>- No incluir datos de contactos</p>
-                                                                <p>- Las imágenes deben ser nítidas</p>
-                                                                <div className="contButtonVermasomenos">
-                                                                    <button onClick={toggleShowAll}>Ver menos...</button>
+                                                                    )}
                                                                 </div>
-
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <p>**Ten en cuenta que:</p>
-                                                                <p>- Debes agregar como mínimo una(01) imagen y como máximo cinco(05)</p>
-                                                                <p>- El tamaño máximo de las imágenes es 1024 x 1024</p>
-                                                                <p>- La proporción de las imágenes debe ser de 4:3, <br /> es decir 4 unidades de alto por 3 de ancho</p>
-                                                                <p>- Cada imagen debe pesar máximo 800KB</p>
-                                                                <p>- Tus imágenes deben ser en formato jpg, jpeg o png</p>
-                                                                <div className="contButtonVermasomenos">
-                                                                    <button onClick={toggleShowAll}>Ver más...</button>
-                                                                </div>
-
-                                                            </>
-                                                        )}
+                                                            ) : (
+                                                                <IoIosCamera size={50} className="icCam" />
+                                                            )}
+                                                        </div>
                                                     </div>
 
-                                                </Grid>
-                                                <Grid item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', marginTop: '3rem', }}>
-                                                    <Grid item xs={12} md={4}></Grid>
-                                                    <Grid item xs={12} md={8}>
-                                                        <Box display="flex" justifyContent="space-between" sx={{ width: '80%' }}>
-                                                            <button className='CancelarFormButton' onClick={handleConfirmationSuccess('./misCompras')}>Ir a mis compras</button>
-                                                            <button onClick={manejarEnvioDatos} className='GuardarFormButton'>Enviar</button>
-                                                            <ModalMensajes
-                                                                shown={showModal}
-                                                                close={handleModalClose}
-                                                                titulo={tituloMensajes}
-                                                                mensaje={textoMensajes}
-                                                                tipo="error"
+                                                    {/* Segundo div */}
+                                                    <div>
+                                                        <div className="aggfotosubcaja" onClick={() => handleSquareClick(2)} style={{ position: 'relative', textAlign: 'center' }}>
+                                                            <input
+                                                                type="file"
+                                                                id="fileInput2"
+                                                                onChange={(event) => handleFileChange(2, event)}
+                                                                accept=".jpg, .jpeg, .png,"
+                                                                style={{ display: 'none' }}
                                                             />
-                                                            <Dialog
-                                                                className='dialogDatsGuardados'
-                                                                open={confirmationOpen}
-                                                                PaperProps={{
-                                                                    style: {
-                                                                        width: isMdDown ? '80%' : '35%',
-                                                                        backgroundColor: 'white',
-                                                                        border: '2px solid gray',
-                                                                        padding: '1.4rem',
-                                                                        borderRadius: '10px'
-                                                                    },
-                                                                }}
-                                                            >
-                                                                <DialogTitle className='dialogtitleDtsGUardados' >
-                                                                    <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
-
-                                                                    <p className='dialogtituloP'>Información enviada con éxito!</p>
-                                                                </DialogTitle>
-                                                                <DialogContent className='dialogContentDatsGuardados'>
-                                                                    <p className='PdialogContent'>Tu información fue enviada con exito. tendrás la respuesta en X días habiles.</p>
-                                                                </DialogContent>
-                                                                <DialogActions className='DialogActionsDatsGuardados'>
-                                                                    <div className='div1buttonDialog' >
-                                                                        <button className='button2DialogDatsGuardados' onClick={handleConfirmationSuccess('./misCompras')} >
-                                                                            Ir a mis compras
+                                                            <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
+                                                            {fileData2 ? (
+                                                                <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                                                                    {getFileIcon(fileData2)}
+                                                                    {imagePresent2 && (
+                                                                        <button className="buttonquitarIMG" onClick={() => handleDeleteImage(2)} >
+                                                                            <IoMdClose onClick={() => handleDeleteImage(2)} size={25} style={{ marginTop: '.5rem', }} />
                                                                         </button>
-                                                                    </div>
-                                                                    <div className='div1buttonDialog' >
-                                                                        <button className='button1DialogDatsGuardados' onClick={handleConfirmationSuccess('/')} >
-                                                                            Ir al inicio
-                                                                        </button>
-                                                                    </div>
-                                                                </DialogActions>
-                                                            </Dialog>
-                                                        </Box>
 
-                                                    </Grid>
+                                                                    )}
+                                                                </div>
+                                                            ) : (
+                                                                <IoIosCamera size={50} className="icCam" />
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Tercer div */}
+                                                    <div>
+                                                        <div className="aggfotosubcaja" onClick={() => handleSquareClick(3)} style={{ position: 'relative', textAlign: 'center' }}>
+                                                            <input
+                                                                type="file"
+                                                                id="fileInput3"
+                                                                onChange={(event) => handleFileChange(3, event)}
+                                                                accept=".jpg, .jpeg, .png,"
+                                                                style={{ display: 'none' }}
+                                                            />
+                                                            <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
+                                                            {fileData3 ? (
+                                                                <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                                                                    {getFileIcon(fileData3)}
+                                                                    {imagePresent3 && (
+                                                                        <button className="buttonquitarIMG" onClick={() => handleDeleteImage(3)} >
+                                                                            <IoMdClose onClick={() => handleDeleteImage(3)} size={25} style={{ marginTop: '.5rem', }} />
+                                                                        </button>
+
+                                                                    )}
+                                                                </div>
+                                                            ) : (
+                                                                <IoIosCamera size={50} className="icCam" />
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* cuarto div */}
+                                                    <div>
+                                                        <div className="aggfotosubcaja" onClick={() => handleSquareClick(4)} style={{ position: 'relative', textAlign: 'center' }}>
+                                                            <input
+                                                                type="file"
+                                                                id="fileInput4"
+                                                                onChange={(event) => handleFileChange(4, event)}
+                                                                accept=".jpg, .jpeg, .png,"
+                                                                style={{ display: 'none' }}
+                                                            />
+                                                            <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
+                                                            {fileData4 ? (
+                                                                <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                                                                    {getFileIcon(fileData4)}
+                                                                    {imagePresent4 && (
+                                                                        <button className="buttonquitarIMG" onClick={() => handleDeleteImage(4)} >
+                                                                            <IoMdClose onClick={() => handleDeleteImage(4)} size={25} style={{ marginTop: '.5rem', }} />
+                                                                        </button>
+
+                                                                    )}
+                                                                </div>
+                                                            ) : (
+                                                                <IoIosCamera size={50} className="icCam" />
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* quinto div div */}
+
+                                                    <div>
+                                                        <div className="aggfotosubcaja" onClick={() => handleSquareClick(5)} style={{ position: 'relative', textAlign: 'center' }}>
+                                                            <input
+                                                                type="file"
+                                                                id="fileInput5"
+                                                                onChange={(event) => handleFileChange(5, event)}
+                                                                accept=".jpg, .jpeg, .png,"
+                                                                style={{ display: 'none' }}
+                                                            />
+                                                            <PiSquareThin size={115} style={{ color: '#2D2E83' }} />
+                                                            {fileData5 ? (
+                                                                <div style={{ position: 'absolute', top: '66%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+                                                                    {getFileIcon(fileData5)}
+                                                                    {imagePresent5 && (
+                                                                        <button className="buttonquitarIMG" onClick={() => handleDeleteImage(5)} >
+                                                                            <IoMdClose onClick={() => handleDeleteImage(5)} size={25} style={{ marginTop: '.5rem', }} />
+                                                                        </button>
+
+                                                                    )}
+                                                                </div>
+                                                            ) : (
+                                                                <IoIosCamera size={50} className="icCam" />
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+
+
                                                 </Grid>
+                                                <div className="rectextprobl">
+                                                    {showAll ? (
+                                                        <>
 
-                                            </Grid> 
+                                                            <p>- Debes agregar como mínimo una(01) imagen y como máximo cinco(05)</p>
+                                                            <p>- El tamaño máximo de las imágenes es 1024 x 1024</p>
+                                                            <p>- La proporción de las imágenes debe ser de 4:3, <br /> es decir 4 unidades de alto por 3 de ancho</p>
+                                                            <p>- Cada imagen debe pesar máximo 800KB</p>
+                                                            <p>- Tus imágenes deben ser en formato jpg, jpeg o png</p>
+                                                            <p>- Las imágenes deben ser cuadradas, óptimo 1024 x 1024</p>
+                                                            <p>- Las imágenes deben llenar al menos el 85% o más del marco de la imagen</p>
+                                                            <p>- La imagen debe estar enfocada</p>
+                                                            <p>- No incluir datos de teléfonos</p>
+                                                            <p>- No incluir datos de contactos</p>
+                                                            <p>- Las imágenes deben ser nítidas</p>
+                                                            <div className="contButtonVermasomenos">
+                                                                <button onClick={toggleShowAll}>Ver menos...</button>
+                                                            </div>
+
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <p>**Ten en cuenta que:</p>
+                                                            <p>- Debes agregar como mínimo una(01) imagen y como máximo cinco(05)</p>
+                                                            <p>- El tamaño máximo de las imágenes es 1024 x 1024</p>
+                                                            <p>- La proporción de las imágenes debe ser de 4:3, <br /> es decir 4 unidades de alto por 3 de ancho</p>
+                                                            <p>- Cada imagen debe pesar máximo 800KB</p>
+                                                            <p>- Tus imágenes deben ser en formato jpg, jpeg o png</p>
+                                                            <div className="contButtonVermasomenos">
+                                                                <button onClick={toggleShowAll}>Ver más...</button>
+                                                            </div>
+
+                                                        </>
+                                                    )}
+                                                </div>
+
+                                            </Grid>
+                                            <Grid item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', display: 'flex', marginTop: '3rem', }}>
+                                                <Grid item xs={12} md={4}></Grid>
+                                                <Grid item xs={12} md={8}>
+                                                    <Box display="flex" justifyContent="space-between" sx={{ width: '80%' }}>
+                                                        <button className='CancelarFormButton' onClick={handleConfirmationSuccess('./misCompras')}>Ir a mis compras</button>
+                                                        <button onClick={manejarEnvioDatos} className='GuardarFormButton'>Enviar</button>
+                                                        <ModalMensajes
+                                                            shown={showModal}
+                                                            close={handleModalClose}
+                                                            titulo={tituloMensajes}
+                                                            mensaje={textoMensajes}
+                                                            tipo="error"
+                                                        />
+                                                        <Dialog
+                                                            className='dialogDatsGuardados'
+                                                            open={confirmationOpen}
+                                                            PaperProps={{
+                                                                style: {
+                                                                    width: isMdDown ? '80%' : '35%',
+                                                                    backgroundColor: 'white',
+                                                                    border: '2px solid gray',
+                                                                    padding: '1.4rem',
+                                                                    borderRadius: '10px'
+                                                                },
+                                                            }}
+                                                        >
+                                                            <DialogTitle className='dialogtitleDtsGUardados' >
+                                                                <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
+
+                                                                <p className='dialogtituloP'>Información enviada con éxito!</p>
+                                                            </DialogTitle>
+                                                            <DialogContent className='dialogContentDatsGuardados'>
+                                                                <p className='PdialogContent'>Tu información fue enviada con exito. tendrás la respuesta en X días habiles.</p>
+                                                            </DialogContent>
+                                                            <DialogActions className='DialogActionsDatsGuardados'>
+                                                                <div className='div1buttonDialog' >
+                                                                    <button className='button2DialogDatsGuardados' onClick={handleConfirmationSuccess('./misCompras')} >
+                                                                        Ir a mis compras
+                                                                    </button>
+                                                                </div>
+                                                                <div className='div1buttonDialog' >
+                                                                    <button className='button1DialogDatsGuardados' onClick={handleConfirmationSuccess('/')} >
+                                                                        Ir al inicio
+                                                                    </button>
+                                                                </div>
+                                                            </DialogActions>
+                                                        </Dialog>
+                                                    </Box>
+
+                                                </Grid>
+                                            </Grid>
+
+                                        </Grid>
                                     </Grid>
 
                                 </div>
