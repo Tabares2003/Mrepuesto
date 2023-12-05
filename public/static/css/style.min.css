@@ -28459,11 +28459,7 @@ color: #2D2E83;
 }
 
 /*Enviar mensaje vendedor*/
-.contMensajes{
-    height: 40rem;
-    width: 100%;
-    padding-right: 1.5rem; 
-}
+ 
 .contPrincMsjVend{
     background-color: #F0F1F5;
     border-radius: 16px;
@@ -28493,12 +28489,24 @@ color: #2D2E83;
 }
  
 
-.msjVendedor{  
+.msjVendedor {  
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     padding: 2rem;
-    width: 100%;
     background-color: white;
     border-radius: 12px;
-    height: 11rem;   
+    height: auto;   
+    flex-direction: column;
+}
+
+.msjVendedor2 {  
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+   
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 12px;
+    height: auto;   
     flex-direction: column;
 }
 .namevendedor{
@@ -28521,17 +28529,14 @@ color: #2D2E83;
 .BallNamEv p{
     font-size: 18px;
 }
-.inputandsendMsjVendedor{
-    margin-bottom: 1rem;
-    display: flex;
-    padding-left: 1.5rem;
-}
+
 .contMensajes {
     display: flex;
     flex-direction: column;
     height: 40rem;
     width: 100%;
     padding-right: 1.5rem;
+    overflow-y: auto; /* Agrega esta línea para habilitar el desplazamiento vertical */
   }
   
   .inputandsendMsjVendedor {
@@ -28539,8 +28544,16 @@ color: #2D2E83;
     padding-left: 1.5rem;
     justify-content: flex-end; /* Ajusta según tus necesidades */
     align-items: flex-end; /* Ajusta según tus necesidades */
-    margin-top: auto; /* Esto empujará el contenedor hacia la parte inferior */
+    width: 100%;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    display: flex;
+    padding-left: 1.5rem;
+
   }
+ 
+
+
   /*buttons tengoproblema container ver mas*/
   .contButtonVermasomenos{
     width: 100%;

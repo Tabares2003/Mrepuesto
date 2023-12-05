@@ -209,7 +209,7 @@ export default function verCompra() {
                                         </div>
                                     </Grid>
                                     <Grid onClick={() => router.push({
-                                        pathname: './tengoUnProblema',
+                                        pathname: './linktoTengounProblema',
                                         query: { producto: JSON.stringify(producto) }
                                     })} className="UltsubContVendedor2" container style={{ width: isMdDown ? '100%' : '90%', cursor:'pointer' }}>
                                         <div className="containerTitlecontvendBottom">

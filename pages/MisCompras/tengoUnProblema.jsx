@@ -40,8 +40,7 @@ export default function tengoUnProblema() {
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
     const irA = useRef(null); //useref top page
-    const router = useRouter();
-    const [isOpen, setIsOpen] = useState(true); //abrir contenedor de problemas etc
+    const router = useRouter(); 
     const [confirmationOpen, setConfirmationOpen] = useState(false); //estado confirmación modal
     const [fileData1, setFileData1] = useState(null); //primerArchivoImagen
     const [fileData2, setFileData2] = useState(null); //segundoArchivoImagen
@@ -73,6 +72,8 @@ export default function tengoUnProblema() {
         }
     };
 
+
+    
     //cerrar modal advertencia
     const handleModalClose = () => {
         setShowModal(false);
@@ -236,7 +237,7 @@ export default function tengoUnProblema() {
 
         const usuarioenvia = producto.usuario; // Recupera el UID del usuario por medio de producto.usuario
 
-        const nuevaCalificacion = {
+        const nuevoMensaje = {
             usuarioenvia,
             usuariorecibe,
             fechacreacion,
@@ -252,7 +253,7 @@ export default function tengoUnProblema() {
 
         try {
             // Modifica la URL del endpoint para incluir "+83"
-            const response = await axios.post(`${URL_BD_MR}83`, nuevaCalificacion);
+            const response = await axios.post(`${URL_BD_MR}83`, nuevoMensaje);
             console.log("Respuesta del servidor:", response.data);
 
             setConfirmationOpen(true);
@@ -311,6 +312,10 @@ export default function tengoUnProblema() {
         }
     };
 
+    const { isOpenSecondContainer } = router.query;
+
+    // Si isOpenSecondContainer no está definido o es 'false', el segundo contenedor no se mostrará
+    const showSecondContainer = isOpenSecondContainer === 'true';
 
     return (
         <div ref={irA}>
@@ -323,64 +328,7 @@ export default function tengoUnProblema() {
                                 <div className="ps-page__content ps-account">
 
                                     <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '100%', marginBottom: '20rem' }}>
-                                        {isOpen ? (
-                                            <Grid container>
-
-                                                <Grid className="subcPrincipTengoUnProblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%', flexDirection: 'column' }}>
-                                                    <Grid className="ContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
-                                                        <div className="ConttitlecontVend3">
-                                                            <p className="titlecontVend3">¿Que pasó con tu compra?</p>
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid onClick={() => setIsOpen(false)} className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }} >
-                                                        <div className="cajasProblemas">
-                                                            <p className="titlesproblemas">El producto tiene defectos</p>
-                                                            <AiOutlineRight size={23} />
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid onClick={() => setIsOpen(false)} className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
-                                                        <div className="cajasProblemas">
-                                                            <p className="titlesproblemas">La compra llegó incompleta</p>
-                                                            <AiOutlineRight size={23} />
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid onClick={() => setIsOpen(false)} className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
-                                                        <div className="cajasProblemas">
-                                                            <p className="titlesproblemas">Mi compra es diferente al producto recibido</p>
-                                                            <AiOutlineRight size={23} />
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid onClick={() => setIsOpen(false)} className="subContVendedor4" container sx={{ width: isMdDown ? '100%' : '90%' }}>
-                                                        <div className="cajasProblemas">
-                                                            <p className="titlesproblemas">Yo no realicé la compra</p>
-                                                            <AiOutlineRight size={23} />
-                                                        </div>
-                                                    </Grid>
-                                                    <Grid onClick={() => setIsOpen(false)} className="subContVendedorUlt" container sx={{ width: isMdDown ? '100%' : '90%' }} >
-                                                        <div className="cajasProblemas">
-                                                            <p className="titlesproblemas">Recibí el producto pero lo quiero devolver</p>
-                                                            <AiOutlineRight size={23} />
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
-                                                <Grid item xs={12} md={5} className="contImg1TengounPrblema">
-                                                    <Grid className="contImgTengoProblema" item xs={12} md={4}>
-                                                        <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} />
-                                                    </Grid>
-                                                    <Grid className="contdatosprobls" item xs={12} md={8} sx={{ flexDirection: 'column' }}>
-                                                        <p className="contTengoProblemadatos">{producto.titulonombre}</p>
-                                                        <div className="subtitlesvercompra">
-                                                            <p>Unidades compradas:</p>
-                                                            <p>{producto.cantidad}</p>
-                                                        </div>
-                                                        <div className="subtitlesvercompra">
-                                                            <p>Precio del producto:</p>
-                                                            <p>{producto.preciodeventa}</p>
-                                                        </div>
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                        ) : (
+                                        
                                             <Grid container>
                                                 <div className='titleTproblema'>
                                                     <p>Cuentanos qué pasó con tu compra</p>
@@ -651,8 +599,7 @@ export default function tengoUnProblema() {
                                                     </Grid>
                                                 </Grid>
 
-                                            </Grid>
-                                        )}
+                                            </Grid> 
                                     </Grid>
 
                                 </div>

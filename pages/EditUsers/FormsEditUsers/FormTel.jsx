@@ -162,10 +162,7 @@ export default function FormTel() {
 
     
 
-    const updateData = () => {
-        // Aquí coloca la lógica de actualización de datos del celular
-        const url = 'https://gimcloud.com.co/mrp/api/+75';
-        // celular: telefonoRecibeSeleccionado, //
+    const updateData = () => { 
 
         let params = {
             primernombre: nombres,
@@ -182,18 +179,16 @@ export default function FormTel() {
             direccion: datosUsuario.direccion,
             fechacreacion: datosUsuario.fechacreacion,
             fechatoken: datosUsuario.fechatoken,
-            uid: datosUsuario.uid,
-            // ...resto de los datos
+            uid: datosUsuario.uid, 
         };
         //console.log("Datos usuario : ", params);
         //return
-        const updateDatosUsuario = async () => {
-            //console.log("VISITAS: ", params);
+        const updateDatosUsuario = async () => { 
             await axios({
                 method: "post",
                 url: URL_BD_MR + "75",
                 params,
-            })
+            }) 
                 .then((res) => {
                     handleConfirmationOpen();
                     console.log("ACTULIZA DAT USERS: ", res.data);
@@ -208,14 +203,13 @@ export default function FormTel() {
 
     const handleContinue = () => {
         const inputCodigo = input1 + input2 + input3 + input4 + input5 + input6;
-        if (inputCodigo === codigo.toString()) {
-            // Realizar otras acciones dependiendo de las necesidades
+        if (inputCodigo === codigo.toString()) { 
             updateData(); // Llama a la función de actualización de datos
 
             // alert indicando que el código es correcto
             handleConfirmationOpen();
 
-            // Puedes resetear los estados de los teléfonos después de la actualización
+            //  resetear los estados de los teléfonos después de la actualización
             setTelefonoRecibeSeleccionado('');
             setTelefonoConfirmado('');
         } else {
