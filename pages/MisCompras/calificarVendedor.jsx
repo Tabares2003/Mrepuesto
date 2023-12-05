@@ -73,9 +73,7 @@ export default function calificarVendedor() {
         setComentario(nuevoComentario);
     };
 
-
-
-
+    //validar si hay una calificación
     const validarCalificacion = () => {
         if (!calificacionSeleccionada) {
             // Modal si no seleccionó calificación
@@ -85,6 +83,8 @@ export default function calificarVendedor() {
         return true;
     };
 
+
+    //Enviar calificación y abrir modal
     const enviarCalificacion = async (uid) => {
         const nuevaCalificacion = {
             uid,
@@ -115,18 +115,23 @@ export default function calificarVendedor() {
     };
 
 
+
+
     const [fechacreacion, setFechacreacion] = useState('');
     const [calificacion, setCalificacion] = useState('');
     const [calificaciones, setCalificaciones] = useState([]);
 
+
+    const [vendedorCalificado, setVendedorCalificado] = useState(false);
+
+    const [calificacionVendedor, setCalificacionVendedor] = useState(0);
+
+
     const obtenerCalificaciones = async () => {
-        const uid = producto.usuario; // Recupera el UID del usuario por medio de producto.usuario
+        const uid = producto.usuario; // Recupera el UID del vendedor por medio de producto.usuario
 
         let params = {
             uid,
-            fechacreacion,
-            calificacion,
-            comentario
         };
 
         await axios({
@@ -135,8 +140,19 @@ export default function calificarVendedor() {
             params,
         })
             .then((res) => {
-                console.log("Respuesta del servidor:", res.data);
-                setCalificaciones(res.data);
+                console.log("Respuesta completa del servidor:", res);
+                setCalificaciones(res.data.listarcalificacionvend);
+
+                // Comprueba si el vendedor ya ha sido calificado
+                const vendedorCalificado = res.data.listarcalificacionvend.length > 0;
+                setVendedorCalificado(vendedorCalificado);
+
+                // Si ya ha sido calificado, establece el comentario en el textarea y la calificación en los íconos con los datos de la última calificación
+                if (vendedorCalificado) {
+                    const ultimaCalificacion = obtenerUltimaCalificacion(res.data.listarcalificacionvend);
+                    setComentario(ultimaCalificacion.comentario);
+                    setCalificacionVendedor(ultimaCalificacion.calificacion);
+                }
             })
             .catch(function (error) {
                 console.error('Error al obtener las calificaciones:', error);
@@ -148,7 +164,12 @@ export default function calificarVendedor() {
     }, []);
 
 
-
+    const obtenerUltimaCalificacion = (calificaciones) => {
+        // Ordena las calificaciones por fecha en orden descendente
+        const calificacionesOrdenadas = [...calificaciones].sort((a, b) => new Date(b.fechacreacion) - new Date(a.fechacreacion));
+        // Devuelve la primera calificación del array ordenado
+        return calificacionesOrdenadas[0];
+    };
 
 
 
@@ -175,31 +196,35 @@ export default function calificarVendedor() {
                                         <Grid className="subcprinccalific" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }} flexDirection={'column'}>
                                             <div className='titleTproblema'>
                                                 <p>Calificar vendedor</p>
-
+                                                <div>
+                                                    {console.log("Estado de calificaciones en el renderizado:", calificaciones)}
+                                                    {/* El resto de tu código de renderizado aquí */}
+                                                </div>
                                             </div>
                                             <Grid className="calificSubC" item xs={12} md={12} sx={{ width: isMdDown ? '100%' : '90%' }} flexDirection={'column'} >
                                                 <form style={{ display: 'flex', justifyContent: 'flex-end', flexDirection: 'column' }}>
                                                     <p>Elige de uno a cinco la calificación para tu vendedor, siendo uno lo más bajo y cinco lo más alto:</p>
                                                     <div className="SubContcalificSubC">
-                                                        <div className="notanumero">
-                                                            <p>{calificacionSeleccionada.toFixed(1)}</p>
-                                                        </div>
+                                                    <div className="notanumero">
+    <p>{(vendedorCalificado ? calificacionVendedor : calificacionSeleccionada).toFixed(1)}</p>
+</div>
                                                         <div className="iconsConfig">
                                                             {[1, 2, 3, 4, 5].map((valoracion, index) => (
                                                                 <RiSettings5Fill
                                                                     key={index}
                                                                     size={40}
                                                                     style={{
-                                                                        color: valoracion <= calificacionSeleccionada ? '#2C2E82' : '#acadcd', cursor: 'pointer'
+                                                                        color: valoracion <= (vendedorCalificado ? calificacionVendedor : calificacionSeleccionada) ? '#2C2E82' : '#acadcd',
+                                                                        cursor: vendedorCalificado ? 'default' : 'pointer'
                                                                     }}
-                                                                    onClick={() => handleCalificacionIconClick(valoracion)}
+                                                                    onClick={vendedorCalificado ? null : () => handleCalificacionIconClick(valoracion)}
                                                                 />
                                                             ))}
                                                         </div>
                                                     </div>
                                                     <div className="textmiddlecalific">
                                                         <p>Si deseas deja un comentario sobre tu experiencia con el vendedor:</p>
-                                                      
+                                                         
                                                     </div>
                                                     <div>
                                                         <textarea
@@ -207,12 +232,13 @@ export default function calificarVendedor() {
                                                             onChange={handleComentarioChange}
                                                             placeholder="Escribe un mensaje al vendedor"
                                                             style={{ height: '160px', width: '100%', resize: 'none' }}
+                                                            disabled={vendedorCalificado}
                                                         />
                                                         <div style={{ textAlign: 'right', marginTop: '0.5rem', color: '#2C2E82', fontSize: '14px' }}>
                                                             {contadorCaracteres}
                                                         </div>
 
-                                                        
+
 
                                                     </div>
                                                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '3rem' }}>
@@ -225,6 +251,7 @@ export default function calificarVendedor() {
                                                                 fontSize: '16px',
                                                                 height: '40px'
                                                             }}
+                                                            disabled={vendedorCalificado}
                                                             onClick={manejarEnvioCalificacion}
                                                             type="button"
                                                         >

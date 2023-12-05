@@ -66,11 +66,11 @@ export default function tengoUnProblema() {
 
     const handleComentarioChange = (event) => {
         const nuevoComentario = event.target.value;
-    
+
         // Expresiones regulares para detectar emails y números de teléfono
         const emailRegex = /[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}/;
         const phoneRegex = /\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d/;
-    
+
         if (emailRegex.test(nuevoComentario) || phoneRegex.test(nuevoComentario)) {
             setShowModal(true);
             setTituloMensajes('Entrada inválida');
@@ -332,11 +332,8 @@ export default function tengoUnProblema() {
 
         }
     };
+ 
 
-    const { isOpenSecondContainer } = router.query;
-
-    // Si isOpenSecondContainer no está definido o es 'false', el segundo contenedor no se mostrará
-    const showSecondContainer = isOpenSecondContainer === 'true';
 
     return (
         <div ref={irA}>
@@ -353,6 +350,16 @@ export default function tengoUnProblema() {
                                         <Grid container>
                                             <div className='titleTproblema'>
                                                 <p>Cuentanos qué pasó con tu compra</p>
+                                                {calificaciones && calificaciones.length > 0 ? calificaciones.map((calificacion, index) => (
+                                                    <div key={index}>
+                                                        <h3>Calificación {index + 1}</h3>
+                                                        <p>ID: {calificacion.id}</p>
+                                                        <p>UID: {calificacion.uid}</p>
+                                                        <p>Fecha de creación: {calificacion.fechacreacion || 'No disponible'}</p>
+                                                        <p>Calificación: {calificacion.calificacion}</p>
+                                                        <p>Comentario: {calificacion.comentario || 'No disponible'}</p>
+                                                    </div>
+                                                )) : <p>No hay calificaciones disponibles</p>}
                                             </div>
                                             <Grid className="ContPrinctextareatengounproblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }}>
                                                 <Grid className="SubContPrinctextareatengounproblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>
