@@ -20,7 +20,7 @@ import { URL_IMAGES_RESULTS } from "../../helpers/Constants";
 import { RiSettings5Fill } from "react-icons/ri";
 import { SlPaperClip } from "react-icons/sl";
 import { LuSendHorizonal } from "react-icons/lu";
-//import { URL_BD_MR } from "../../helpers/Constants";
+import { URL_BD_MR } from "../../helpers/Constants";
 
 
 
@@ -32,6 +32,15 @@ export default function msjVendedor() {
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
     const irA = useRef(null);
     const router = useRouter();
+    const [showModal, setShowModal] = useState(false);
+    const [tituloMensajes, setTituloMensajes] = useState("");
+    const [textoMensajes, setTextoMensajes] = useState("");
+    const scrollRef = useRef(null);
+    const [fechacreacion, setFechacreacion] = useState(null);
+    const [inputMessage, setInputMessage] = useState('');
+    const [messages, setMessages] = useState([]);
+    const usuarioenvia = '1653147206453'; // Tu UID de usuario
+    const usuariorecibe = '1653147206453'; // UID del vendedor
 
 
     //recibir los datos del producto comprado y guardar url para cuando reinicie seguir en el mismo
@@ -51,8 +60,12 @@ export default function msjVendedor() {
         }
     }
 
+    //cerrar modal si no hay nada en el input
+    const handleModalClose = () => {
+        setShowModal(false);
+    };
 
-
+    //TopPage
     useEffect(() => {
         irA.current.scrollIntoView({
             behavior: "smooth",
@@ -61,22 +74,18 @@ export default function msjVendedor() {
     }, []);
 
 
-    const URL_BD_MR = 'https://gimcloud.com.co/mrp/api/';
-    const scrollRef = useRef(null);
-    const [fechacreacion, setFechacreacion] = useState(null);
-    const [inputMessage, setInputMessage] = useState('');
-    const [messages, setMessages] = useState([]);
-    const usuarioenvia = '1653147206453'; // Tu UID de usuario
-    const usuariorecibe = '1653147206453'; // UID del vendedor
+
+
+
 
     // Función para enviar un mensaje
-
-
     const manejarEnvioMensaje = () => {
         if (validarMensaje()) {
             sendMessage();
         }
     };
+
+
 
 
     // Función para validar el mensaje
@@ -88,9 +97,81 @@ export default function msjVendedor() {
             setShowModal(true);
             return false;
         }
-
+    
+        // Nueva validación para palabras no permitidas
+        let validaword = [
+            { word: "www" },
+            { word: "carrera" },
+            { word: "avenida" },
+            { word: "#" },
+            { word: "N°" },
+            { word: "@" },
+            { word: ".com" },
+            { word: ".co" },
+            { word: ".net" },
+            { word: "contactanos" },
+            { word: "contacto" },
+            { word: "llama" },
+            { word: "llamar" },
+            { word: "telefono" },
+            { word: "celular" },
+            { word: "movil" },
+            { word: "email" },
+            { word: "gmail" }, 
+        ];
+    
+        // Dividir el comentario en palabras
+        const palabrasComentario = inputMessage.split(' ');
+    
+        for (let i = 0; i < validaword.length; i++) {
+            if (palabrasComentario.includes(validaword[i].word)) {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+        }
+    
+        // Nueva validación para números y el carácter "@"
+        let validacaracteres;
+        let valornum = "";
+    
+        for (var i = 0; i < inputMessage.length; i++) {
+            validacaracteres = inputMessage.substr(i, 1);
+    
+            if (
+                validacaracteres == 0 ||
+                validacaracteres == 1 ||
+                validacaracteres == 2 ||
+                validacaracteres == 3 ||
+                validacaracteres == 4 ||
+                validacaracteres == 5 ||
+                validacaracteres == 6 ||
+                validacaracteres == 7 ||
+                validacaracteres == 8 ||
+                validacaracteres == 9
+            ) {
+                valornum = valornum + validacaracteres;
+            }
+    
+            if (valornum.length > 5) {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+    
+            if (validacaracteres == "@") {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+        }
+    
         return true;
     };
+
 
     // Función para enviar un mensaje
     const sendMessage = async () => {
@@ -183,6 +264,9 @@ export default function msjVendedor() {
         scrollToBottom();
     }, [messages]);
 
+
+
+    
     return (
         <div ref={irA}>
             <div>
@@ -281,6 +365,20 @@ export default function msjVendedor() {
                                                     </div>
                                                 </Grid>
                                             </Grid>
+
+                                        </Grid>
+                                        <Grid item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }} >
+
+                                        </Grid>
+                                        <Grid item xs={12} md={5} sx={{ textAlign: 'center', marginTop: '-4.3rem' }}>
+                                            <p style={{ fontSize: '18px', color: '#2D2E83', textDecoration: 'underline', cursor: 'pointer' }}>No deseo recibir más mensajes del vendedor</p>
+                                            <ModalMensajes
+                                                shown={showModal}
+                                                close={handleModalClose}
+                                                titulo={tituloMensajes}
+                                                mensaje={textoMensajes}
+                                                tipo="error"
+                                            />
                                         </Grid>
                                     </Grid>
                                 </div>
