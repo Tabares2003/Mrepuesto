@@ -107,6 +107,7 @@ export default function calificarVendedor() {
             });
     };
 
+    //handle para enviar la calificacion
     const manejarEnvioCalificacion = () => {
         const uid = producto.usuario; // Recupera el UID del usuario por medio de producto.usuario
         if (validarCalificacion()) {
@@ -121,12 +122,13 @@ export default function calificarVendedor() {
     const [calificacion, setCalificacion] = useState('');
     const [calificaciones, setCalificaciones] = useState([]);
 
-
+    //estados para verificar si ya están calificados
     const [vendedorCalificado, setVendedorCalificado] = useState(false);
-
     const [calificacionVendedor, setCalificacionVendedor] = useState(0);
 
 
+
+    //obtengo la ultima calificación hecha para el vendedor y mando a renderizar la calificacion y el comentario
     const obtenerCalificaciones = async () => {
         const uid = producto.usuario; // Recupera el UID del vendedor por medio de producto.usuario
 
@@ -164,6 +166,8 @@ export default function calificarVendedor() {
     }, []);
 
 
+
+    //Funcion para obtener ultima calificacion
     const obtenerUltimaCalificacion = (calificaciones) => {
         // Ordena las calificaciones por fecha en orden descendente
         const calificacionesOrdenadas = [...calificaciones].sort((a, b) => new Date(b.fechacreacion) - new Date(a.fechacreacion));
@@ -205,9 +209,9 @@ export default function calificarVendedor() {
                                                 <form style={{ display: 'flex', justifyContent: 'flex-end', flexDirection: 'column' }}>
                                                     <p>Elige de uno a cinco la calificación para tu vendedor, siendo uno lo más bajo y cinco lo más alto:</p>
                                                     <div className="SubContcalificSubC">
-                                                    <div className="notanumero">
-    <p>{(vendedorCalificado ? calificacionVendedor : calificacionSeleccionada).toFixed(1)}</p>
-</div>
+                                                        <div className="notanumero">
+                                                            <p>{(vendedorCalificado ? calificacionVendedor : calificacionSeleccionada).toFixed(1)}</p>
+                                                        </div>
                                                         <div className="iconsConfig">
                                                             {[1, 2, 3, 4, 5].map((valoracion, index) => (
                                                                 <RiSettings5Fill
@@ -224,7 +228,7 @@ export default function calificarVendedor() {
                                                     </div>
                                                     <div className="textmiddlecalific">
                                                         <p>Si deseas deja un comentario sobre tu experiencia con el vendedor:</p>
-                                                         
+
                                                     </div>
                                                     <div>
                                                         <textarea

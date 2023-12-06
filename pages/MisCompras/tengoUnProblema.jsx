@@ -350,16 +350,7 @@ export default function tengoUnProblema() {
                                         <Grid container>
                                             <div className='titleTproblema'>
                                                 <p>Cuentanos qué pasó con tu compra</p>
-                                                {calificaciones && calificaciones.length > 0 ? calificaciones.map((calificacion, index) => (
-                                                    <div key={index}>
-                                                        <h3>Calificación {index + 1}</h3>
-                                                        <p>ID: {calificacion.id}</p>
-                                                        <p>UID: {calificacion.uid}</p>
-                                                        <p>Fecha de creación: {calificacion.fechacreacion || 'No disponible'}</p>
-                                                        <p>Calificación: {calificacion.calificacion}</p>
-                                                        <p>Comentario: {calificacion.comentario || 'No disponible'}</p>
-                                                    </div>
-                                                )) : <p>No hay calificaciones disponibles</p>}
+                                                
                                             </div>
                                             <Grid className="ContPrinctextareatengounproblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }}>
                                                 <Grid className="SubContPrinctextareatengounproblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>

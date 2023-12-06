@@ -90,20 +90,20 @@ export default function calificarProducto() {
             calificacion: calificacionSeleccionada,
             comentario,
         };
-    
+
         await axios({
             method: "post",
             url: `${URL_BD_MR}47`,
             params: nuevaCalificacion,
         })
-        .then((res) => {
-            console.log("Respuesta del servidor:", res.data);
-            setConfirmationOpen(true);
-            // Actualizar lógica adicional según sea necesario
-        })
-        .catch((error) => {
-            console.error('Error al enviar la calificación:', error);
-        });
+            .then((res) => {
+                console.log("Respuesta del servidor:", res.data);
+                setConfirmationOpen(true);
+                // Actualizar lógica adicional según sea necesario
+            })
+            .catch((error) => {
+                console.error('Error al enviar la calificación:', error);
+            });
     };
     const manejarEnvioCalificacion = () => {
         const compatible = producto.compatible; // Recupera el valor compatible del usuario por medio de producto.compatible
@@ -112,6 +112,42 @@ export default function calificarProducto() {
         }
     };
 
+    const [calificacionProducto, setCalificacionProducto] = useState(0);
+
+    //baLWHgpyn
+    //y-VggutzE
+
+    const [productoCalificado, setProductoCalificado] = useState(false);
+    const [calificaciones, setCalificaciones] = useState([]);
+
+    const obtenerCalificacionesProducto = async () => {
+        const compatible = producto.compatible; // Recupera el compatible del producto
+
+        let params = {
+            producto: compatible,
+        };
+
+        await axios({
+            method: "post",
+            url: `${URL_BD_MR}48`,
+            params,
+        })
+            .then((res) => {
+                console.log("Respuesta completa del servidor:", res);
+                setCalificaciones(res.data.listarcalificacionprd);
+
+
+                // Comprueba si el vendedor ya ha sido calificado
+                const productoCalificado = res.data.listarcalificacionprd.length > 0;
+                setProductoCalificado(productoCalificado);
+
+                // Si ya ha sido calificado, establece el comentario en el textarea y la calificación en los íconos con los datos de la última calificación
+                if (productoCalificado) {
+                    const ultimaCalificacion = obtenerUltimaCalificacion(res.data.listarcalificacionprd);
+                    setComentario(ultimaCalificacion.comentario);
+                    setCalificacionProducto(ultimaCalificacion.calificacion);
+                }
+            })
 
 
 
@@ -119,6 +155,24 @@ export default function calificarProducto() {
 
 
 
+            .catch(function (error) {
+                console.error('Error al obtener las calificaciones del producto:', error);
+            });
+    };
+
+    useEffect(() => {
+        obtenerCalificacionesProducto();
+    }, []);
+
+
+
+    //Funcion para obtener ultima calificacion
+    const obtenerUltimaCalificacion = (calificaciones) => {
+        // Ordena las calificaciones por fecha en orden descendente
+        const calificacionesOrdenadas = [...calificaciones].sort((a, b) => new Date(b.fechacreacion) - new Date(a.fechacreacion));
+        // Devuelve la primera calificación del array ordenado
+        return calificacionesOrdenadas[0];
+    };
 
 
 
@@ -159,13 +213,14 @@ export default function calificarProducto() {
                                         <Grid className="subcprinccalific" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }} flexDirection={'column'}>
                                             <div className='titleTproblema'>
                                                 <p>Calificar producto</p>
+
                                             </div>
                                             <Grid className="calificSubC" item xs={12} md={12} sx={{ width: isMdDown ? '100%' : '90%' }} flexDirection={'column'} >
                                                 <form style={{ display: 'flex', justifyContent: 'flex-end', flexDirection: 'column' }}>
                                                     <p>Elige de uno a cinco la calificación para tu vendedor, siendo uno lo más bajo y cinco lo más alto:</p>
                                                     <div className="SubContcalificSubC">
                                                         <div className="notanumero">
-                                                            <p>{calificacionSeleccionada.toFixed(1)}</p>
+                                                        <p>{(productoCalificado ? calificacionProducto : calificacionSeleccionada).toFixed(1)}</p> 
                                                         </div>
                                                         <div className="iconsConfig">
                                                             {[1, 2, 3, 4, 5].map((valoracion, index) => (
@@ -173,7 +228,8 @@ export default function calificarProducto() {
                                                                     key={index}
                                                                     size={40}
                                                                     style={{
-                                                                        color: valoracion <= calificacionSeleccionada ? '#2C2E82' : '#acadcd', cursor: 'pointer'
+                                                                        color: valoracion <= (productoCalificado ? calificacionProducto : calificacionSeleccionada) ? '#2C2E82' : '#acadcd',
+                                                                 
                                                                     }}
                                                                     onClick={() => handleCalificacionIconClick(valoracion)}
                                                                 />
@@ -181,10 +237,11 @@ export default function calificarProducto() {
                                                         </div>
                                                     </div>
                                                     <div className="textmiddlecalific">
-                                                        <p>Si deseas deja un comentario sobre tu experiencia con el vendedor:</p>
+                                                        <p>Si deseas deja un comentario sobre tu experiencia con el vendedor:</p> 
                                                     </div>
                                                     <div>
                                                         <textarea
+                                                        disabled={productoCalificado}
                                                             value={comentario}
                                                             onChange={handleComentarioChange}
                                                             placeholder="Escribe un mensaje al vendedor"
@@ -204,6 +261,7 @@ export default function calificarProducto() {
                                                                 fontSize: '16px',
                                                                 height: '40px'
                                                             }}
+                                                            disabled={productoCalificado}
                                                             onClick={manejarEnvioCalificacion}
                                                             type="button"
                                                         >
