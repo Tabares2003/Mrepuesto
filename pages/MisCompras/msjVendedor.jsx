@@ -62,6 +62,11 @@ export default function msjVendedor() {
             }
         }
     }
+    let primerasLetras = ''
+    if (producto && producto.nombres) {
+        primerasLetras = producto.nombres.split(' ').map(palabra => palabra[0]).join('');
+    }
+    
 
     //cerrar modal si no hay nada en el input
     const handleModalClose = () => {
@@ -332,8 +337,7 @@ export default function msjVendedor() {
 
 
 
-
-
+ 
 
 
     return (
@@ -365,7 +369,7 @@ export default function msjVendedor() {
                                                                 <div style={{ width: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
                                                                     <div className="namevendedor">
                                                                         <div className="BallNamEv">
-                                                                            <p>JR</p>
+                                                                            <p>{primerasLetras}</p>
                                                                         </div>
                                                                     </div>
                                                                     <div style={{ display: 'flex', flexDirection: 'column' }}>
