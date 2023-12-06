@@ -37,10 +37,6 @@ export default function msjVendedor() {
     const [textoMensajes, setTextoMensajes] = useState("");
     const scrollRef = useRef(null);
     const [fechacreacion, setFechacreacion] = useState(null);
-    const [inputMessage, setInputMessage] = useState('');
-    const [messages, setMessages] = useState([]);
-    const usuarioenvia = '1653147206453'; // Tu UID de usuario
-    const usuariorecibe = '1653147206453'; // UID del vendedor
 
 
     //recibir los datos del producto comprado y guardar url para cuando reinicie seguir en el mismo
@@ -78,12 +74,7 @@ export default function msjVendedor() {
 
 
 
-    // Función para enviar un mensaje
-    const manejarEnvioMensaje = () => {
-        if (validarMensaje()) {
-            sendMessage();
-        }
-    };
+
 
 
 
@@ -97,7 +88,7 @@ export default function msjVendedor() {
             setShowModal(true);
             return false;
         }
-    
+
         // Nueva validación para palabras no permitidas
         let validaword = [
             { word: "www" },
@@ -117,12 +108,12 @@ export default function msjVendedor() {
             { word: "celular" },
             { word: "movil" },
             { word: "email" },
-            { word: "gmail" }, 
+            { word: "gmail" },
         ];
-    
+
         // Dividir el comentario en palabras
         const palabrasComentario = inputMessage.split(' ');
-    
+
         for (let i = 0; i < validaword.length; i++) {
             if (palabrasComentario.includes(validaword[i].word)) {
                 setTituloMensajes('Validación de mensaje');
@@ -131,14 +122,14 @@ export default function msjVendedor() {
                 return false;
             }
         }
-    
+
         // Nueva validación para números y el carácter "@"
         let validacaracteres;
         let valornum = "";
-    
+
         for (var i = 0; i < inputMessage.length; i++) {
             validacaracteres = inputMessage.substr(i, 1);
-    
+
             if (
                 validacaracteres == 0 ||
                 validacaracteres == 1 ||
@@ -153,14 +144,14 @@ export default function msjVendedor() {
             ) {
                 valornum = valornum + validacaracteres;
             }
-    
+
             if (valornum.length > 5) {
                 setTituloMensajes('Validación de mensaje');
                 setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
                 setShowModal(true);
                 return false;
             }
-    
+
             if (validacaracteres == "@") {
                 setTituloMensajes('Validación de mensaje');
                 setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
@@ -168,14 +159,21 @@ export default function msjVendedor() {
                 return false;
             }
         }
-    
+
         return true;
     };
+
+
+    const [inputMessage, setInputMessage] = useState('');
+    const [messages, setMessages] = useState([]); 
+    const usuariorecibe = '1653147206453'; // UID del vendedor
 
 
     // Función para enviar un mensaje
     const sendMessage = async () => {
         const estado = 32; // Estado pendiente por revisión y/o aprobación MR
+        const usuarioenvia = producto.usuario;
+
 
         const nuevoMensaje = {
             usuarioenvia,
@@ -218,7 +216,12 @@ export default function msjVendedor() {
     };
 
 
-
+    // Función para enviar un mensaje
+    const manejarEnvioMensaje = () => {
+        if (validarMensaje()) {
+            sendMessage();
+        }
+    };
 
 
 
@@ -266,7 +269,7 @@ export default function msjVendedor() {
 
 
 
-    
+
     return (
         <div ref={irA}>
             <div>

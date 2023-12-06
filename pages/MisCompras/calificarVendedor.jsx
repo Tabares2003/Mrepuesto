@@ -322,7 +322,7 @@ export default function calificarVendedor() {
                                                     </div>
                                                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '3rem' }}>
                                                         {vendedorCalificado ? (
-                                                            <p>Este vendedor ya ha sido calificado.</p>
+                                                            <p>Este vendedor ya ha sido calificado, solo es posible calificarlo una vez.</p>
                                                         ) : (
                                                             <button
                                                                 style={{

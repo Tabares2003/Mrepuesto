@@ -164,7 +164,7 @@ export default function tengoUnProblema() {
             { word: "celular" },
             { word: "movil" },
             { word: "email" },
-            { word: "gmail" }, 
+            { word: "gmail" },
         ];
 
         for (let i = 0; i < validaword.length; i++) {
@@ -178,38 +178,39 @@ export default function tengoUnProblema() {
 
         // Nueva validación para números y el carácter "@"
         let validacaracteres;
-        let valornum = "";
+        let palabrasComentario = comentario.split(' ');
 
-        for (var i = 0; i < comentario.length; i++) {
-            validacaracteres = comentario.substr(i, 1);
+        for (let i = 0; i < palabrasComentario.length; i++) {
+            let palabra = palabrasComentario[i];
+            for (var j = 0; j < palabra.length; j++) {
+                validacaracteres = palabra.substr(j, 1);
 
-            if (
-                validacaracteres == 0 ||
-                validacaracteres == 1 ||
-                validacaracteres == 2 ||
-                validacaracteres == 3 ||
-                validacaracteres == 4 ||
-                validacaracteres == 5 ||
-                validacaracteres == 6 ||
-                validacaracteres == 7 ||
-                validacaracteres == 8 ||
-                validacaracteres == 9
-            ) {
-                valornum = valornum + validacaracteres;
-            }
+                if (
+                    validacaracteres == 0 ||
+                    validacaracteres == 1 ||
+                    validacaracteres == 2 ||
+                    validacaracteres == 3 ||
+                    validacaracteres == 4 ||
+                    validacaracteres == 5 ||
+                    validacaracteres == 6 ||
+                    validacaracteres == 7 ||
+                    validacaracteres == 8 ||
+                    validacaracteres == 9
+                ) {
+                    if (palabra.length > 5) {
+                        setTituloMensajes('Validación de mensaje');
+                        setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                        setShowModal(true);
+                        return false;
+                    }
+                }
 
-            if (valornum.length > 5) {
-                setTituloMensajes('Validación de mensaje');
-                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
-                setShowModal(true);
-                return false;
-            }
-
-            if (validacaracteres == "@") {
-                setTituloMensajes('Validación de mensaje');
-                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
-                setShowModal(true);
-                return false;
+                if (validacaracteres == "@") {
+                    setTituloMensajes('Validación de mensaje');
+                    setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                    setShowModal(true);
+                    return false;
+                }
             }
         }
 

@@ -318,7 +318,7 @@ export default function calificarProducto() {
                                                     </div>
                                                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '3rem' }}>
                                                         {productoCalificado ? (
-                                                            <p>Este producto ya ha sido calificado.</p>
+                                                            <p>Este producto ya ha sido calificado, solo es posible calificarlo una vez.</p>
                                                         ) : (
                                                             <button
                                                                 style={{
