@@ -33,7 +33,7 @@ export default function calificarProducto() {
     const [showAmbosModal, setShowAmbosModal] = useState(false);//Modal que avisa si no puso nada
     const [calificacionSeleccionada, setCalificacionSeleccionada] = useState(0);
     const [comentario, setComentario] = useState("");
-    const contadorCaracteres = `${comentario.length}/180`;
+    const contadorCaracteres = `${comentario ? comentario.length : 0}/180`;
     //Consts measured, 80% and in md 100%.
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
@@ -77,10 +77,10 @@ export default function calificarProducto() {
         setComentario(nuevoComentario);
     };
     const [showModal, setShowModal] = useState(false); //Estado de modal
-        //cerrar modal advertencia
-        const handleModalClose = () => {
-            setShowModal(false);
-        };
+    //cerrar modal advertencia
+    const handleModalClose = () => {
+        setShowModal(false);
+    };
     //envío calificación vendedor con mvalidaciones
     const validarCalificacion = () => {
         if (!calificacionSeleccionada) {
@@ -122,7 +122,7 @@ export default function calificarProducto() {
 
         // Nueva validación para números y el carácter "@"
         let validacaracteres;
-        let valornum = ""; 
+        let valornum = "";
         for (var i = 0; i < comentario.length; i++) {
             validacaracteres = comentario.substr(i, 1);
 
@@ -293,7 +293,7 @@ export default function calificarProducto() {
                                                                     key={index}
                                                                     size={40}
                                                                     style={{
-                                                                        color: valoracion <= (productoCalificado ? calificacionProducto : calificacionSeleccionada) ? '#2C2E82' : '#acadcd', cursor:'pointer'
+                                                                        color: valoracion <= (productoCalificado ? calificacionProducto : calificacionSeleccionada) ? '#2C2E82' : '#acadcd', cursor: 'pointer'
 
                                                                     }}
                                                                     onClick={() => handleCalificacionIconClick(valoracion)}
