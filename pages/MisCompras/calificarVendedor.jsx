@@ -75,10 +75,10 @@ export default function calificarVendedor() {
         setComentario(nuevoComentario);
     };
     const [showModal, setShowModal] = useState(false); //Estado de modal
-        //cerrar modal advertencia
-        const handleModalClose = () => {
-            setShowModal(false);
-        };
+    //cerrar modal advertencia
+    const handleModalClose = () => {
+        setShowModal(false);
+    };
     //validar si hay una calificación
     const validarCalificacion = () => {
         if (!calificacionSeleccionada) {
@@ -321,21 +321,24 @@ export default function calificarVendedor() {
 
                                                     </div>
                                                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '3rem' }}>
-                                                        <button
-                                                            style={{
-                                                                width: '170px', // Ajusté el valor de ancho
-                                                                backgroundColor: '#2D2E83',
-                                                                color: 'white',
-                                                                borderRadius: '10px',
-                                                                fontSize: '16px',
-                                                                height: '40px'
-                                                            }}
-                                                            disabled={vendedorCalificado}
-                                                            onClick={manejarEnvioCalificacion}
-                                                            type="button"
-                                                        >
-                                                            Enviar
-                                                        </button>
+                                                        {vendedorCalificado ? (
+                                                            <p>Este vendedor ya ha sido calificado.</p>
+                                                        ) : (
+                                                            <button
+                                                                style={{
+                                                                    width: '170px', // Ajusté el valor de ancho
+                                                                    backgroundColor: '#2D2E83',
+                                                                    color: 'white',
+                                                                    borderRadius: '10px',
+                                                                    fontSize: '16px',
+                                                                    height: '40px'
+                                                                }}
+                                                                onClick={manejarEnvioCalificacion}
+                                                                type="button"
+                                                            >
+                                                                Enviar
+                                                            </button>
+                                                        )}
                                                     </div>
                                                 </form>
 
@@ -361,12 +364,12 @@ export default function calificarVendedor() {
                                                         <p>{producto.preciodeventa}</p>
                                                     </div>
                                                     <ModalMensajes
-                                                            shown={showModal}
-                                                            close={handleModalClose}
-                                                            titulo={tituloMensajes}
-                                                            mensaje={textoMensajes}
-                                                            tipo="error"
-                                                        />
+                                                        shown={showModal}
+                                                        close={handleModalClose}
+                                                        titulo={tituloMensajes}
+                                                        mensaje={textoMensajes}
+                                                        tipo="error"
+                                                    />
                                                     <ModalMensajes
                                                         shown={showCalificacionModal}
                                                         close={() => setShowCalificacionModal(false)}

@@ -317,21 +317,24 @@ export default function calificarProducto() {
                                                         </div>
                                                     </div>
                                                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '3rem' }}>
-                                                        <button
-                                                            style={{
-                                                                width: '170px', // Ajusté el valor de ancho
-                                                                backgroundColor: '#2D2E83',
-                                                                color: 'white',
-                                                                borderRadius: '10px',
-                                                                fontSize: '16px',
-                                                                height: '40px'
-                                                            }}
-                                                            disabled={productoCalificado}
-                                                            onClick={manejarEnvioCalificacion}
-                                                            type="button"
-                                                        >
-                                                            Enviar
-                                                        </button>
+                                                        {productoCalificado ? (
+                                                            <p>Este producto ya ha sido calificado.</p>
+                                                        ) : (
+                                                            <button
+                                                                style={{
+                                                                    width: '170px', // Ajusté el valor de ancho
+                                                                    backgroundColor: '#2D2E83',
+                                                                    color: 'white',
+                                                                    borderRadius: '10px',
+                                                                    fontSize: '16px',
+                                                                    height: '40px'
+                                                                }}
+                                                                onClick={manejarEnvioCalificacion}
+                                                                type="button"
+                                                            >
+                                                                Enviar
+                                                            </button>
+                                                        )}
                                                     </div>
                                                 </form>
                                             </Grid>
