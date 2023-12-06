@@ -37,6 +37,13 @@ export default function msjVendedor() {
     const [textoMensajes, setTextoMensajes] = useState("");
     const scrollRef = useRef(null);
     const [fechacreacion, setFechacreacion] = useState(null);
+    // Estado para almacenar el nombre de la imagen
+    const [imageName, setImageName] = useState('');
+    const [inputMessage, setInputMessage] = useState('');
+    const [messages, setMessages] = useState([]);
+
+
+
 
 
     //recibir los datos del producto comprado y guardar url para cuando reinicie seguir en el mismo
@@ -61,13 +68,7 @@ export default function msjVendedor() {
         setShowModal(false);
     };
 
-    //TopPage
-    useEffect(() => {
-        irA.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-        });
-    }, []);
+
 
 
 
@@ -164,16 +165,14 @@ export default function msjVendedor() {
     };
 
 
-    const [inputMessage, setInputMessage] = useState('');
-    const [messages, setMessages] = useState([]); 
-    const usuariorecibe = '1653147206453'; // UID del vendedor
+
 
 
     // Función para enviar un mensaje
     const sendMessage = async () => {
+        const usuariorecibe = 1653147206453; // UID del vendedor
         const estado = 32; // Estado pendiente por revisión y/o aprobación MR
         const usuarioenvia = producto.usuario;
-
 
         const nuevoMensaje = {
             usuarioenvia,
@@ -182,7 +181,7 @@ export default function msjVendedor() {
             estado,
             comentario: inputMessage,
             observacionintera: '',
-            nombreimagen1: '',
+            nombreimagen1: imageName, // Aquí envías el nombre de la imagen
             nombreimagen2: '',
             nombreimagen3: '',
             nombreimagen4: '',
@@ -207,8 +206,15 @@ export default function msjVendedor() {
                     return [...prevMessages, nuevoMensaje];
                 });
 
+                // Desplazarse hacia abajo
+                scrollToBottom();
+
                 // Limpiar el campo de entrada después de enviar
                 setInputMessage('');
+                setImageName(''); // Restablecer el nombre de la imagen
+
+                // Leer los mensajes nuevamente para obtener la fecha y hora del servidor
+                leerMensajes();
             })
             .catch((error) => {
                 console.error('Error al enviar el mensaje:', error);
@@ -224,6 +230,7 @@ export default function msjVendedor() {
     };
 
 
+ 
 
 
     // Función para leer mensajes
@@ -241,8 +248,12 @@ export default function msjVendedor() {
 
             const mensajes = response.data.listarmensajes;
 
+            // Ordenar los mensajes por fecha de creación
+            const mensajesOrdenados = mensajes.sort((a, b) => new Date(a.fechacreacion) - new Date(b.fechacreacion));
+
             // Actualizar el estado con los mensajes recibidos
-            setMessages(mensajes);
+            setMessages(mensajesOrdenados);
+
         } catch (error) {
             console.error('Error leyendo mensajes:', error);
         }
@@ -252,7 +263,6 @@ export default function msjVendedor() {
     useEffect(() => {
         leerMensajes();
     }, []);
-
 
 
     const messagesRef = useRef(null);
@@ -265,10 +275,32 @@ export default function msjVendedor() {
     useEffect(() => {
         // Desplázate hacia abajo cuando el componente se monta o cuando los mensajes se actualizan
         scrollToBottom();
-    }, [messages]);
+    }, [messages]); 
 
 
 
+
+    // Función para manejar la subida de la imagen
+    const handleImageUpload = (event) => {
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            // Aquí tienes el nombre de la imagen
+            setImageName(file.name);
+            // Ahora puedes mostrar el nombre de la imagen en el input
+            setInputMessage(file.name);
+        } else {
+            console.log('No se seleccionó ningún archivo');
+        }
+    };
+
+ 
+    //TopPage
+    useEffect(() => {
+        irA.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    }, []);
 
     return (
         <div ref={irA}>
@@ -294,7 +326,7 @@ export default function msjVendedor() {
 
                                                 <div className="contMensajes" ref={messagesRef}>
                                                     {Array.isArray(messages) && messages.length > 0 ? (
-                                                        messages.slice(0).reverse().map((message, index) => (
+                                                        messages.slice(0).map((message, index) => (
                                                             <div className="MsjVendedor" key={index}  >
                                                                 <div style={{ width: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
                                                                     <div className="namevendedor">
@@ -326,7 +358,8 @@ export default function msjVendedor() {
                                                 </div>
                                                 <div className="inputandsendMsjVendedor">
                                                     <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
-                                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', }}>
+                                                        <input type="file" id="imageUpload" style={{ display: 'none' }} onChange={handleImageUpload} />
+                                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', cursor: 'pointer' }} onClick={() => document.getElementById('imageUpload').click()}>
                                                             <SlPaperClip size={19} style={{ color: '#2D2E83' }} />
                                                         </div>
                                                     </div>
@@ -337,6 +370,7 @@ export default function msjVendedor() {
                                                             type="text"
                                                             placeholder="Escribe un mensaje al vendedor"
                                                             style={{ width: '100%', borderRadius: '12px', fontSize: '14px', padding: '1rem', backgroundColor: 'white' }}
+                                                            readOnly={imageName ? true : false} // Hacer el input de solo lectura si se ha seleccionado una imagen
                                                         />
                                                     </div>
                                                     <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
