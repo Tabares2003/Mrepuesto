@@ -67,17 +67,13 @@ export default function msjVendedor() {
     const handleModalClose = () => {
         setShowModal(false);
     };
-
-
-
-
-
-
-
-
-
-
-
+    //TopPage
+    useEffect(() => {
+        irA.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    }, []);
 
 
     // Función para validar el mensaje
@@ -89,7 +85,7 @@ export default function msjVendedor() {
             setShowModal(true);
             return false;
         }
-    
+
         // Nueva validación para palabras no permitidas
         let validaword = [
             { word: "www" },
@@ -111,10 +107,10 @@ export default function msjVendedor() {
             { word: "email" },
             { word: "gmail" },
         ];
-    
+
         // Dividir el comentario en palabras
         const palabrasComentario = inputMessage.split(' ');
-    
+
         for (let i = 0; i < validaword.length; i++) {
             if (palabrasComentario.includes(validaword[i].word)) {
                 setTituloMensajes('Validación de mensaje');
@@ -123,16 +119,16 @@ export default function msjVendedor() {
                 return false;
             }
         }
-    
+
         // Nueva validación para números y el carácter "@"
         let validacaracteres;
-    
+
         for (let i = 0; i < palabrasComentario.length; i++) {
             let palabra = palabrasComentario[i];
             let valornum = "";
             for (var j = 0; j < palabra.length; j++) {
                 validacaracteres = palabra.substr(j, 1);
-    
+
                 if (
                     validacaracteres == 0 ||
                     validacaracteres == 1 ||
@@ -147,14 +143,14 @@ export default function msjVendedor() {
                 ) {
                     valornum = valornum + validacaracteres;
                 }
-    
+
                 if (valornum.length > 5) {
                     setTituloMensajes('Validación de mensaje');
                     setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
                     setShowModal(true);
                     return false;
                 }
-    
+
                 if (validacaracteres == "@") {
                     setTituloMensajes('Validación de mensaje');
                     setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
@@ -163,7 +159,7 @@ export default function msjVendedor() {
                 }
             }
         }
-    
+
         return true;
     };
 
@@ -233,7 +229,7 @@ export default function msjVendedor() {
     };
 
 
- 
+
 
 
     // Función para leer mensajes
@@ -278,32 +274,67 @@ export default function msjVendedor() {
     useEffect(() => {
         // Desplázate hacia abajo cuando el componente se monta o cuando los mensajes se actualizan
         scrollToBottom();
-    }, [messages]); 
+    }, [messages]);
 
 
 
 
     // Función para manejar la subida de la imagen
-    const handleImageUpload = (event) => {
-        if (event.target.files.length > 0) {
-            const file = event.target.files[0];
-            // Aquí tienes el nombre de la imagen
-            setImageName(file.name);
-            // Ahora puedes mostrar el nombre de la imagen en el input
-            setInputMessage(file.name);
+    // Función para manejar la subida de la imagen
+    const handleImageUpload = async (event) => {
+        const file = event.target.files[0];
+
+        if (file) {
+            const allowedFileTypes = ['image/jpeg', 'image/png'];
+            const maxImageSize = 819200; // 800 KB in bytes
+            const maxImageWidth = 1024;
+            const maxImageHeight = 1024;
+
+            if (allowedFileTypes.includes(file.type)) {
+                if (file.size > maxImageSize) {
+                    setShowModal(true);
+                    setTituloMensajes('Tamaño incorrecto');
+                    setTextoMensajes('Las imágenes deben pesar máximo 800 KB.');
+                    return;
+                }
+
+                const image = new Image();
+                image.src = URL.createObjectURL(file);
+
+                // Esperar a que la imagen cargue antes de realizar las validaciones
+                await new Promise(resolve => {
+                    image.onload = resolve;
+                });
+
+                const imageWidth = image.width;
+                const imageHeight = image.height;
+
+                if (imageWidth > maxImageWidth || imageHeight > maxImageHeight) {
+                    setShowModal(true);
+                    setTituloMensajes('Dimensiones incorrectas');
+                    setTextoMensajes(`Las dimensiones de las imágenes deben ser como máximo ${maxImageWidth} x ${maxImageHeight}.`);
+                    return;
+                }
+
+                // Si la imagen pasa todas las validaciones, actualiza el estado
+                setImageName(file.name);
+                // Ahora puedes mostrar el nombre de la imagen en el input
+                setInputMessage(file.name);
+            } else {
+                setShowModal(true);
+                setTituloMensajes('Archivo incorrecto');
+                setTextoMensajes('Solo se permiten archivos JPG, JPEG y PNG.');
+            }
         } else {
             console.log('No se seleccionó ningún archivo');
         }
     };
 
- 
-    //TopPage
-    useEffect(() => {
-        irA.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-        });
-    }, []);
+
+
+
+
+
 
     return (
         <div ref={irA}>
