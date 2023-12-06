@@ -29,8 +29,7 @@ import { URL_BD_MR } from "../../helpers/Constants";
 export default function tengoUnProblema() {
 
 
-    const [comentario, setComentario] = useState('');
-    const [usuariorecibe, setUsuariorecibe] = useState(null);
+    const [comentario, setComentario] = useState(''); 
     const [fechacreacion, setFechacreacion] = useState(null);
     const [observacionintera, setObservacionintera] = useState(null);
 
@@ -311,9 +310,9 @@ export default function tengoUnProblema() {
 
         const nuevoMensaje = {
             usuarioenvia,
-            usuariorecibe,
+            usuariorecibe: 1653147206453,
             fechacreacion,
-            estado: 32,
+            estado: 31,
             comentario,
             observacionintera,
             nombreimagen1: nombreImagen1,
