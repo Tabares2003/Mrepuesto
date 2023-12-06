@@ -24,7 +24,9 @@ import { FaCheckCircle } from "react-icons/fa";
 
 export default function calificarVendedor() {
 
-
+    const [showModalMensajes, setShowModalMensajes] = useState(false);
+    const [tituloMensajes, setTituloMensajes] = useState("");
+    const [textoMensajes, setTextoMensajes] = useState("");
     const [confirmationOpen, setConfirmationOpen] = useState(false); //Modal de confirmación si ingresó los datos
     const [showCalificacionModal, setShowCalificacionModal] = useState(false); //Modal que avisa si no puso calificación
     const [showComentarioModal, setShowComentarioModal] = useState(false);//Modal que avisa si no puso comeents
@@ -72,7 +74,11 @@ export default function calificarVendedor() {
         const nuevoComentario = event.target.value.slice(0, 180); // Limitar a 180 caracteres
         setComentario(nuevoComentario);
     };
-
+    const [showModal, setShowModal] = useState(false); //Estado de modal
+        //cerrar modal advertencia
+        const handleModalClose = () => {
+            setShowModal(false);
+        };
     //validar si hay una calificación
     const validarCalificacion = () => {
         if (!calificacionSeleccionada) {
@@ -80,6 +86,75 @@ export default function calificarVendedor() {
             setShowCalificacionModal(true);
             return false;
         }
+
+        // Nueva validación para palabras no permitidas
+        let validaword = [
+            { word: "www" },
+            { word: "carrera" },
+            { word: "avenida" },
+            { word: "#" },
+            { word: "N°" },
+            { word: "@" },
+            { word: ".com" },
+            { word: ".co" },
+            { word: ".net" },
+            { word: "contactanos" },
+            { word: "contacto" },
+            { word: "llama" },
+            { word: "llamar" },
+            { word: "telefono" },
+            { word: "celular" },
+            { word: "movil" },
+            { word: "email" },
+            { word: "gmail" },
+        ];
+
+        for (let i = 0; i < validaword.length; i++) {
+            if (comentario.includes(validaword[i].word)) {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+        }
+
+        // Nueva validación para números y el carácter "@"
+        let validacaracteres;
+        let valornum = "";
+
+        for (var i = 0; i < comentario.length; i++) {
+            validacaracteres = comentario.substr(i, 1);
+
+            if (
+                validacaracteres == 0 ||
+                validacaracteres == 1 ||
+                validacaracteres == 2 ||
+                validacaracteres == 3 ||
+                validacaracteres == 4 ||
+                validacaracteres == 5 ||
+                validacaracteres == 6 ||
+                validacaracteres == 7 ||
+                validacaracteres == 8 ||
+                validacaracteres == 9
+            ) {
+                valornum = valornum + validacaracteres;
+            }
+
+            if (valornum.length > 5) {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+
+            if (validacaracteres == "@") {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+        }
+
         return true;
     };
 
@@ -285,6 +360,13 @@ export default function calificarVendedor() {
                                                         <p>Precio del producto:</p>
                                                         <p>{producto.preciodeventa}</p>
                                                     </div>
+                                                    <ModalMensajes
+                                                            shown={showModal}
+                                                            close={handleModalClose}
+                                                            titulo={tituloMensajes}
+                                                            mensaje={textoMensajes}
+                                                            tipo="error"
+                                                        />
                                                     <ModalMensajes
                                                         shown={showCalificacionModal}
                                                         close={() => setShowCalificacionModal(false)}

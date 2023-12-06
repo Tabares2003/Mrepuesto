@@ -24,21 +24,24 @@ import { FaCheckCircle } from "react-icons/fa";
 
 
 export default function calificarProducto() {
-
+    const [showModalMensajes, setShowModalMensajes] = useState(false);
+    const [tituloMensajes, setTituloMensajes] = useState("");
+    const [textoMensajes, setTextoMensajes] = useState("");
     const [confirmationOpen, setConfirmationOpen] = useState(false); //Modal de confirmación si ingresó los datos
     const [showCalificacionModal, setShowCalificacionModal] = useState(false); //Modal que avisa si no puso calificación
     const [showComentarioModal, setShowComentarioModal] = useState(false);//Modal que avisa si no puso comeents
     const [showAmbosModal, setShowAmbosModal] = useState(false);//Modal que avisa si no puso nada
-
     const [calificacionSeleccionada, setCalificacionSeleccionada] = useState(0);
     const [comentario, setComentario] = useState("");
-
+    const contadorCaracteres = `${comentario.length}/180`;
     //Consts measured, 80% and in md 100%.
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
     const irA = useRef(null);
     const router = useRouter();
-    const contadorCaracteres = `${comentario.length}/180`;
+
+
+
 
     //recibir los datos del producto comprado y guardar url para cuando reinicie seguir en el mismo
     let producto = null
@@ -73,7 +76,11 @@ export default function calificarProducto() {
         const nuevoComentario = event.target.value.slice(0, 180); // Limitar a 180 caracteres
         setComentario(nuevoComentario);
     };
-
+    const [showModal, setShowModal] = useState(false); //Estado de modal
+        //cerrar modal advertencia
+        const handleModalClose = () => {
+            setShowModal(false);
+        };
     //envío calificación vendedor con mvalidaciones
     const validarCalificacion = () => {
         if (!calificacionSeleccionada) {
@@ -81,6 +88,74 @@ export default function calificarProducto() {
             setShowCalificacionModal(true);
             return false;
         }
+
+        // Nueva validación para palabras no permitidas
+        let validaword = [
+            { word: "www" },
+            { word: "carrera" },
+            { word: "avenida" },
+            { word: "#" },
+            { word: "N°" },
+            { word: "@" },
+            { word: ".com" },
+            { word: ".co" },
+            { word: ".net" },
+            { word: "contactanos" },
+            { word: "contacto" },
+            { word: "llama" },
+            { word: "llamar" },
+            { word: "telefono" },
+            { word: "celular" },
+            { word: "movil" },
+            { word: "email" },
+            { word: "gmail" },
+        ];
+
+        for (let i = 0; i < validaword.length; i++) {
+            if (comentario.includes(validaword[i].word)) {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+        }
+
+        // Nueva validación para números y el carácter "@"
+        let validacaracteres;
+        let valornum = ""; 
+        for (var i = 0; i < comentario.length; i++) {
+            validacaracteres = comentario.substr(i, 1);
+
+            if (
+                validacaracteres == 0 ||
+                validacaracteres == 1 ||
+                validacaracteres == 2 ||
+                validacaracteres == 3 ||
+                validacaracteres == 4 ||
+                validacaracteres == 5 ||
+                validacaracteres == 6 ||
+                validacaracteres == 7 ||
+                validacaracteres == 8 ||
+                validacaracteres == 9
+            ) {
+                valornum = valornum + validacaracteres;
+            }
+
+            if (valornum.length > 5) {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+
+            if (validacaracteres == "@") {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+        }
+
         return true;
     };
 
@@ -105,6 +180,7 @@ export default function calificarProducto() {
                 console.error('Error al enviar la calificación:', error);
             });
     };
+
     const manejarEnvioCalificacion = () => {
         const compatible = producto.compatible; // Recupera el valor compatible del usuario por medio de producto.compatible
         if (validarCalificacion()) {
@@ -113,10 +189,6 @@ export default function calificarProducto() {
     };
 
     const [calificacionProducto, setCalificacionProducto] = useState(0);
-
-    //baLWHgpyn
-    //y-VggutzE
-
     const [productoCalificado, setProductoCalificado] = useState(false);
     const [calificaciones, setCalificaciones] = useState([]);
 
@@ -148,13 +220,6 @@ export default function calificarProducto() {
                     setCalificacionProducto(ultimaCalificacion.calificacion);
                 }
             })
-
-
-
-
-
-
-
             .catch(function (error) {
                 console.error('Error al obtener las calificaciones del producto:', error);
             });
@@ -220,7 +285,7 @@ export default function calificarProducto() {
                                                     <p>Elige de uno a cinco la calificación para tu vendedor, siendo uno lo más bajo y cinco lo más alto:</p>
                                                     <div className="SubContcalificSubC">
                                                         <div className="notanumero">
-                                                        <p>{(productoCalificado ? calificacionProducto : calificacionSeleccionada).toFixed(1)}</p> 
+                                                            <p>{(productoCalificado ? calificacionProducto : calificacionSeleccionada).toFixed(1)}</p>
                                                         </div>
                                                         <div className="iconsConfig">
                                                             {[1, 2, 3, 4, 5].map((valoracion, index) => (
@@ -228,8 +293,8 @@ export default function calificarProducto() {
                                                                     key={index}
                                                                     size={40}
                                                                     style={{
-                                                                        color: valoracion <= (productoCalificado ? calificacionProducto : calificacionSeleccionada) ? '#2C2E82' : '#acadcd',
-                                                                 
+                                                                        color: valoracion <= (productoCalificado ? calificacionProducto : calificacionSeleccionada) ? '#2C2E82' : '#acadcd', cursor:'pointer'
+
                                                                     }}
                                                                     onClick={() => handleCalificacionIconClick(valoracion)}
                                                                 />
@@ -237,11 +302,11 @@ export default function calificarProducto() {
                                                         </div>
                                                     </div>
                                                     <div className="textmiddlecalific">
-                                                        <p>Si deseas deja un comentario sobre tu experiencia con el vendedor:</p> 
+                                                        <p>Si deseas deja un comentario sobre tu experiencia con el vendedor:</p>
                                                     </div>
                                                     <div>
                                                         <textarea
-                                                        disabled={productoCalificado}
+                                                            disabled={productoCalificado}
                                                             value={comentario}
                                                             onChange={handleComentarioChange}
                                                             placeholder="Escribe un mensaje al vendedor"
@@ -294,6 +359,13 @@ export default function calificarProducto() {
                                                             close={() => setShowCalificacionModal(false)}
                                                             titulo="Calificación"
                                                             mensaje="Por favor, elige una calificación."
+                                                            tipo="error"
+                                                        />
+                                                        <ModalMensajes
+                                                            shown={showModal}
+                                                            close={handleModalClose}
+                                                            titulo={tituloMensajes}
+                                                            mensaje={textoMensajes}
                                                             tipo="error"
                                                         />
                                                         <ModalMensajes

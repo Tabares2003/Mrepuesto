@@ -63,21 +63,13 @@ export default function tengoUnProblema() {
     const [nombreImagen4, setNombreImagen4] = useState(null);
     const [nombreImagen5, setNombreImagen5] = useState(null);
 
-
     const handleComentarioChange = (event) => {
         const nuevoComentario = event.target.value;
-
-        // Expresiones regulares para detectar emails y números de teléfono
-        const emailRegex = /[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}/;
-        const phoneRegex = /\+?(\d[\d-. ]+)?(\([\d-. ]+\))?[\d-. ]+\d/;
-
-        if (emailRegex.test(nuevoComentario) || phoneRegex.test(nuevoComentario)) {
-            setShowModal(true);
-            setTituloMensajes('Entrada inválida');
-            setTextoMensajes('No se permiten emails ni números de teléfono.');
-        } else if (nuevoComentario.length <= 180) {
+        if (nuevoComentario.length <= 180) {
             setComentario(nuevoComentario);
             setContadorCaracteres(nuevoComentario.length);
+        } else {
+            // Si el comentario supera los 180 caracteres, no se actualiza.
         }
     };
 
@@ -151,6 +143,74 @@ export default function tengoUnProblema() {
             setTextoMensajes('Debes rellenar el formulario del mensaje.');
             setShowModal(true);
             return false;
+        }
+
+        // Nueva validación para palabras no permitidas
+        let validaword = [
+            { word: "www" },
+            { word: "carrera" },
+            { word: "avenida" },
+            { word: "#" },
+            { word: "N°" },
+            { word: "@" },
+            { word: ".com" },
+            { word: ".co" },
+            { word: ".net" },
+            { word: "contactanos" },
+            { word: "contacto" },
+            { word: "llama" },
+            { word: "llamar" },
+            { word: "telefono" },
+            { word: "celular" },
+            { word: "movil" },
+            { word: "email" },
+            { word: "gmail" }, 
+        ];
+
+        for (let i = 0; i < validaword.length; i++) {
+            if (comentario.includes(validaword[i].word)) {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+        }
+
+        // Nueva validación para números y el carácter "@"
+        let validacaracteres;
+        let valornum = "";
+
+        for (var i = 0; i < comentario.length; i++) {
+            validacaracteres = comentario.substr(i, 1);
+
+            if (
+                validacaracteres == 0 ||
+                validacaracteres == 1 ||
+                validacaracteres == 2 ||
+                validacaracteres == 3 ||
+                validacaracteres == 4 ||
+                validacaracteres == 5 ||
+                validacaracteres == 6 ||
+                validacaracteres == 7 ||
+                validacaracteres == 8 ||
+                validacaracteres == 9
+            ) {
+                valornum = valornum + validacaracteres;
+            }
+
+            if (valornum.length > 5) {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
+
+            if (validacaracteres == "@") {
+                setTituloMensajes('Validación de mensaje');
+                setTextoMensajes('Tu mensaje contiene palabras o caracteres no permitidos.');
+                setShowModal(true);
+                return false;
+            }
         }
 
         return true;
@@ -332,7 +392,7 @@ export default function tengoUnProblema() {
 
         }
     };
- 
+
 
 
     return (
@@ -350,7 +410,7 @@ export default function tengoUnProblema() {
                                         <Grid container>
                                             <div className='titleTproblema'>
                                                 <p>Cuentanos qué pasó con tu compra</p>
-                                                
+
                                             </div>
                                             <Grid className="ContPrinctextareatengounproblema" item xs={12} md={7} sx={{ width: isMdDown ? '100%' : '90%' }}>
                                                 <Grid className="SubContPrinctextareatengounproblema" container sx={{ width: isMdDown ? '100%' : '85%' }}>
