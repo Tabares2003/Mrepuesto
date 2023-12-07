@@ -340,8 +340,20 @@ export default function msjVendedor() {
 
 
 
+    //funcion para bloquar en localstorage
+    const [mostrar, setMostrar] = useState(() => {
+        if (typeof window !== 'undefined') {
+          return localStorage.getItem('mostrar') === 'true';
+        }
+        return true;
+      });
+    
+      useEffect(() => {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('mostrar', mostrar);
+        }
+      }, [mostrar]);
 
-    const [mostrar, setMostrar] = useState(true);
 
     return (
         <div ref={irA}>
@@ -440,10 +452,10 @@ export default function msjVendedor() {
                                                             </div>
                                                         </div>
                                                     ) : (
-                                                        <div className="inputandsendMsjVendedor" style={{display:'flex', justifyContent:'center', textAlign:'center'}}>
+                                                        <div className="inputandsendMsjVendedor" style={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
                                                             {/* Segundo subcontainer */}
                                                             <p>Has decidido no recibir mensajes del vendedor!</p>
-                                                            <p style={{ fontSize: '18px', color: '#2D2E83', cursor: 'pointer', marginLeft:'5px', textDecoration:'underline' }} onClick={() => setMostrar(true)}>
+                                                            <p style={{ fontSize: '18px', color: '#2D2E83', cursor: 'pointer', marginLeft: '5px', textDecoration: 'underline' }} onClick={() => setMostrar(true)}>
                                                                 Desbloquear
                                                             </p>
                                                         </div>
