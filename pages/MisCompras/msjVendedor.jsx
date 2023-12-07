@@ -21,6 +21,7 @@ import { RiSettings5Fill } from "react-icons/ri";
 import { SlPaperClip } from "react-icons/sl";
 import { LuSendHorizonal } from "react-icons/lu";
 import { URL_BD_MR } from "../../helpers/Constants";
+import { IoMdClose } from "react-icons/io";
 
 
 
@@ -219,7 +220,7 @@ export default function msjVendedor() {
                 // Limpiar el campo de entrada después de enviar
                 setInputMessage('');
                 setImageName(''); // Restablecer el nombre de la imagen
-
+                setSelectedImage(null); // Restablecer la imagen seleccionada
                 // Leer los mensajes nuevamente para obtener la fecha y hora del servidor
                 leerMensajes();
             })
@@ -285,7 +286,7 @@ export default function msjVendedor() {
     }, [messages]);
 
 
-
+    const [selectedImage, setSelectedImage] = useState(null);
 
     // Función para manejar la subida de la imagen
     // Función para manejar la subida de la imagen
@@ -326,6 +327,7 @@ export default function msjVendedor() {
 
                 // Si la imagen pasa todas las validaciones, actualiza el estado
                 setImageName(file.name);
+                setSelectedImage(image.src); // Almacenar la imagen seleccionada
                 // Ahora puedes mostrar el nombre de la imagen en el input
                 setInputMessage(file.name);
             } else {
@@ -343,16 +345,21 @@ export default function msjVendedor() {
     //funcion para bloquar en localstorage
     const [mostrar, setMostrar] = useState(() => {
         if (typeof window !== 'undefined') {
-          return localStorage.getItem('mostrar') === 'true';
+            return localStorage.getItem('mostrar') === 'true';
         }
         return true;
-      });
-    
-      useEffect(() => {
+    });
+
+    useEffect(() => {
         if (typeof window !== 'undefined') {
-          localStorage.setItem('mostrar', mostrar);
+            localStorage.setItem('mostrar', mostrar);
         }
-      }, [mostrar]);
+    }, [mostrar]);
+
+
+
+
+
 
 
     return (
@@ -381,21 +388,21 @@ export default function msjVendedor() {
                                                         messages.slice(0).map((message, index) => (
                                                             <div className="MsjVendedor" key={index}  >
 
-                                                                <div style={{ width: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
+                                                                <div className="msjsVend"> 
+                                                                    <div className="contComment">
+                                                                        <div className="msjVendedor2">
+                                                                            {message.comentario}
+                                                                        </div>
+                                                                    </div>
                                                                     <div className="namevendedor">
                                                                         <div className="BallNamEv">
                                                                             <p>{primerasLetras}</p>
                                                                         </div>
                                                                     </div>
-                                                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                                        <div className="msjVendedor2">
-                                                                            {message.comentario}
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
-                                                                <div style={{ width: '100%', display: 'flex', marginTop: '-1.5rem' }}>
-                                                                    <div style={{ width: '12%' }}></div>
-                                                                    <div style={{ width: '88%' }}>
+                                                                <div className="contDateMSJ">
+                                                                    <div style={{ width: '81%' }}></div>
+                                                                    <div style={{ width: '19%' }}>
                                                                         <div style={{ width: '88%' }}>
                                                                             <p style={{ fontSize: '16px' }}>{message.fechacreacion ? message.fechacreacion.slice(11, 16) : ''}</p>
                                                                         </div>
@@ -408,7 +415,7 @@ export default function msjVendedor() {
                                                         <div>No hay mensajes disponibles</div>
                                                     )}
                                                 </div>
-                                                <div style={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                                <div className="contInputYimgSend">
                                                     {mostrar ? (
                                                         <div className="inputandsendMsjVendedor"
                                                             onKeyPress={(e) => {
@@ -418,46 +425,44 @@ export default function msjVendedor() {
                                                                 }
                                                             }}
                                                         >
-                                                            <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
+                                                            <div className="contButtonImg">
                                                                 <input
                                                                     type="file"
                                                                     id="imageUpload"
-                                                                    style={{ display: 'none' }}
                                                                     onChange={handleImageUpload}
                                                                 />
-                                                                <button
-                                                                    style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', cursor: 'pointer' }}
-                                                                    onClick={() => document.getElementById('imageUpload').click()}
-                                                                >
-                                                                    <SlPaperClip size={19} style={{ color: '#2D2E83' }} />
+                                                                <button onClick={() => document.getElementById('imageUpload').click()}>
+                                                                    <SlPaperClip size={19}/>
                                                                 </button>
                                                             </div>
-                                                            <div style={{ width: '80%' }}>
+                                                            <div className="contImgandInput">
                                                                 <input
                                                                     value={inputMessage}
                                                                     onChange={(e) => setInputMessage(e.target.value)}
                                                                     type="text"
                                                                     placeholder="Escribe un mensaje al vendedor"
-                                                                    style={{ width: '100%', borderRadius: '12px', fontSize: '14px', padding: '1rem', backgroundColor: 'white' }}
                                                                     readOnly={imageName ? true : false} // Hacer el input de solo lectura si se ha seleccionado una imagen
                                                                 />
+                                                                {selectedImage && (
+                                                                    <div className="contImgSelected" >
+                                                                        <img src={selectedImage} />
+                                                                        <button onClick={() => { setSelectedImage(null); setInputMessage(''); setImageName(''); }}>
+                                                                            <IoMdClose size={30}/>
+                                                                        </button>
+                                                                    </div>
+                                                                )}
                                                             </div>
-                                                            <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
-                                                                <button
-                                                                    style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', }}
-                                                                    onClick={manejarEnvioMensaje}
-                                                                >
-                                                                    <LuSendHorizonal size={25} style={{ color: '#2D2E83', cursor: inputMessage.trim() ? 'pointer' : 'not-allowed' }} />
+                                                            <div className="contSendMessage">
+                                                                <button onClick={manejarEnvioMensaje}>
+                                                                    <LuSendHorizonal size={25} style={{cursor: inputMessage.trim() ? 'pointer' : 'not-allowed'}} />
                                                                 </button>
                                                             </div>
                                                         </div>
                                                     ) : (
-                                                        <div className="inputandsendMsjVendedor" style={{ display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
+                                                        <div className="inputandsendMsjVendedor">
                                                             {/* Segundo subcontainer */}
                                                             <p>Has decidido no recibir mensajes del vendedor!</p>
-                                                            <p style={{ fontSize: '18px', color: '#2D2E83', cursor: 'pointer', marginLeft: '5px', textDecoration: 'underline' }} onClick={() => setMostrar(true)}>
-                                                                Desbloquear
-                                                            </p>
+                                                            <p className="unblocktext" onClick={() => setMostrar(true)}>Desbloquear</p>
                                                         </div>
                                                     )}
                                                 </div>

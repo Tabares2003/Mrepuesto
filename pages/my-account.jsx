@@ -1440,7 +1440,7 @@ const MyAccountScreen = () => {
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                     </div>
-                                </div>
+                                </div> 
                                 <div className="SubcontainerMisDatos" onClick={() => editUser('email')} >
                                     <div style={{ width: '100%' }}>
                                         <p className="titleSubContMisD">Correo electrónico</p>

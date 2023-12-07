@@ -28491,6 +28491,7 @@ color: #2D2E83;
  
 
 .msjVendedor {  
+    justify-content: flex-end;
     margin-top: 1rem;
     margin-bottom: 1rem;
     padding: 2rem;
@@ -28501,11 +28502,13 @@ color: #2D2E83;
 }
 
 .msjVendedor2 {  
+    display: flex;
+    justify-content: flex-end;
+    color: #2D2E83;
     margin-top: 1rem;
-    margin-bottom: 1.5rem;
-   
+    margin-bottom: 1.5rem; 
     padding: 1.5rem;
-    background-color: white;
+    background-color: #ABACCD;
     border-radius: 12px;
     height: auto;   
     flex-direction: column;
@@ -28518,14 +28521,16 @@ color: #2D2E83;
     align-items: center;
 }
 .BallNamEv{
-    background-color: white;
+    background-color: #ABACCD;
     color: blue;
     border-radius: 50%;
     display: flex;
     justify-content: center;
-    width: 70%;
-    height: 90%;
+    width: 50px;
+    height: 50px;
+    margin-left: 1rem;
     align-items: center;
+    margin-bottom: 1.7rem;
 }
 .BallNamEv p{
     font-size: 18px;
@@ -28535,24 +28540,118 @@ color: #2D2E83;
     display: flex;
     flex-direction: column;
     height: 40rem;
-    width: 100%;
-    padding-right: 1.5rem;
+    width: 100%; 
     overflow-y: auto; /* Agrega esta línea para habilitar el desplazamiento vertical */
   }
   
   .inputandsendMsjVendedor {
     display: flex;
-    padding-left: 1.5rem;
-    justify-content: flex-end; /* Ajusta según tus necesidades */
+    padding-left: 1.5rem; 
     align-items: flex-end; /* Ajusta según tus necesidades */
     width: 100%;
     margin-bottom: 1rem;
     margin-top: 1rem;
     display: flex;
     padding-left: 1.5rem;
-
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: #2D2E83; 
+  }
+  .unblocktext{
+    cursor: pointer;
+    margin-left: 5px;
+    text-decoration: underline;
+  }
+  .msjsVend{
+    width: 98%;
+    display: flex;
+    align-items: flex-end;
+    padding-left: 1.5rem;
+    justify-content: flex-end;
+  }
+  .contComment{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .contDateMSJ{
+    margin-top: -1.5rem;
+    display: flex;
+    width: 100%;
   }
  
+  .contInputYimgSend{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .contButtonImg{
+    width: 10%;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    color: #2D2E83;
+  }
+  .contButtonImg input{
+    display: none;
+  }
+  .contButtonImg button{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    cursor: pointer;
+  }
+  .contImgandInput{
+    width: 80%;
+    position: relative;
+  }
+  .contImgandInput input{
+    width: 100%;
+    border-radius: 12px;
+    font-size: 14px;
+    padding: 1rem;
+    background-color: white;
+  }
+  .contImgSelected{
+    position: absolute;
+    top: -300px;
+    left: 0;
+    width: 100%;
+  }
+  .contImgSelected img{
+    width: 100%;
+    height: 300px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+  }
+  .contImgSelected button{
+    position: absolute;
+    top: -17px;
+    left: -17px;
+    color: #2D2E83;
+  }
+  .contSendMessage{
+    width: 10%;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+  }
+  .contSendMessage button{
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    color: #2D2E83;
+  }
 
 
   /*buttons tengoproblema container ver mas*/

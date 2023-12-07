@@ -93,6 +93,15 @@ export default function seguridadData() {
         leerDatosUsuario();
     }, [datosusuarios]);
 
+
+
+    const editUser = (tipoInformacion) => {
+        router.push({
+            pathname: '../EditUsers/CompSMS.jsx',
+            query: { tipoInformacion, info: tipoInformacion },
+        });
+    };
+
     return (
         <>
             <div ref={irA}>
@@ -108,7 +117,7 @@ export default function seguridadData() {
                                             <p className="titlemisD">Seguridad</p>
                                         </div>
 
-                                        <div className="SubcontainerMisDatos">
+                                        <div className="SubcontainerMisDatos" onClick={() => editUser('email')}>
                                             <div style={{ width: '100%' }}>
                                                 <p className="titleSubContMisD">Correo electronico</p>
                                                 <p className="subtitleSubContMisD">{correoElectronico}</p>
