@@ -164,6 +164,9 @@ export default function tengoUnProblema() {
             { word: "movil" },
             { word: "email" },
             { word: "gmail" },
+            { word: "calle"},
+            { word: "call"},
+            { word: "cra"},
         ];
 
         for (let i = 0; i < validaword.length; i++) {

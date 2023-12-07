@@ -66,7 +66,7 @@ export default function msjVendedor() {
     if (producto && producto.nombres) {
         primerasLetras = producto.nombres.split(' ').map(palabra => palabra[0]).join('');
     }
-    
+
 
     //cerrar modal si no hay nada en el input
     const handleModalClose = () => {
@@ -111,6 +111,9 @@ export default function msjVendedor() {
             { word: "movil" },
             { word: "email" },
             { word: "gmail" },
+            { word: "calle" },
+            { word: "call" },
+            { word: "cra" },
         ];
 
         // Dividir el comentario en palabras
@@ -337,7 +340,7 @@ export default function msjVendedor() {
 
 
 
- 
+
 
 
     return (
@@ -394,12 +397,27 @@ export default function msjVendedor() {
                                                         <div>No hay mensajes disponibles</div>
                                                     )}
                                                 </div>
-                                                <div className="inputandsendMsjVendedor">
+                                                <div className="inputandsendMsjVendedor"
+                                                    onKeyPress={(e) => {
+                                                        if (e.key === 'Enter') {
+                                                            e.preventDefault(); // Evita la recarga de la página
+                                                            manejarEnvioMensaje();
+                                                        }
+                                                    }}
+                                                >
                                                     <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
-                                                        <input type="file" id="imageUpload" style={{ display: 'none' }} onChange={handleImageUpload} />
-                                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', cursor: 'pointer' }} onClick={() => document.getElementById('imageUpload').click()}>
+                                                        <input
+                                                            type="file"
+                                                            id="imageUpload"
+                                                            style={{ display: 'none' }}
+                                                            onChange={handleImageUpload}
+                                                        />
+                                                        <button
+                                                            style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', cursor: 'pointer' }}
+                                                            onClick={() => document.getElementById('imageUpload').click()}
+                                                        >
                                                             <SlPaperClip size={19} style={{ color: '#2D2E83' }} />
-                                                        </div>
+                                                        </button>
                                                     </div>
                                                     <div style={{ width: '80%' }}>
                                                         <input
@@ -412,11 +430,16 @@ export default function msjVendedor() {
                                                         />
                                                     </div>
                                                     <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
-                                                        <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', }}>
-                                                            <LuSendHorizonal size={25} style={{ color: '#2D2E83', cursor: inputMessage.trim() ? 'pointer' : 'not-allowed' }} onClick={manejarEnvioMensaje} />
-                                                        </div>
+                                                        <button
+                                                            style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', }}
+                                                            onClick={manejarEnvioMensaje}
+                                                        >
+                                                            <LuSendHorizonal size={25} style={{ color: '#2D2E83', cursor: inputMessage.trim() ? 'pointer' : 'not-allowed' }} />
+                                                        </button>
                                                     </div>
                                                 </div>
+
+
                                             </Grid>
                                         </Grid>
                                         <Grid className="contInfoProdComprCalif" item xs={12} md={5} flexDirection={'column'}>
