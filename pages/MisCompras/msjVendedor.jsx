@@ -177,7 +177,7 @@ export default function msjVendedor() {
 
     // Función para enviar un mensaje
     const sendMessage = async () => {
-        const usuariorecibe = 1653147206453; // UID del vendedor
+        const usuariorecibe = '1653147206453'; // UID del vendedor
         const estado = 32; // Estado pendiente por revisión y/o aprobación MR
         const usuarioenvia = producto.usuario;
 
@@ -341,7 +341,7 @@ export default function msjVendedor() {
 
 
 
-
+    const [mostrar, setMostrar] = useState(true);
 
     return (
         <div ref={irA}>
@@ -364,11 +364,11 @@ export default function msjVendedor() {
                                                 <div className="diaMsj">
                                                     <p>Hoy</p>
                                                 </div>
-
                                                 <div className="contMensajes" ref={messagesRef}>
                                                     {Array.isArray(messages) && messages.length > 0 ? (
                                                         messages.slice(0).map((message, index) => (
                                                             <div className="MsjVendedor" key={index}  >
+
                                                                 <div style={{ width: '100%', display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-start' }}>
                                                                     <div className="namevendedor">
                                                                         <div className="BallNamEv">
@@ -380,7 +380,6 @@ export default function msjVendedor() {
                                                                             {message.comentario}
                                                                         </div>
                                                                     </div>
-
                                                                 </div>
                                                                 <div style={{ width: '100%', display: 'flex', marginTop: '-1.5rem' }}>
                                                                     <div style={{ width: '12%' }}></div>
@@ -397,48 +396,59 @@ export default function msjVendedor() {
                                                         <div>No hay mensajes disponibles</div>
                                                     )}
                                                 </div>
-                                                <div className="inputandsendMsjVendedor"
-                                                    onKeyPress={(e) => {
-                                                        if (e.key === 'Enter') {
-                                                            e.preventDefault(); // Evita la recarga de la página
-                                                            manejarEnvioMensaje();
-                                                        }
-                                                    }}
-                                                >
-                                                    <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
-                                                        <input
-                                                            type="file"
-                                                            id="imageUpload"
-                                                            style={{ display: 'none' }}
-                                                            onChange={handleImageUpload}
-                                                        />
-                                                        <button
-                                                            style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', cursor: 'pointer' }}
-                                                            onClick={() => document.getElementById('imageUpload').click()}
+                                                <div style={{ width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                                    {mostrar ? (
+                                                        <div className="inputandsendMsjVendedor"
+                                                            onKeyPress={(e) => {
+                                                                if (e.key === 'Enter') {
+                                                                    e.preventDefault(); // Evita la recarga de la página
+                                                                    manejarEnvioMensaje();
+                                                                }
+                                                            }}
                                                         >
-                                                            <SlPaperClip size={19} style={{ color: '#2D2E83' }} />
-                                                        </button>
-                                                    </div>
-                                                    <div style={{ width: '80%' }}>
-                                                        <input
-                                                            value={inputMessage}
-                                                            onChange={(e) => setInputMessage(e.target.value)}
-                                                            type="text"
-                                                            placeholder="Escribe un mensaje al vendedor"
-                                                            style={{ width: '100%', borderRadius: '12px', fontSize: '14px', padding: '1rem', backgroundColor: 'white' }}
-                                                            readOnly={imageName ? true : false} // Hacer el input de solo lectura si se ha seleccionado una imagen
-                                                        />
-                                                    </div>
-                                                    <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
-                                                        <button
-                                                            style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', }}
-                                                            onClick={manejarEnvioMensaje}
-                                                        >
-                                                            <LuSendHorizonal size={25} style={{ color: '#2D2E83', cursor: inputMessage.trim() ? 'pointer' : 'not-allowed' }} />
-                                                        </button>
-                                                    </div>
+                                                            <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
+                                                                <input
+                                                                    type="file"
+                                                                    id="imageUpload"
+                                                                    style={{ display: 'none' }}
+                                                                    onChange={handleImageUpload}
+                                                                />
+                                                                <button
+                                                                    style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', cursor: 'pointer' }}
+                                                                    onClick={() => document.getElementById('imageUpload').click()}
+                                                                >
+                                                                    <SlPaperClip size={19} style={{ color: '#2D2E83' }} />
+                                                                </button>
+                                                            </div>
+                                                            <div style={{ width: '80%' }}>
+                                                                <input
+                                                                    value={inputMessage}
+                                                                    onChange={(e) => setInputMessage(e.target.value)}
+                                                                    type="text"
+                                                                    placeholder="Escribe un mensaje al vendedor"
+                                                                    style={{ width: '100%', borderRadius: '12px', fontSize: '14px', padding: '1rem', backgroundColor: 'white' }}
+                                                                    readOnly={imageName ? true : false} // Hacer el input de solo lectura si se ha seleccionado una imagen
+                                                                />
+                                                            </div>
+                                                            <div style={{ width: '10%', height: '4rem', display: 'flex', justifyContent: 'center' }}>
+                                                                <button
+                                                                    style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: '50%', width: '40px', }}
+                                                                    onClick={manejarEnvioMensaje}
+                                                                >
+                                                                    <LuSendHorizonal size={25} style={{ color: '#2D2E83', cursor: inputMessage.trim() ? 'pointer' : 'not-allowed' }} />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="inputandsendMsjVendedor" style={{display:'flex', justifyContent:'center', textAlign:'center'}}>
+                                                            {/* Segundo subcontainer */}
+                                                            <p>Has decidido no recibir mensajes del vendedor!</p>
+                                                            <p style={{ fontSize: '18px', color: '#2D2E83', cursor: 'pointer', marginLeft:'5px', textDecoration:'underline' }} onClick={() => setMostrar(true)}>
+                                                                Desbloquear
+                                                            </p>
+                                                        </div>
+                                                    )}
                                                 </div>
-
 
                                             </Grid>
                                         </Grid>
@@ -469,7 +479,7 @@ export default function msjVendedor() {
 
                                         </Grid>
                                         <Grid item xs={12} md={5} sx={{ textAlign: 'center', marginTop: '-4.3rem' }}>
-                                            <p style={{ fontSize: '18px', color: '#2D2E83', textDecoration: 'underline', cursor: 'pointer' }}>No deseo recibir más mensajes del vendedor</p>
+                                            <p style={{ fontSize: '18px', color: '#2D2E83', textDecoration: 'underline', cursor: 'pointer' }} onClick={() => setMostrar(false)}>No deseo recibir más mensajes del vendedor</p>
                                             <ModalMensajes
                                                 shown={showModal}
                                                 close={handleModalClose}

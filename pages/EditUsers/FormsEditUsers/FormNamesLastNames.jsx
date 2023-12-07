@@ -32,7 +32,7 @@ export default function FormNamesLastNames() {
     const [datUsers, SetDatUser] = useState(null);
     const [nombresData, SetnombresData] = useState(null);
     const [apellidosData, SetapellidosData] = useState(null);
-
+    const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState(null); // Nuevo estado
     const [confirmationOpen, setConfirmationOpen] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [tituloMensajes, setTituloMensajes] = useState("");

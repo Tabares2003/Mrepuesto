@@ -170,7 +170,7 @@ export default function FormTel() {
             primerapellido: apellidos,
             segundoapellido: apellidosDos,
             razonsocial: ".",
-            tipoidentificacion: 1,
+            tipoidentificacion:  datosUsuario.tipoidentificacion,
             identificacion: datosUsuario.identificacion,
             celular: telefonoRecibeSeleccionado,
             email: datosUsuario.email,

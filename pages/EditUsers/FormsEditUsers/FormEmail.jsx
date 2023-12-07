@@ -32,7 +32,7 @@ export default function FormEmail() {
     const [showModalCodigo, setShowModalCodigo] = useState(false);
     const [tituloMensajesCodigo, setTituloMensajesCodigo] = useState('');
     const [textoMensajesCodigo, setTextoMensajesCodigo] = useState('');
-
+    const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState(null); // Nuevo estado
     const handleConfirmationOpen = () => {
         setConfirmationOpen(true);
     };
@@ -180,11 +180,11 @@ export default function FormEmail() {
 
         let params = {
             primernombre: nombres,
-            segundonombre: nombresDos,
+            segundonombre: nombresDos, 
             primerapellido: apellidos,
             segundoapellido: apellidosDos,
             razonsocial: ".",
-            tipoidentificacion: 1,
+            tipoidentificacion:  datosUsuario.tipoidentificacion,
             identificacion: datosUsuario.identificacion,
             celular: datosUsuario.celular,
             email: emailSeleccionado,

@@ -157,8 +157,7 @@ export default function FormDocumento() {
         }
     };
 
-    const updateData = () => {
-        const url = 'https://gimcloud.com.co/mrp/api/+75';
+    const updateData = () => { 
 
         let params = {
             primernombre: nombres,
