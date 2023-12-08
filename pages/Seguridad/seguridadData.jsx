@@ -46,17 +46,18 @@ export default function seguridadData() {
 
 
 
-    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
-    const [datosUsuario, setDatosUsuario] = useState("");
-    const [nombres, setNombres] = useState("");
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged);    
+    const [datosUsuario, setDatosUsuario] = useState("");    
+    const [correoElectronico, setCorreoElectronico] = useState("");
+
+  {/*  const [nombres, setNombres] = useState("");
     const [nombresDos, setNombresDos] = useState("");
     const [apellidos, setApellidos] = useState("");
     const [apellidosDos, setApellidosDos] = useState("");
-    const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState("");
-    const [correoElectronico, setCorreoElectronico] = useState("");
+    const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState(""); 
     const [nroDocumentoSeleccionado, setNroDocumentoSeleccionado] = useState("");
     const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState("");
-
+ */}
     
     useEffect(() => {
         const leerDatosUsuario = async () => {
@@ -73,14 +74,13 @@ export default function seguridadData() {
 
                 // Actualiza el estado con los datos adicionales que necesitas
                 setDatosUsuario(res.data[0]);
-                setNombres(res.data[0].primernombre);
-                setNombresDos(res.data[0].segundonombre);
-                setApellidos(res.data[0].primerapellido);
-                setApellidosDos(res.data[0].segundoapellido);
-                setTelefonoRecibeSeleccionado(res.data[0].celular);
-                setCorreoElectronico(res.data[0].email);
-                setNroDocumentoSeleccionado(res.data[0].identificacion);
-                setTipoDocumentoSeleccionado(res.data[0].nombredocumento)
+                setCorreoElectronico(res.data[0].email); 
+                //setNombres(res.data[0].primernombre);
+                //setNombresDos(res.data[0].segundonombre);
+                //setApellidos(res.data[0].primerapellido);
+                //setApellidosDos(res.data[0].segundoapellido);
+                //setTelefonoRecibeSeleccionado(res.data[0].celular);
+                
 
                 // Agrega más setState según sea necesario
 
@@ -97,7 +97,7 @@ export default function seguridadData() {
 
     const editUser = (tipoInformacion) => {
         router.push({
-            pathname: '../EditUsers/CompSMS.jsx',
+            pathname: './compSmsSeguridad',
             query: { tipoInformacion, info: tipoInformacion },
         });
     };
@@ -128,7 +128,7 @@ export default function seguridadData() {
                                         </div>
                                         <div className="SubcontainerMisDatos">
                                             <div style={{ width: '100%' }}>
-                                                <p className="titleSubContMisD">contraseña</p>
+                                                <p className="titleSubContMisD" onClick={() => editUser('password')}>contraseña</p>
                                                 <p className="subtitleSubContMisD">12345678</p>
                                             </div>
                                             <div style={{ display: 'flex', alignItems: 'center' }}>

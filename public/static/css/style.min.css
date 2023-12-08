@@ -28526,11 +28526,11 @@ color: #2D2E83;
     border-radius: 50%;
     display: flex;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     margin-left: 1rem;
     align-items: center;
-    margin-bottom: 1.7rem;
+    margin-bottom: 1.7rem; 
 }
 .BallNamEv p{
     font-size: 18px;

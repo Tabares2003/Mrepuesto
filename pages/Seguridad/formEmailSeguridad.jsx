@@ -1,18 +1,30 @@
-import Container from '../../../components/layouts/Container'
+import { validateEmail } from "../../utilities/Validations"
 //import MUI media
-import { Box, Grid, Typography, useMediaQuery, useTheme, Dialog, DialogTitle, DialogActions, DialogContent, } from '@mui/material';
-import React, { useState, useEffect, useRef } from "react";
-import { validateEmail } from "../../../utilities/Validations";
-import ModalMensajes from '../../mensajes/ModalMensajes';
+import {
+    Box,
+    Grid,
+    Typography,
+    useMediaQuery,
+    useTheme,
+    Dialog,
+    DialogTitle,
+    DialogActions,
+    DialogContent,
+    Button,
+} from "@mui/material";
+import Container from "../../components/layouts/Container";
+import ModalMensajes from "../mensajes/ModalMensajes";
 import { useRouter } from "next/router";
+import React, { useState, useEffect, useRef } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { useDispatch, connect, useSelector } from "react-redux";
-import axios from 'axios';
-import { URL_BD_MR } from '../../../helpers/Constants';
+import axios from "axios";
+import { URL_BD_MR } from "../../helpers/Constants";
+import { useDispatch, connect, useSelector } from "react-redux"; 
 
-export default function FormEmail() {
+
+export default function formEmailSeguridad() {
     //Consts measured, 80% and in md 100%.
-    const theme = useTheme(); 
+    const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
     const router = useRouter();
     //ModalDatosGUardados
@@ -33,6 +45,16 @@ export default function FormEmail() {
     const [tituloMensajesCodigo, setTituloMensajesCodigo] = useState('');
     const [textoMensajesCodigo, setTextoMensajesCodigo] = useState('');
     const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState(null); // Nuevo estado
+
+    const [nombres, setNombres] = useState("");
+    const [apellidos, setApellidos] = useState("");
+    const [nombresDos, setNombresDos] = useState("");
+    const [apellidosDos, setApellidosDos] = useState("");
+    const [datosUsuario, setDatosUsuario] = useState([]);
+    // Asignamos Datos al arreglo de Usuarios desde el state
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+
+
     const handleConfirmationOpen = () => {
         setConfirmationOpen(true);
     };
@@ -135,13 +157,7 @@ export default function FormEmail() {
 
 
 
-    const [nombres, setNombres] = useState("");
-    const [apellidos, setApellidos] = useState("");
-    const [nombresDos, setNombresDos] = useState("");
-    const [apellidosDos, setApellidosDos] = useState("");
-    const [datosUsuario, setDatosUsuario] = useState([]);
-    // Asignamos Datos al arreglo de Usuarios desde el state
-    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+
 
     useEffect(() => {
         const leerDatosUsuario = async () => {
@@ -166,7 +182,7 @@ export default function FormEmail() {
                 })
                 .catch(function (error) {
                     console.error("Error al leer los datos del usuario", error);
-         
+
                 });
         };
         leerDatosUsuario();
@@ -180,11 +196,11 @@ export default function FormEmail() {
 
         let params = {
             primernombre: nombres,
-            segundonombre: nombresDos, 
+            segundonombre: nombresDos,
             primerapellido: apellidos,
             segundoapellido: apellidosDos,
             razonsocial: ".",
-            tipoidentificacion:  datosUsuario.tipoidentificacion,
+            tipoidentificacion: datosUsuario.tipoidentificacion,
             identificacion: datosUsuario.identificacion,
             celular: datosUsuario.celular,
             email: emailSeleccionado,
@@ -193,13 +209,10 @@ export default function FormEmail() {
             direccion: datosUsuario.direccion,
             fechacreacion: datosUsuario.fechacreacion,
             fechatoken: datosUsuario.fechatoken,
-            uid: datosUsuario.uid,
-            // ...resto de los datos
-        };
-        //console.log("Datos usuario : ", params);
-        //return
-        const updateDatosUsuario = async () => {
-            //console.log("VISITAS: ", params);
+            uid: datosUsuario.uid, 
+        }; 
+
+        const updateDatosUsuario = async () => { 
             await axios({
                 method: "post",
                 url: URL_BD_MR + "75",
@@ -222,12 +235,12 @@ export default function FormEmail() {
         if (inputCodigo === codigo.toString()) {
             updateData(); // Llama a la función de actualización de datos
 
-           // alert indicando que el código es correcto
-           handleConfirmationOpen();
+            // alert indicando que el código es correcto
+            handleConfirmationOpen();
 
 
-           setEmailSeleccionado('');
-           setConfirmarEmail('');
+            setEmailSeleccionado('');
+            setConfirmarEmail('');
             // Realizar otras acciones dependiendo necesidades
         } else {
             //  modal indicando que el código es incorrecto
@@ -244,7 +257,7 @@ export default function FormEmail() {
 
 
     const handleValidP = () => {
-        router.push('../../my-account');
+        router.push('./seguridadData');
     };
 
     const irA = useRef(null);
@@ -255,7 +268,6 @@ export default function FormEmail() {
             block: "start",
         });
     }, []);
-
 
     return (
         <>
@@ -433,8 +445,8 @@ export default function FormEmail() {
                                             </DialogContent>
                                             <DialogActions className='DialogActionsDatsGuardados'>
                                                 <div className='div1buttonDialog' >
-                                                    <button className='button2DialogDatsGuardados' onClick={handleConfirmationSuccess('../../my-account')} >
-                                                        Ir a Mis datos
+                                                    <button className='button2DialogDatsGuardados' onClick={handleConfirmationSuccess('./seguridadData')} >
+                                                        Ir a seguridad
                                                     </button>
                                                 </div>
                                                 <div className='div1buttonDialog' >

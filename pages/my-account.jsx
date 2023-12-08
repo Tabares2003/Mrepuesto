@@ -1375,7 +1375,7 @@ const MyAccountScreen = () => {
                                         onClick={() => {
                                             cerrarModal();
                                         }}
-                                    >
+                                    > 
                                         <div
                                             className="modal-mensajes-login redondearventamensajes"
                                             onClick={(e) => {
