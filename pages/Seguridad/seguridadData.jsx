@@ -134,7 +134,7 @@ export default function seguridadData() {
                                         <div className="SubcontainerMisDatos" onClick={() => editUser('password')}>
                                             <div style={{ width: '100%' }}>
                                                 <p className="titleSubContMisD">contraseña</p>
-                                                <p className="subtitleSubContMisD">XXXXXXXX</p>
+                                                <p className="subtitleSubContMisD">xxxxxxxx</p>
                                             </div>
                                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                                 <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
