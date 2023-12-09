@@ -288,10 +288,23 @@ export default function msjVendedor() {
 
     const [selectedImage, setSelectedImage] = useState(null);
 
-    // Función para manejar la subida de la imagen
-    // Función para manejar la subida de la imagen
+
+    // Función para manejar la subida de la imagen 
+
     const handleImageUpload = async (event) => {
         const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            // Convertir la imagen a base64
+            const base64Image = reader.result;
+
+            // Almacenar la imagen en localStorage
+            localStorage.setItem('chatImage', base64Image);
+
+            // Actualizar el estado con la imagen seleccionada
+            setSelectedImage(base64Image);
+        };
 
         if (file) {
             const allowedFileTypes = ['image/jpeg', 'image/png'];
@@ -327,9 +340,11 @@ export default function msjVendedor() {
 
                 // Si la imagen pasa todas las validaciones, actualiza el estado
                 setImageName(file.name);
-                setSelectedImage(image.src); // Almacenar la imagen seleccionada
                 // Ahora puedes mostrar el nombre de la imagen en el input
                 setInputMessage(file.name);
+
+                // Leer la imagen como una URL de datos
+                reader.readAsDataURL(file);
             } else {
                 setShowModal(true);
                 setTituloMensajes('Archivo incorrecto');
@@ -338,7 +353,16 @@ export default function msjVendedor() {
         } else {
             console.log('No se seleccionó ningún archivo');
         }
+        // Restablecer el valor del campo de entrada del archivo
+        event.target.value = null;
     };
+
+
+
+
+
+
+
 
 
 
@@ -387,8 +411,14 @@ export default function msjVendedor() {
                                                     {Array.isArray(messages) && messages.length > 0 ? (
                                                         messages.slice(0).map((message, index) => (
                                                             <div className="MsjVendedor" key={index}  >
-
-                                                                <div className="msjsVend"> 
+                                                                {message.nombreimagen1 && (
+                                                                    <div className="imageContainerChat">
+                                                                        <div className="SubcontimageContainerChat">
+                                                                            <img src={localStorage.getItem('chatImage')} alt={message.nombreimagen1} />
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                                <div className="msjsVend">
                                                                     <div className="contComment">
                                                                         <div className="msjVendedor2">
                                                                             {message.comentario}
@@ -408,12 +438,12 @@ export default function msjVendedor() {
                                                                         </div>
                                                                     </div>
                                                                 </div>
-
                                                             </div>
                                                         ))
                                                     ) : (
                                                         <div>No hay mensajes disponibles</div>
                                                     )}
+
                                                 </div>
                                                 <div className="contInputYimgSend">
                                                     {mostrar ? (
@@ -432,13 +462,14 @@ export default function msjVendedor() {
                                                                     onChange={handleImageUpload}
                                                                 />
                                                                 <button onClick={() => document.getElementById('imageUpload').click()}>
-                                                                    <SlPaperClip size={19}/>
+                                                                    <SlPaperClip size={19} />
                                                                 </button>
                                                             </div>
                                                             <div className="contImgandInput">
                                                                 <input
                                                                     value={inputMessage}
                                                                     onChange={(e) => setInputMessage(e.target.value)}
+
                                                                     type="text"
                                                                     placeholder="Escribe un mensaje al vendedor"
                                                                     readOnly={imageName ? true : false} // Hacer el input de solo lectura si se ha seleccionado una imagen
@@ -447,14 +478,14 @@ export default function msjVendedor() {
                                                                     <div className="contImgSelected" >
                                                                         <img src={selectedImage} />
                                                                         <button onClick={() => { setSelectedImage(null); setInputMessage(''); setImageName(''); }}>
-                                                                            <IoMdClose size={30}/>
+                                                                            <IoMdClose size={30} />
                                                                         </button>
                                                                     </div>
                                                                 )}
                                                             </div>
                                                             <div className="contSendMessage">
                                                                 <button onClick={manejarEnvioMensaje}>
-                                                                    <LuSendHorizonal size={25} style={{cursor: inputMessage.trim() ? 'pointer' : 'not-allowed'}} />
+                                                                    <LuSendHorizonal size={25} style={{ cursor: inputMessage.trim() ? 'pointer' : 'not-allowed' }} />
                                                                 </button>
                                                             </div>
                                                         </div>
