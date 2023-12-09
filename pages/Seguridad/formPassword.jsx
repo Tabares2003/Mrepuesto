@@ -23,6 +23,8 @@ import { useDispatch, connect, useSelector } from "react-redux";
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 
+import firebase from "../../utilities/firebase";
+import { getAuth, signInWithEmailAndPassword, updatePassword } from "firebase/auth";
 
 export default function formPassword() {
 
@@ -34,8 +36,30 @@ export default function formPassword() {
 
 
 
+    const [email, setEmail] = useState('');
+    const [contraseñaActual, setContraseñaActual] = useState('');
+    const [nuevaContraseña, setNuevaContraseña] = useState('');
 
+    const manejarEnvío = async (event) => {
+        event.preventDefault();
+        const auth = getAuth(firebase);
 
+        try {
+            // Reautenticar al usuario
+            await signInWithEmailAndPassword(auth, email, contraseñaActual);
+
+            // Cambiar la contraseña
+            const user = auth.currentUser;
+            if (user) {
+                await updatePassword(user, nuevaContraseña);
+                console.log('La contraseña se actualizó correctamente');
+            } else {
+                console.log('El usuario no está autenticado');
+            }
+        } catch (error) {
+            console.error('Ocurrió un error', error);
+        }
+    };
 
 
 
@@ -54,7 +78,13 @@ export default function formPassword() {
     const [showPassword2, setShowPassword2] = useState(false);
 
     const handleClickShowPassword2 = () => {
-        setShowPassword2(!showPassword);
+        setShowPassword2(!showPassword2);
+    };
+
+    const [showPassword3, setShowPassword3] = useState(false);
+
+    const handleClickShowPassword3 = () => {
+        setShowPassword3(!showPassword3);
     };
     //Top screen
     const irA = useRef(null);
@@ -89,26 +119,80 @@ export default function formPassword() {
 
 
                                 <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '65%' }}>
-                                <Grid container spacing={2}>
+                                    <Grid container spacing={2} mb={5}>
                                         <Grid item xs={12} md={6}>
-                                            <p className='titlesFormsUsers2'>Nueva contraseña</p>
-                                            <input
-                                                className='InputFormsUsers'
-                                                type="password" 
-                                            /> 
+                                            <div>
+                                                <p className='titlesFormsUsers2'>Pon tu contraseña actual:</p>
+                                                <div className="inpustEyes">
+                                                    <input
+                                                        type={showPassword3 ? 'text' : 'password'} />
+                                                    <div onClick={handleClickShowPassword3}>
+                                                        {showPassword3 ? <FiEye /> : < FiEyeOff />}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </Grid>
                                         <Grid item xs={12} md={6}>
-                                            <p className='titlesFormsUsers2'>Confirmar nueva contraseña</p>
-                                            <input
-                                                className='InputFormsUsers'
-                                                type="password"  
-                                            />
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} md={6}>
+                                            <div>
+                                                <p className='titlesFormsUsers2'>Nueva contraseña</p>
+                                                <div className="inpustEyes">
+                                                    <input
+                                                        type={showPassword ? 'text' : 'password'} />
+                                                    <div onClick={handleClickShowPassword}>
+                                                        {showPassword ? <FiEye /> : < FiEyeOff />}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <div>
+                                                <p className='titlesFormsUsers2'>Confirmar nueva contraseña</p>
+                                                <div className="inpustEyes">
+                                                    <input
+                                                        type={showPassword2 ? 'text' : 'password'}
+                                                    />
+                                                    <div onClick={handleClickShowPassword2}>
+                                                        {showPassword2 ? <FiEye /> : < FiEyeOff />}
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <Box display="flex" justifyContent="space-between" marginTop={15}>
                                                 <button className='CancelarFormButton' onClick={rutaBack}>Cancelar</button>
-                                                <button className='GuardarFormButton'>Guardar</button> 
+                                                <button className='GuardarFormButton'>Guardar</button>
                                             </Box>
                                         </Grid>
                                     </Grid>
+                                    <form onSubmit={manejarEnvío}>
+                                        <label>
+                                            Email:
+                                            <input
+                                                type="email"
+                                                value={email}
+                                                onChange={(event) => setEmail(event.target.value)}
+                                            />
+                                        </label>
+                                        <label>
+                                            Contraseña actual:
+                                            <input
+                                                type="password"
+                                                value={contraseñaActual}
+                                                onChange={(event) => setContraseñaActual(event.target.value)}
+                                            />
+                                        </label>
+                                        <label>
+                                            Nueva contraseña:
+                                            <input
+                                                type="password"
+                                                value={nuevaContraseña}
+                                                onChange={(event) => setNuevaContraseña(event.target.value)}
+                                            />
+                                        </label>
+                                        <button type="submit">Cambiar contraseña</button>
+                                    </form>
                                 </Grid>
                             </div>
                         </div>
