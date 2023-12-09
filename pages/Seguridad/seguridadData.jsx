@@ -102,6 +102,11 @@ export default function seguridadData() {
         });
     };
 
+    const rutaDispVinc = (e) => {
+        e.preventDefault()
+        router.push('./dispVinculados')
+    }
+
     return (
         <>
             <div ref={irA}>
@@ -126,16 +131,16 @@ export default function seguridadData() {
                                                 <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                             </div>
                                         </div>
-                                        <div className="SubcontainerMisDatos">
+                                        <div className="SubcontainerMisDatos" onClick={() => editUser('password')}>
                                             <div style={{ width: '100%' }}>
-                                                <p className="titleSubContMisD" onClick={() => editUser('password')}>contraseña</p>
+                                                <p className="titleSubContMisD">contraseña</p>
                                                 <p className="subtitleSubContMisD">XXXXXXXX</p>
                                             </div>
                                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                                 <AiOutlineRight size={30} style={{ cursor: 'pointer' }} />
                                             </div>
                                         </div>
-                                        <div className="SubcontainerMisDatos">
+                                        <div className="SubcontainerMisDatos" onClick={rutaDispVinc}>
                                             <div style={{ width: '100%' }}>
                                                 <p className="titleSubContMisD">Dispositivos vinculados</p>
                                                 <p className="subtitleSubContMisD">Mira tus dispositivos vinculados</p>

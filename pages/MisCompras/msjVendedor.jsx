@@ -15,15 +15,14 @@ import productos from "../../utilities/producsQuemados";
 import { AiOutlineRight } from 'react-icons/ai';
 import { IoIosCamera } from "react-icons/io";
 import { IoSquareOutline } from "react-icons/io5";
-import ModalMensajes from "../mensajes/ModalMensajes";
-import { URL_IMAGES_RESULTS } from "../../helpers/Constants";
+import ModalMensajes from "../mensajes/ModalMensajes"; 
 import { RiSettings5Fill } from "react-icons/ri";
 import { SlPaperClip } from "react-icons/sl";
 import { LuSendHorizonal } from "react-icons/lu";
-import { URL_BD_MR } from "../../helpers/Constants";
+import { URL_BD_MR, URL_IMAGES_RESULTS } from "../../helpers/Constants";
 import { IoMdClose } from "react-icons/io";
 
-
+import shortid from "shortid";
 
 export default function msjVendedor() {
 
@@ -63,6 +62,8 @@ export default function msjVendedor() {
             }
         }
     }
+
+    //poner primeras letras en perfil de usuario sin espacios
     let primerasLetras = ''
     if (producto && producto.nombres) {
         primerasLetras = producto.nombres.split(' ').map(palabra => palabra[0]).join('');
@@ -189,11 +190,12 @@ export default function msjVendedor() {
             estado,
             comentario: inputMessage,
             observacionintera: '',
-            nombreimagen1: imageName, // Aquí envías el nombre de la imagen
+            nombreimagen1: imageName,  
             nombreimagen2: '',
             nombreimagen3: '',
             nombreimagen4: '',
-            nombreimagen5: ''
+            nombreimagen5: '',
+            imagen1: selectedImage
         };
 
         await axios({
@@ -237,6 +239,7 @@ export default function msjVendedor() {
         }
     };
 
+ 
 
 
 
@@ -273,6 +276,10 @@ export default function msjVendedor() {
     }, []);
 
 
+
+
+
+
     const messagesRef = useRef(null);
 
     // Función para desplazar hacia abajo cuando se actualizan los mensajes
@@ -299,8 +306,12 @@ export default function msjVendedor() {
             // Convertir la imagen a base64
             const base64Image = reader.result;
 
-            // Almacenar la imagen en localStorage
-            localStorage.setItem('chatImage', base64Image);
+            // Generar un ID único para la imagen
+            let uniqueImageName = shortid.generate();
+            uniqueImageName = uniqueImageName.substring(0, 11);
+
+            // Almacenar la imagen en localStorage con el nuevo nombre
+            localStorage.setItem(uniqueImageName, base64Image);
 
             // Actualizar el estado con la imagen seleccionada
             setSelectedImage(base64Image);

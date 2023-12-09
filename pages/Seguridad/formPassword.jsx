@@ -25,7 +25,9 @@ import { useDispatch, connect, useSelector } from "react-redux";
 export default function formPassword() {
 
 
-
+    //Consts measured, 80% and in md 100%.
+    const theme = useTheme();
+    const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
 
     const irA = useRef(null);
 
@@ -45,8 +47,36 @@ export default function formPassword() {
                             <div className="ps-page__header"> </div>
                             <div className="ps-page__content ps-account">
 
+                                <div className='titlesformsUsers'>
+                                    <p>Editar contraseña</p>
+                                </div>
 
 
+                                <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '65%' }}>
+                                    <Grid container spacing={2}>
+                                        <Grid item xs={12} md={6}>
+                                            <p className='titlesFormsUsers2'>Nueva contraseña</p>
+                                            <input
+                                                className='InputFormsUsers'
+                                                type="tel"
+                                                placeholder="Ej: 3006901715" 
+                                            /> 
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <p className='titlesFormsUsers2'>Confirmar nueva contraseña</p>
+                                            <input
+                                                className='InputFormsUsers'
+                                                type="tel"
+                                                placeholder="Ej: 3006901715"  
+                                            />
+                                            <Box display="flex" justifyContent="space-between" marginTop={15}>
+                                                <button className='CancelarFormButton'>Cancelar</button>
+                                                <button className='GuardarFormButton'>Guardar</button> 
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+
+                                </Grid>
                             </div>
                         </div>
                     </div>

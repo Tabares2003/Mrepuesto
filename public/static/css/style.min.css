@@ -28684,3 +28684,28 @@ color: #2D2E83;
     width: 80%; 
     margin-right: 7rem;
   }
+
+
+  /*seguridad*/
+
+  .ButtonCloseSession {
+    width: 150px;
+    background-color: #2D2E83;
+    color: white; 
+    border-radius: 10px;
+    font-size: 16px; 
+    align-items: center;
+    display: flex;
+    justify-content: center; 
+    height: 40px !important;
+  }
+  .subtitdispvinc{
+    font-size: 20px;
+    color: #2D2E83;
+    font-weight: 600;
+    font-family: "Jost", sans-serif; 
+}
+.contDispVincSubTitle{
+    margin-bottom: 2rem;
+    margin-top: 1.5rem;
+}
