@@ -45,12 +45,21 @@ export default function formPassword() {
 
 
     const [showModalMensajes, setShowModalMensajes] = useState(false);
-
-
+    //ModalDatosGUardados
+    const [confirmationOpen, setConfirmationOpen] = useState(false);
+    //modales errores
     const [tituloMensajes, setTituloMensajes] = useState("");
     const [textoMensajes, setTextoMensajes] = useState("");
     const [showModalCodigo, setShowModalCodigo] = useState(false);
 
+    const handleConfirmationSuccess = (route) => () => {
+        router.push(route);
+    };
+    //mostrarModaldeConfirmación
+    const handleConfirmationOpen = () => {
+        setConfirmationOpen(true);
+    };
+    //cerrarmodalError
     const handleModalClose = () => {
         setShowModalMensajes(false);
     };
@@ -91,12 +100,30 @@ export default function formPassword() {
         event.preventDefault();
         const auth = getAuth(firebase);
 
+        // Validación de que todos los campos estén llenos
+        if (!contraseñaActual || !nuevaContraseña || !confirmarNuevaContraseña) {
+            console.error('Todos los campos deben estar llenos.');
+            setShowModalMensajes(true);
+            setTituloMensajes("Datos contraseña");
+            setTextoMensajes("Todos los campos deben estar llenos.");
+            return;
+        }
+
         // Validación de que las contraseñas coincidan
         if (nuevaContraseña !== confirmarNuevaContraseña) {
             console.error('Las contraseñas ingresadas no coinciden. Por favor, asegúrate de que ambas sean iguales.');
             setShowModalMensajes(true);
-            setTituloMensajes("Contraseña incorrecta");
+            setTituloMensajes("Datos contraseña");
             setTextoMensajes("Las contraseñas ingresadas no coinciden. Por favor, asegúrate de que ambas sean iguales.");
+            return;
+        }
+
+        // Validación de que la nueva contraseña no sea la misma que la contraseña actual
+        if (nuevaContraseña === contraseñaActual) {
+            console.error('La nueva contraseña no puede ser la misma que la contraseña actual.');
+            setShowModalMensajes(true);
+            setTituloMensajes("Datos contraseña");
+            setTextoMensajes("La nueva contraseña no puede ser la misma que la contraseña actual.");
             return;
         }
 
@@ -104,7 +131,7 @@ export default function formPassword() {
         if (/[^a-zA-Z0-9]/.test(nuevaContraseña)) {
             console.error('La contraseña no debe incluir caracteres especiales.');
             setShowModalMensajes(true);
-            setTituloMensajes("Contraseña incorrecta");
+            setTituloMensajes("Datos contraseña");
             setTextoMensajes("La contraseña no debe incluir caracteres especiales.");
             return;
         }
@@ -113,7 +140,7 @@ export default function formPassword() {
         if (nuevaContraseña.length < 8) {
             console.error('La contraseña debe contener mínimo 8 caracteres.');
             setShowModalMensajes(true);
-            setTituloMensajes("Contraseña incorrecta");
+            setTituloMensajes("Datos contraseña");
             setTextoMensajes("La contraseña debe contener mínimo 8 caracteres.");
             return;
         }
@@ -122,7 +149,7 @@ export default function formPassword() {
         if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(nuevaContraseña)) {
             console.error('La contraseña debe incluir números, letras minúsculas y mayúsculas.');
             setShowModalMensajes(true);
-            setTituloMensajes("Contraseña incorrecta");
+            setTituloMensajes("Datos contraseña");
             setTextoMensajes("La contraseña debe incluir números, letras minúsculas y mayúsculas.");
             return;
         }
@@ -136,14 +163,19 @@ export default function formPassword() {
             if (user) {
                 await updatePassword(user, nuevaContraseña);
                 console.log('La contraseña se actualizó correctamente');
+                handleConfirmationOpen();
             } else {
                 console.log('El usuario no está autenticado');
             }
         } catch (error) {
             console.error('Ocurrió un error', error);
+            if (error.code === 'auth/wrong-password') {
+                setShowModalMensajes(true);
+                setTituloMensajes("Datos contraseña");
+                setTextoMensajes("La contraseña actual ingresada no coincide con la contraseña de tu cuenta.");
+            }
         }
     };
-
 
 
 
@@ -267,6 +299,39 @@ export default function formPassword() {
                                                         mensaje={textoMensajes}
                                                         tipo="error"
                                                     />
+                                                    <Dialog
+                                                        className='dialogDatsGuardados'
+                                                        open={confirmationOpen}
+                                                        PaperProps={{
+                                                            style: {
+                                                                width: isMdDown ? '80%' : '35%',
+                                                                backgroundColor: 'white',
+                                                                border: '2px solid gray',
+                                                                padding: '1.4rem',
+                                                                borderRadius: '10px'
+                                                            },
+                                                        }}
+                                                    >
+                                                        <DialogTitle className='dialogtitleDtsGUardados' >
+                                                            <FaCheckCircle size={37} style={{ color: '#10c045', marginLeft: '-17px', marginRight: '8px' }} />
+                                                            <p className='dialogtituloP'>¡Cambios realizados con éxito!</p>
+                                                        </DialogTitle>
+                                                        <DialogContent className='dialogContentDatsGuardados'>
+                                                            <p className='PdialogContent'>Tus cambios fueron realizamos con exito. Se verán reflejados un unos minutos.</p>
+                                                        </DialogContent>
+                                                        <DialogActions className='DialogActionsDatsGuardados'>
+                                                            <div className='div1buttonDialog' >
+                                                                <button className='button2DialogDatsGuardados' onClick={handleConfirmationSuccess('./seguridadData')} >
+                                                                    Ir a seguridad
+                                                                </button>
+                                                            </div>
+                                                            <div className='div1buttonDialog' >
+                                                                <button className='button1DialogDatsGuardados' onClick={handleConfirmationSuccess('/')} >
+                                                                    Ir al inicio
+                                                                </button>
+                                                            </div>
+                                                        </DialogActions>
+                                                    </Dialog>
                                                 </Box>
                                             </div>
                                         </Grid>
