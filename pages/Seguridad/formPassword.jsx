@@ -36,30 +36,80 @@ export default function formPassword() {
 
 
 
+
+
+
+
+    const [emailSeleccionado, setEmailSeleccionado] = useState("");
+
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+    const [datosUsuario, setDatosUsuario] = useState([]);
+    useEffect(() => {
+        const leerDatosUsuario = async () => {
+            let params = {
+                uid: datosusuarios.uid,
+            };
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "13",
+                params,
+            })
+                .then((res) => {
+                    setEmail(res.data[0].email);
+                })
+                .catch(function (error) {
+                    console.error("Error al leer los datos del usuario", error);
+                });
+        };
+        leerDatosUsuario();
+    }, [datosusuarios]);
+
+
+
+
+
+
+
+
+
+
     const [email, setEmail] = useState('');
     const [contraseñaActual, setContraseñaActual] = useState('');
     const [nuevaContraseña, setNuevaContraseña] = useState('');
 
-    const manejarEnvío = async (event) => {
-        event.preventDefault();
-        const auth = getAuth(firebase);
+    useEffect(() => {
+        setEmail(datosusuarios.email);
+    }, [datosusuarios]);
 
-        try {
-            // Reautenticar al usuario
-            await signInWithEmailAndPassword(auth, email, contraseñaActual);
+     const manejarEnvío = async (event) => {
+    event.preventDefault();
+    const auth = getAuth(firebase);
 
-            // Cambiar la contraseña
-            const user = auth.currentUser;
-            if (user) {
-                await updatePassword(user, nuevaContraseña);
-                console.log('La contraseña se actualizó correctamente');
-            } else {
-                console.log('El usuario no está autenticado');
-            }
-        } catch (error) {
-            console.error('Ocurrió un error', error);
-        }
-    };
+    try {
+      // Reautenticar al usuario
+      await signInWithEmailAndPassword(auth, email, contraseñaActual);
+
+      // Cambiar la contraseña
+      const user = auth.currentUser;
+      if (user) {
+        await updatePassword(user, nuevaContraseña);
+        console.log('La contraseña se actualizó correctamente');
+      } else {
+        console.log('El usuario no está autenticado');
+      }
+    } catch (error) {
+      console.error('Ocurrió un error', error);
+    }
+  };
+
+
+
+
+
+
+
+
+
 
 
 
@@ -168,8 +218,7 @@ export default function formPassword() {
                                     </Grid>
                                     <form onSubmit={manejarEnvío}>
                                         <label>
-                                            Email:
-                                            <input
+                                            <input 
                                                 type="email"
                                                 value={email}
                                                 onChange={(event) => setEmail(event.target.value)}

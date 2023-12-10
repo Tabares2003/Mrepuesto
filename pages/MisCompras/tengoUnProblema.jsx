@@ -31,9 +31,7 @@ export default function tengoUnProblema() {
 
     const [comentario, setComentario] = useState(''); 
     const [fechacreacion, setFechacreacion] = useState(null);
-    const [observacionintera, setObservacionintera] = useState(null);
-
-
+    const [observacionintera, setObservacionintera] = useState(null); 
     const [contadorCaracteres, setContadorCaracteres] = useState(0);
     //Consts measured, 80% and in md 100%.
     const theme = useTheme();
@@ -54,8 +52,8 @@ export default function tengoUnProblema() {
     const [imagePresent3, setImagePresent3] = useState(false);
     const [imagePresent4, setImagePresent4] = useState(false);
     const [imagePresent5, setImagePresent5] = useState(false);
-
-
+    //mostrar cont letras
+    const [showAll, setShowAll] = useState(false); 
     const [nombreImagen1, setNombreImagen1] = useState(null);
     const [nombreImagen2, setNombreImagen2] = useState(null);
     const [nombreImagen3, setNombreImagen3] = useState(null);
@@ -96,8 +94,7 @@ export default function tengoUnProblema() {
         });
     }, []);
 
-    //mostrar cont letras
-    const [showAll, setShowAll] = useState(false);
+
 
     const toggleShowAll = () => {
         setShowAll(!showAll);

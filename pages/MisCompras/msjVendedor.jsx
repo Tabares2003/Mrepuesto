@@ -41,8 +41,8 @@ export default function msjVendedor() {
     const [imageName, setImageName] = useState('');
     const [inputMessage, setInputMessage] = useState('');
     const [messages, setMessages] = useState([]);
-
-
+    const [selectedImage, setSelectedImage] = useState(null);
+    const messagesRef = useRef(null);
 
 
 
@@ -280,11 +280,13 @@ export default function msjVendedor() {
 
 
 
-    const messagesRef = useRef(null);
+
 
     // Función para desplazar hacia abajo cuando se actualizan los mensajes
     const scrollToBottom = () => {
-        messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+        if (messagesRef.current) {
+            messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+        }
     };
 
     useEffect(() => {
@@ -293,7 +295,7 @@ export default function msjVendedor() {
     }, [messages]);
 
 
-    const [selectedImage, setSelectedImage] = useState(null);
+
 
 
     // Función para manejar la subida de la imagen 
