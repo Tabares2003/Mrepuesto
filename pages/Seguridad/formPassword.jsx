@@ -244,7 +244,7 @@ export default function formPassword() {
                                     <Grid container spacing={2} mb={5}>
                                         <Grid item xs={12} md={6}>
                                             <div>
-                                                <p className='titlesFormsUsers2'>Pon tu contraseña actual:</p>
+                                                <p className='titlesFormsUsers2'>Contraseña actual:</p>
                                                 <div className="inpustEyes">
                                                     <input
                                                         type={showPassword3 ? 'text' : 'password'}
