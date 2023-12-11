@@ -65,7 +65,7 @@ export default function dispVinculados() {
                                             <p className="titlemisD">Dispositivos vinculados</p>
                                         </div>
                                         <div className="contDispVincSubTitle">
-                                            <p className="subtitdispvinc">Actualmente hay 2 dispocitivos vinculado a tu cuenta</p>
+                                            <p className="subtitdispvinc">Actualmente hay 2 dispositivos vinculados a tu cuenta</p>
                                         </div>
                                         <div className="SubcontainerMisDatos">
                                             <div>
