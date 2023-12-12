@@ -84,14 +84,7 @@ export default function dispVinculados() {
                                 <div className="ContDatosDocs" style={{ padding: '.5rem', justifyContent: 'center', display: 'flex' }}>
                                     <Grid sx={{ width: isMdDown ? '100%' : '65%' }}>
                                         <div>
-                                            <p className="titlemisD">Dispositivos vinculados</p>
-                                            {devices.map(device => (
-                                                <div key={device.id}>
-                                                    <h2>{device.deviceName}</h2>
-                                                    <p>{device.deviceType}</p>
-                                                    <p>Última vez en línea: {device.lastLoggedIn}</p>
-                                                </div>
-                                            ))}p
+                                            <p className="titlemisD">Dispositivos vinculados</p> 
                                         </div>
                                         <div className="contDispVincSubTitle">
                                             <p className="subtitdispvinc">Actualmente hay 2 dispositivos vinculados a tu cuenta</p>
