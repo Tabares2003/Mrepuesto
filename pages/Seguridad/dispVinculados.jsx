@@ -21,10 +21,25 @@ import { URL_BD_MR } from "../../helpers/Constants";
 import { useDispatch, connect, useSelector } from "react-redux";
 import { AiOutlineRight } from 'react-icons/ai';
 
+import { getAuth } from "firebase/auth";
+import { getDatabase, ref, set, onValue } from "firebase/database";
 
 
 
 export default function dispVinculados() {
+
+
+ 
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -36,13 +51,18 @@ export default function dispVinculados() {
     //Consts measured, 80% and in md 100%.
     const theme = useTheme();
     const isMdDown = useMediaQuery(theme.breakpoints.down("md"));
+    //Posición top Pagina
+    const irA = useRef(null);
 
-    const handleConfirmationSuccess = (route) => () => {
+
+
+
+
+    const handleroute = (route) => () => {
         router.push(route);
     };
 
-    //Posición top Pagina
-    const irA = useRef(null);
+
 
     useEffect(() => {
         irA.current.scrollIntoView({
@@ -50,6 +70,8 @@ export default function dispVinculados() {
             block: "start",
         });
     }, []);
+
+
     return (
         <>
             <div ref={irA}>
@@ -63,6 +85,13 @@ export default function dispVinculados() {
                                     <Grid sx={{ width: isMdDown ? '100%' : '65%' }}>
                                         <div>
                                             <p className="titlemisD">Dispositivos vinculados</p>
+                                            {devices.map(device => (
+                                                <div key={device.id}>
+                                                    <h2>{device.deviceName}</h2>
+                                                    <p>{device.deviceType}</p>
+                                                    <p>Última vez en línea: {device.lastLoggedIn}</p>
+                                                </div>
+                                            ))}p
                                         </div>
                                         <div className="contDispVincSubTitle">
                                             <p className="subtitdispvinc">Actualmente hay 2 dispositivos vinculados a tu cuenta</p>
@@ -86,16 +115,16 @@ export default function dispVinculados() {
                                                 <button className='ButtonCloseSession'>Cerrar sesión</button>
                                             </div>
                                         </div>
-                                        <Grid container style={{ width:'100%'}}>
+                                        <Grid container style={{ width: '100%' }}>
                                             <Grid item xs={12} md={6}></Grid>
                                             <Grid item xs={12} md={6}>
                                                 <Box display="flex" justifyContent="space-between" marginTop={15}>
-                                                    <button className='CancelarFormButton' onClick={handleConfirmationSuccess('./seguridadData')}>Ir a seguridad</button>
-                                                    <button className='GuardarFormButton' onClick={handleConfirmationSuccess('/')}>Ir al inicio</button>
+                                                    <button className='CancelarFormButton' onClick={handleroute('./seguridadData')}>Ir a seguridad</button>
+                                                    <button className='GuardarFormButton' onClick={handleroute('/')}>Ir al inicio</button>
                                                 </Box>
                                             </Grid>
                                         </Grid>
-                                        
+
 
 
                                     </Grid>

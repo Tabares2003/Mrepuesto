@@ -10,9 +10,8 @@ import productos from "../../utilities/producsQuemados";
 import { useNavigate } from "react-router-dom";
 import { Router } from 'next/router';
 import { useDispatch, useSelector } from "react-redux";
-import { URL_BD_MR } from "../../helpers/Constants";
-
-const URL_IMAGES_RESULTS = "https://gimcloud.com.co/files/mercadorepuesto/";
+import { URL_BD_MR, URL_IMAGES_RESULTS } from "../../helpers/Constants";
+ 
 
 
 

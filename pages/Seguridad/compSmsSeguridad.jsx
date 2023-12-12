@@ -29,9 +29,35 @@ export default function compSmsSeguridad() {
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
     const [open, setOpen] = useState(false);
     const [showContainer, setShowContainer] = useState(false);
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+    const [datosUsuario, setDatosUsuario] = useState("");
+    const [nombres, setNombres] = useState("");
+    const [nombresDos, setNombresDos] = useState("");
+    const [apellidos, setApellidos] = useState("");
+    const [apellidosDos, setApellidosDos] = useState("");
+    const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState("");
+    const [correoElectronico, setCorreoElectronico] = useState("");
 
     const router = useRouter();
     const { tipoInformacion, info } = router.query;
+    const [codigo, setCodigo] = useState(''); 
+    const [input1, setInput1] = useState('');
+    const [input2, setInput2] = useState('');
+    const [input3, setInput3] = useState('');
+    const [input4, setInput4] = useState('');
+    const [input5, setInput5] = useState('');
+    const [input6, setInput6] = useState(''); 
+    const input1Ref = useRef(null);
+    const input2Ref = useRef(null);
+    const input3Ref = useRef(null);
+    const input4Ref = useRef(null);
+    const input5Ref = useRef(null);
+    const input6Ref = useRef(null);
+    const [showModal, setShowModal] = useState(false);
+    const [tituloMensajes, setTituloMensajes] = useState('');
+    const [textoMensajes, setTextoMensajes] = useState('');
+    const [tituloSubcontainer, setTituloSubcontainer] = useState('Ingresa el código de verificación');
+    const irA = useRef(null);
 
 
     let titulo;
@@ -47,25 +73,6 @@ export default function compSmsSeguridad() {
         default:
             titulo = 'editar Usuario';
     }
-
-    const [codigo, setCodigo] = useState('');
-
-
-    const [input1, setInput1] = useState('');
-    const [input2, setInput2] = useState('');
-    const [input3, setInput3] = useState('');
-    const [input4, setInput4] = useState('');
-    const [input5, setInput5] = useState('');
-    const [input6, setInput6] = useState('');
-
-
-    const input1Ref = useRef(null);
-    const input2Ref = useRef(null);
-    const input3Ref = useRef(null);
-    const input4Ref = useRef(null);
-    const input5Ref = useRef(null);
-    const input6Ref = useRef(null);
-
     const redirectToComponent = (nuevoTitulo) => {
         const nuevoCodigo = Math.floor(100000 + Math.random() * 900000);
         setCodigo(nuevoCodigo);
@@ -76,9 +83,7 @@ export default function compSmsSeguridad() {
         setTituloSubcontainer(nuevoTitulo);
     };
 
-    const [showModal, setShowModal] = useState(false);
-    const [tituloMensajes, setTituloMensajes] = useState('');
-    const [textoMensajes, setTextoMensajes] = useState('');
+
 
 
     const handleContinue = () => {
@@ -114,14 +119,6 @@ export default function compSmsSeguridad() {
         setOpen(false);
     };
 
-    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
-    const [datosUsuario, setDatosUsuario] = useState("");
-    const [nombres, setNombres] = useState("");
-    const [nombresDos, setNombresDos] = useState("");
-    const [apellidos, setApellidos] = useState("");
-    const [apellidosDos, setApellidosDos] = useState("");
-    const [telefonoRecibeSeleccionado, setTelefonoRecibeSeleccionado] = useState("");
-    const [correoElectronico, setCorreoElectronico] = useState("");
 
     useEffect(() => {
         const leerDatosUsuario = async () => {
@@ -153,10 +150,7 @@ export default function compSmsSeguridad() {
         leerDatosUsuario();
     }, [datosusuarios]);
 
-    const [tituloSubcontainer, setTituloSubcontainer] = useState('Ingresa el código de verificación');
 
-
-    const irA = useRef(null);
 
     useEffect(() => {
         irA.current.scrollIntoView({

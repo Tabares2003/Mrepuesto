@@ -52,9 +52,24 @@ export default function formEmailSeguridad() {
     const [apellidosDos, setApellidosDos] = useState("");
     const [datosUsuario, setDatosUsuario] = useState([]);
     // Asignamos Datos al arreglo de Usuarios desde el state
-    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged); 
+    //InpusPonerCodigoRecibido
+    const [input1, setInput1] = useState('');
+    const [input2, setInput2] = useState('');
+    const [input3, setInput3] = useState('');
+    const [input4, setInput4] = useState('');
+    const [input5, setInput5] = useState('');
+    const [input6, setInput6] = useState('');
+    const [codigo, setCodigo] = useState('');
+    const input1Ref = useRef(null);
+    const input2Ref = useRef(null);
+    const input3Ref = useRef(null);
+    const input4Ref = useRef(null);
+    const input5Ref = useRef(null);
+    const input6Ref = useRef(null);
 
 
+    
     const handleConfirmationOpen = () => {
         setConfirmationOpen(true);
     };
@@ -73,20 +88,7 @@ export default function formEmailSeguridad() {
         setShowModalCodigo(false);
     };
 
-    //InpusPonerCodigoRecibido
-    const [input1, setInput1] = useState('');
-    const [input2, setInput2] = useState('');
-    const [input3, setInput3] = useState('');
-    const [input4, setInput4] = useState('');
-    const [input5, setInput5] = useState('');
-    const [input6, setInput6] = useState('');
-    const [codigo, setCodigo] = useState('');
-    const input1Ref = useRef(null);
-    const input2Ref = useRef(null);
-    const input3Ref = useRef(null);
-    const input4Ref = useRef(null);
-    const input5Ref = useRef(null);
-    const input6Ref = useRef(null);
+
 
     const [modalData, setModalData] = useState({
         shown: false,

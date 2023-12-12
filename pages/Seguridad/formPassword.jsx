@@ -38,7 +38,7 @@ export default function formPassword() {
     const [email, setEmail] = useState('');
     const [contraseñaActual, setContraseñaActual] = useState('');
     const [nuevaContraseña, setNuevaContraseña] = useState('');
-
+    const [datosUsuario, setDatosUsuario] = useState("");
     // Obtiene los datos del usuario autenticado desde el estado de Redux
     const datosusuarios = useSelector((state) => state.userlogged.userlogged);
     const [confirmarNuevaContraseña, setConfirmarNuevaContraseña] = useState('');
@@ -51,6 +51,13 @@ export default function formPassword() {
     const [tituloMensajes, setTituloMensajes] = useState("");
     const [textoMensajes, setTextoMensajes] = useState("");
     const [showModalCodigo, setShowModalCodigo] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword3, setShowPassword3] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+    //Top screen
+    const irA = useRef(null);
+
+
 
     const handleConfirmationSuccess = (route) => () => {
         router.push(route);
@@ -82,6 +89,7 @@ export default function formPassword() {
                 params,
             })
                 .then((res) => {
+                    setDatosUsuario(res.data[0]);
                     // Si la solicitud es exitosa, actualiza el estado del correo electrónico con el correo electrónico obtenido del endpoint
                     setEmail(res.data[0].email);
                 })
@@ -189,27 +197,26 @@ export default function formPassword() {
 
 
 
-    //Función ver o no password1
-    const [showPassword, setShowPassword] = useState(false);
+    //Funciónes ver o no password1
+
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
 
 
-    const [showPassword2, setShowPassword2] = useState(false);
+
 
     const handleClickShowPassword2 = () => {
         setShowPassword2(!showPassword2);
     };
 
-    const [showPassword3, setShowPassword3] = useState(false);
+
 
     const handleClickShowPassword3 = () => {
         setShowPassword3(!showPassword3);
     };
-    //Top screen
-    const irA = useRef(null);
+
 
     useEffect(() => {
         irA.current.scrollIntoView({

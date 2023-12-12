@@ -15,7 +15,7 @@ import productos from "../../utilities/producsQuemados";
 import { AiOutlineRight } from 'react-icons/ai';
 import { IoIosCamera } from "react-icons/io";
 import { IoSquareOutline } from "react-icons/io5";
-import ModalMensajes from "../mensajes/ModalMensajes"; 
+import ModalMensajes from "../mensajes/ModalMensajes";
 import { RiSettings5Fill } from "react-icons/ri";
 import { SlPaperClip } from "react-icons/sl";
 import { LuSendHorizonal } from "react-icons/lu";
@@ -190,7 +190,7 @@ export default function msjVendedor() {
             estado,
             comentario: inputMessage,
             observacionintera: '',
-            nombreimagen1: imageName,  
+            nombreimagen1: imageName,
             nombreimagen2: '',
             nombreimagen3: '',
             nombreimagen4: '',
@@ -239,7 +239,7 @@ export default function msjVendedor() {
         }
     };
 
- 
+
 
 
 
@@ -420,7 +420,33 @@ export default function msjVendedor() {
                                                 <div className="diaMsj">
                                                     <p>Hoy</p>
                                                 </div>
+
+
                                                 <div className="contMensajes" ref={messagesRef}>
+
+                                                    <div className="ContMsjsVendedor">
+                                                        <div className="msjsVend1">
+                                                            <div className="namevendedor2">
+                                                                <div className="BallNamEv2">
+                                                                    <p>JP</p>
+                                                                </div>
+                                                            </div>
+                                                            <div className="contComment">
+                                                                <div className="msjVendedor1">
+                                                                    Comentario del vendedor
+                                                                </div>
+                                                            </div> 
+                                                        </div>
+                                                        <div className="contDateMSJ">
+                                                            <div style={{ width: '81%' }}></div>
+                                                            <div style={{ width: '19%' }}>
+                                                                <div style={{ width: '88%' }}>
+                                                                    <p style={{ fontSize: '16px' }}>11:17</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                     {Array.isArray(messages) && messages.length > 0 ? (
                                                         messages.slice(0).map((message, index) => (
                                                             <div className="MsjVendedor" key={index}  >
@@ -479,6 +505,7 @@ export default function msjVendedor() {
                                                                 </button>
                                                             </div>
                                                             <div className="contImgandInput">
+                                                                
                                                                 <input
                                                                     value={inputMessage}
                                                                     onChange={(e) => setInputMessage(e.target.value)}

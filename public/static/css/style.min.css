@@ -28611,6 +28611,8 @@ color: #2D2E83;
   .contImgandInput{
     width: 80%;
     position: relative;
+    display: flex;
+    justify-content: center;
   }
   .contImgandInput input{
     width: 100%;
@@ -28621,13 +28623,18 @@ color: #2D2E83;
   }
   .contImgSelected{
     position: absolute;
-    top: -300px;
+    top: -250px;
     left: 0;
-    width: 100%;
+    width: auto;
+    display: flex;margin: 0 auto;
+    justify-content: flex-end;
   }
   .contImgSelected img{
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 auto;
     width: 100%;
-    height: 300px;
+    height: 250px;
     box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
   }
   .contImgSelected button{
@@ -28730,3 +28737,233 @@ color: #2D2E83;
     cursor: pointer;
     color: #2D2E83;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*Styles historial JP*/ 
+.titleHistorial1{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -1rem;
+    cursor: pointer;
+}
+.titleHistorial{
+    margin-top: -1rem;
+}
+.titleHistorial p{
+    margin-bottom: 3rem;
+    margin-top: -3rem;  
+    font-size: 24px !important;
+    color: #2D2E83;  
+    font-weight: 600; 
+    font-family: "Jost", sans-serif; 
+} 
+.ContTopHistorial{
+    display: flex;
+    justify-content: space-between;
+}
+.tamañocajaoptionsHistorial{
+    margin-left: 5px !important;
+    width: 170px !important;
+    font-size: 16px !important;  
+}
+.DeleteHistorial{
+    display: flex;
+    align-items: center;
+    margin-right: 1rem; 
+
+}
+.ContTopHistorial p{ 
+    font-size: 24px !important;
+    color: #2D2E83;  
+    font-weight: 600; 
+    font-family: "Jost", sans-serif; 
+}
+.DeleteHistorial p{ 
+    font-size: 20px !important;
+    color: #2D2E83;  
+    font-weight: 600; 
+    font-family: "Jost", sans-serif; 
+}
+.iconDeleteHistorial{ 
+    margin-left: 1rem;
+    color: #2D2E83; 
+} 
+.contHistorial{
+    padding: 0.5rem;
+}
+.iconsHrl{ 
+    display: flex;
+    gap: 10px;
+}
+.icon1Delete{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color:  #EBEBEB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #2D2E83;
+    font-size: 17px;
+    cursor: pointer;
+} 
+.iconFavH{
+    font-size: 20px;
+}
+
+.ContProductHistorial{
+    width: 260px; 
+    border: 5px solid #EBEBEB;  
+    border-radius: 12px; 
+    padding: 1rem;
+    margin-bottom: 1rem;  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ContProductHistorial img{
+    height: 250px;
+    width: 100%;
+    cursor: pointer;
+}
+.DataProductHistorial{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+}
+.DataProductHistorial p{
+    font-size: 18px;
+    color: #2D2E83;
+    font-weight: 600;
+    font-family: "Jost", sans-serif;  
+}
+.iconsHistorial{
+    align-items: flex-end;
+    display: flex;
+    justify-content: flex-end;
+}
+.ProductName {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* número de líneas a mostrar */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    position: relative;
+    transition: max-height 1s ease-in-out; /* Agrega esta línea */
+}
+
+.ProductName::after {
+    content: "";
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20%;
+    height: 1.2em;
+    background: linear-gradient(to right, transparent, white 50%);
+}
+
+.ProductName:hover {
+    -webkit-line-clamp: unset;
+    max-height: unset;
+}
+.ContProductHistorial1{
+    display: flex;
+    flex-direction: column;
+}
+
+.contProductsHistorial{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2.5rem;
+}
+.diasH p{
+    font-size: 20px;
+    color: #2D2E83;
+    font-weight: 600;
+    font-family: "Jost", sans-serif;  
+ 
+}
+.diasH{
+    margin-bottom: 2rem;
+}
+.diasH2 {
+    margin-top: 2rem;
+}
+.ProducsH{
+    width: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    gap: 20px;
+}
+.conTopH{
+    display: flex;
+    justify-content: space-between;
+}
+.conTopH p{
+    font-size: 24px;
+    color: #2D2E83;
+    font-weight: 600;
+    font-family: "Jost", sans-serif;  
+}
+
+
+
+
+/*Inicio Mensaje Vendedor*/
+.ContMsjsVendedor{
+    width: 100%;
+}
+.msjsVend1{
+    width: 98%;
+    display: flex;
+    align-items: flex-end;
+    padding-right: 1.5rem;
+    justify-content: flex-start;
+  }
+  .msjVendedor1 {  
+    display: flex;
+    justify-content: flex-end;
+    color: #2D2E83;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem; 
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 12px;
+    height: auto;   
+    flex-direction: column;
+}
+.namevendedor2{
+    width: 10%; 
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+} 
+.BallNamEv2{
+    background-color: white;
+    color: blue;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    margin-left: 1rem;
+    align-items: center;
+    margin-bottom: 1.7rem; 
+}
+
+/*fin Mensaje Vendedor*/
