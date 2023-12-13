@@ -20,28 +20,60 @@ import { IoMdHeartEmpty } from "react-icons/io";
 
 export default function historialProducts() {
 
+    let usuario = "1671495436242"; // Usuario estático
 
+    const [datosUsuario, setDatosUsuario] = useState([]);
+    const [selectedSortOption, setSelectedSortOption] = useState(null);
+    //Consts measured, 80% and in md 100%.
+    const theme = useTheme();
+    const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
+    const [busqueda, setBusqueda] = useState("");
+    const router = useRouter();
+    //PosiciónTopPage
+    const irA = useRef(null);
+    const [datosUsuarioOriginales, setDatosUsuarioOriginales] = useState("");
 
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+    const [UidUser, setUidUser] = useState("");
+    const [DatosUser, setDatosUser] = useState([]);
+    useEffect(() => {
+        const obtenerUidUsuario = async () => {
+            let params = {
+                uid: datosusuarios.uid,
+            };
+            try {
+                const res = await axios({
+                    method: "post",
+                    url: URL_BD_MR + "13",
+                    params,
+                });
+                setDatosUser(res.data[0]);
+                setUidUser(res.data[0].uid)
+            } catch (error) {
+                console.error("Error al leer los datos del usuario", error);
+                // Maneja el error según tus necesidades
+            }
+        };
+        obtenerUidUsuario();
+    }, [datosusuarios]);
 
-
-
+    //Petición para mapear datos de producs historial user
     useEffect(() => {
         // Define una función asíncrona para obtener los datos del usuario
-        const leerDatosUsuario = async () => {
+        const leerProductos = async () => {
             // Define los parámetros para la solicitud
             let params = {
-                usuario: "1652703118227",
+                usuario: UidUser,
             };
 
-            // Realiza una solicitud POST a tu endpoint
             await axios({
                 method: "post",
-                url: URL_BD_MR + "86",
+                url: URL_BD_MR + "88",
                 params,
             })
                 .then((res) => {
                     // Si la solicitud es exitosa, mapea los datos del usuario
-                    const productos = res.data.tolistallmyposts.map((producto) => {
+                    const productos = res.data.listarallhistoryvisitprd.map((producto) => {
                         return {
                             id: producto.id,
                             idproducto: producto.idproducto,
@@ -64,51 +96,69 @@ export default function historialProducts() {
                     console.error("Error al leer los datos del usuario", error);
                 });
         };
-        leerDatosUsuario();
-    }, []);
-
-    const [datosUsuario, setDatosUsuario] = useState([]);
+        leerProductos();
+    }, [UidUser]);
 
 
+    //Petición para eliminar un solo producto del historial
+    const eliminarProducto = async (idproducto) => {
+        let params = {
+            idproducto: idproducto,
+            usuario: UidUser, // Usa el uid del usuario obtenido anteriormente
+        };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    const [selectedSortOption, setSelectedSortOption] = useState(null);
-    const [compras, setCompras] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
-    //Consts measured, 80% and in md 100%.
-    const theme = useTheme();
-    const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
-
-    const router = useRouter();
+        await axios({
+            method: "post",
+            url: URL_BD_MR + "91",
+            params,
+        })
+            .then((res) => {
+                console.log('Producto eliminado exitosamente');
+                // Aquí puedes actualizar tus datos después de eliminar el producto
+                const nuevosDatos = datosUsuario.filter(producto => producto.idproducto !== idproducto);
+                setDatosUsuario(nuevosDatos);
+                setDatosUsuarioOriginales(nuevosDatos);
+            })
+            .catch(function (error) {
+                console.error("Error al eliminar el producto", error);
+            });
+    };
 
 
 
-    //PosiciónTopPage
-    const irA = useRef(null);
+    //Petición para eliminar todo el historial
+    const eliminarHistorial = async () => {
+        let params = {
+            usuario: UidUser, // Usa el uid del usuario obtenido anteriormente
+        };
+
+        await axios({
+            method: "post",
+            url: URL_BD_MR + "90",
+            params,
+        })
+            .then((res) => {
+                console.log('Historial eliminado exitosamente');
+                // Aquí puedes actualizar tus datos después de eliminar el historial
+                setDatosUsuario([]);
+                setDatosUsuarioOriginales([]);
+            })
+            .catch(function (error) {
+                console.error("Error al eliminar el historial", error);
+            });
+    };
 
 
-    const [datosUsuarioOriginales, setDatosUsuarioOriginales] = useState([]);
 
 
+
+
+
+
+
+
+
+    //función para filtrar por fecha
     const handleSelect = (eventKey) => {
         // Actualiza el estado para almacenar la opción seleccionada
         setSelectedSortOption(eventKey);
@@ -158,6 +208,8 @@ export default function historialProducts() {
         setDatosUsuario(productosOrdenados);
     };
 
+
+    //button dropdown
     const CustomDropdownButton = React.forwardRef(({ children, onClick }, ref) => (
         <button
             ref={ref}
@@ -169,8 +221,8 @@ export default function historialProducts() {
     ));
 
 
-    const [busqueda, setBusqueda] = useState("");
 
+    //Funcion para filtrar por nombre del producto
     const handleSearch = (event) => {
         setBusqueda(event.target.value);
     };
@@ -189,45 +241,7 @@ export default function historialProducts() {
 
 
 
-
-
-
-
-
-    //Obtener datos de mis compras
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.post(`${URL_BD_MR}81`);
-                // Formatear todas las fechas antes de establecerlas en el estado, simplemente quitarle los Ceros
-                const comprasFormateadas = response.data.listarcompras.map((compra) => ({
-                    ...compra,
-                    fechacompra: compra.fechacompra.slice(0, 10),
-                    fechaentrega: compra.fechaentrega.slice(0, 10),
-                    fechadespacho: compra.fechadespacho.slice(0, 10),
-                    fechadepago: compra.fechadepago.slice(0, 10),
-
-                    // Sumar preciodeventa y precioenvio y guardar en nueva propiedad
-                    nuevoValor: compra.preciodeventa + compra.precioenvio,
-                }));
-
-
-                setCompras(comprasFormateadas);
-            } catch (error) {
-                console.error('Error al obtener datos:', error);
-            }
-        };
-
-        fetchData();
-    }, [URL_BD_MR]);
-
-
-
-
-
-
-
+    //Función para enviar al usuario al top cuando entra
     useEffect(() => {
         irA.current.scrollIntoView({
             behavior: "smooth",
@@ -248,11 +262,11 @@ export default function historialProducts() {
                                     <Grid className="contDataUsers conTopH" container >
                                         <p>Tu historial</p>
                                         <div>
-
+                                            {UidUser}
                                         </div>
                                     </Grid>
                                     <Grid item xs={12} md={6} className='titleHistorial1' >
-                                        <div className="DeleteHistorial">
+                                        <div className="DeleteHistorial" onClick={() => eliminarHistorial(usuario)}>
                                             <p>Eliminar historial</p>
                                             <FaTrashAlt className="iconDeleteHistorial" />
                                         </div>
@@ -260,7 +274,7 @@ export default function historialProducts() {
                                     </Grid>
                                     <Grid item xs={12} md={6} className='titleHistorial '>
                                         <div className="ContTopHistorial">
-                                            <Dropdown style={{ width: '30%' }} onSelect={handleSelect} className="DropHistorial">
+                                            <Dropdown style={{ width: '33%' }} onSelect={handleSelect} className="DropHistorial">
                                                 <Dropdown.Toggle
                                                     as={CustomDropdownButton}
                                                     id="dropdown-basic"
@@ -336,12 +350,12 @@ export default function historialProducts() {
                                                         <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} alt={producto.titulonombre} />
                                                         <div className="DataProductHistorial">
                                                             <p className="ProductName">{producto.titulonombre}</p>
-                                                            <p>${producto.fechacreacion}</p>
+                                                            <p>${producto.precio}</p>
                                                         </div>
                                                         <div className="iconsHistorial">
                                                             <div className="iconsHrl">
                                                                 <div className="icon1Delete">
-                                                                    <FaTrashAlt className="iconDeleteH" />
+                                                                    <FaTrashAlt className="iconDeleteH" onClick={() => eliminarProducto(producto.idproducto, producto.usuario)} />
                                                                 </div>
                                                                 <div className="icon1Delete">
                                                                     <IoMdHeartEmpty className="iconFavH" />
@@ -351,7 +365,7 @@ export default function historialProducts() {
                                                     </div>
                                                 ))
                                             ) : (
-                                                <p>No se encontraron productos.</p>
+                                                <p>No se encontraron productos en tu historial.</p>
                                             )}
                                         </div>
                                     </Grid>

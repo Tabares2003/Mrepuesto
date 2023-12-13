@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { Router } from 'next/router';
 import { useDispatch, useSelector } from "react-redux";
 import { URL_BD_MR, URL_IMAGES_RESULTS } from "../../helpers/Constants";
- 
+
 
 
 
@@ -120,21 +120,11 @@ export default function misCompras() {
                                 <Grid className="contDataUsers TopContMisCompras" container style={{ width: isMdDown ? '100%' : '90%' }}>
                                     <Grid item xs={12} md={6}>
                                         <InputBase
+                                            className="inputSearchJP"
                                             value={searchTerm}
                                             onChange={(e) => setSearchTerm(e.target.value)}
                                             placeholder="Buscar en mis compras"
-                                            sx={{
-                                                borderRadius: '10px',
-                                                backgroundColor: '#f1f2f6',
-                                                padding: '8px',
-                                                marginRight: '8px',
-                                                width: '90%',
-                                                height: '44px',
-                                                padding: '10px',
-                                                fontSize: '16px',
-                                                paddingLeft: '3rem',
-                                                color: '#2C2E82',
-                                                fontWeight: '500',
+                                            sx={{ 
                                                 '&::placeholder': {
                                                     color: '#3E4089',
                                                     fontWeight: '600',
@@ -212,7 +202,7 @@ export default function misCompras() {
                                                             pathname: './msjVendedor',
                                                             query: { producto: JSON.stringify(producto) }
                                                         })}
-                                                            style={{ fontSize: '18px', color: '#2D2E83', fontWeight: '500', cursor:'pointer' }}>
+                                                            style={{ fontSize: '18px', color: '#2D2E83', fontWeight: '500', cursor: 'pointer' }}>
                                                             Enviar mensaje al vendedor
                                                         </p>
                                                     </div>
