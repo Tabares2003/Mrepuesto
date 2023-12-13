@@ -260,10 +260,7 @@ export default function historialProducts() {
                             <div className="ps-page__content ps-account">
                                 <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '90%' }}>
                                     <Grid className="contDataUsers conTopH" container >
-                                        <p>Tu historial</p>
-                                        <div>
-                                            {UidUser}
-                                        </div>
+                                        <p>Tu historial</p> 
                                     </Grid>
                                     <Grid item xs={12} md={6} className='titleHistorial1' >
                                         <div className="DeleteHistorial" onClick={() => eliminarHistorial(usuario)}>
