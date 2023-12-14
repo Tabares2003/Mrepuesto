@@ -110,7 +110,6 @@ export default function historialProducts() {
     }, [UidUser]);
 
 
-    //Petición para eliminar un solo producto del historial
     const eliminarProducto = async (idproducto) => {
         let params = {
             idproducto: idproducto,
@@ -128,6 +127,12 @@ export default function historialProducts() {
                 const nuevosDatos = datosUsuario.filter(producto => producto.idproducto !== idproducto);
                 setDatosUsuario(nuevosDatos);
                 setDatosUsuarioOriginales(nuevosDatos);
+
+                // Muestra el modal
+                setShowModal(true);
+                setTituloMensajes("Producto eliminado");
+                let texto = "Producto eliminado exitosamente";
+                setTextoMensajes(texto);
             })
             .catch(function (error) {
                 console.error("Error al eliminar el producto", error);
