@@ -487,11 +487,11 @@ export default function historialProducts() {
                                                         </div>
                                                         <div className="iconsHistorial">
                                                             <div className="iconsHrl">
-                                                                <div className="icon1Delete">
-                                                                    <FaTrashAlt className="iconDeleteH" onClick={() => eliminarProducto(producto.idproducto, producto.usuario)} />
+                                                                <div className="icon1Delete" onClick={() => eliminarProducto(producto.idproducto, producto.usuario)} >
+                                                                    <FaTrashAlt className="iconDeleteH" />
                                                                 </div>
-                                                                <div className="icon1Delete">
-                                                                    <IoMdHeartEmpty className="iconFavH" onClick={() => verificarYEnviarAFavoritos(producto)} />
+                                                                <div className="icon1Delete"  onClick={() => verificarYEnviarAFavoritos(producto)} >
+                                                                    <IoMdHeartEmpty className="iconFavH"/>
                                                                 </div>
                                                             </div>
                                                         </div>
