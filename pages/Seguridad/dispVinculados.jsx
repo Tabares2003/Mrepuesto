@@ -90,17 +90,7 @@ export default function dispVinculados() {
                 });
         };
         leerDispositivosVinculados();
-    }, [UidUser]);
-
-    const obtenerDiasTranscurridos = (fecha) => {
-        const hoy = new Date();
-        const fechacreacion = new Date(fecha);
-        const diferenciaEnMilisegundos = hoy - fechacreacion;
-        const diferenciaEnDias = diferenciaEnMilisegundos / (1000 * 60 * 60 * 24);
-        return Math.floor(diferenciaEnDias);
-    };
-
-
+    }, [UidUser]); 
 
 
 
@@ -179,16 +169,20 @@ export default function dispVinculados() {
                                                 <div className="SubcontainerMisDatos">
                                                     <div>
                                                         <p className="titleSubContMisD">{dispositivo.iddispositivo}</p>
-                                                        <p className="subtitleSubContMisD">{dispositivo.localizacion.split(', ').slice(-3).join(', ')} - {dispositivo.fechacreacion.split(' ')[0]}</p>
+                                                        <p className="subtitleSubContMisD">
+                                                            {dispositivo.localizacion && dispositivo.localizacion.split(', ').slice(-3).join(', ')}
+                                                            -
+                                                            {dispositivo.fechacreacion && dispositivo.fechacreacion.split(' ')[0]}
+                                                        </p>
                                                     </div>
-                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                    <div className="CloseSesionDispVinc">
                                                         <button className='ButtonCloseSession'>Cerrar sesión</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         ))}
 
-                                    
+
 
 
 

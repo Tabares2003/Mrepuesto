@@ -30917,3 +30917,7 @@ label {
 .mainDispVinculados{
     width: 100%;
 }
+.CloseSesionDispVinc{
+    display: flex;
+    align-items: center;
+}
