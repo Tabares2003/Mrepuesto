@@ -20,7 +20,6 @@ import axios from "axios";
 import { URL_BD_MR } from "../../helpers/Constants";
 import { useDispatch, connect, useSelector } from "react-redux";
 import { AiOutlineRight } from 'react-icons/ai';
-
 import { getAuth } from "firebase/auth";
 import { getDatabase, ref, set, onValue } from "firebase/database";
 
@@ -29,14 +28,85 @@ import { getDatabase, ref, set, onValue } from "firebase/database";
 export default function dispVinculados() {
 
 
- 
+    const [location, setLocation] = useState({
+        latitude: null,
+        longitude: null,
+        address: null,
+        error: null,
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => {
+                            const { latitude, longitude } = position.coords;
+                            console.log("Latitude:", latitude);
+                            console.log("Longitude:", longitude);
+
+                            const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBzRDJgroRrXsY8A-UAfyc7j-3kowwe250`;
+                            console.log("Geocode URL:", geocodeUrl);
+
+                            // Resto del código...
+                        },
+                        (error) => {
+                            console.error("Error getting geolocation:", error);
+                        }
+                    );
+                } else {
+                    console.log("Geolocation not available");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
 
-
-
-
-
-
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            if ("geolocation" in navigator) {
+              navigator.geolocation.getCurrentPosition(
+                (position) => {
+                  const { latitude, longitude } = position.coords;
+                  setLocation({
+                    latitude,
+                    longitude,
+                    error: null
+                  });
+                },
+                (error) => {
+                  console.error("Error getting geolocation:", error);
+                  setLocation({
+                    latitude: null,
+                    longitude: null,
+                    error: `Error getting geolocation: ${error.message}`
+                  });
+                }
+              );
+            } else {
+              setLocation({
+                latitude: null,
+                longitude: null,
+                error: "Geolocation not available"
+              });
+            }
+          } catch (error) {
+            console.error("Unexpected error:", error);
+            setLocation({
+              latitude: null,
+              longitude: null,
+              error: `Unexpected error: ${error.message}`
+            });
+          }
+        };
+      
+        fetchData();
+      }, []);
 
 
 
@@ -84,7 +154,10 @@ export default function dispVinculados() {
                                 <div className="ContDatosDocs" style={{ padding: '.5rem', justifyContent: 'center', display: 'flex' }}>
                                     <Grid sx={{ width: isMdDown ? '100%' : '65%' }}>
                                         <div>
-                                            <p className="titlemisD">Dispositivos vinculados</p> 
+                                            <p className="titlemisD">Dispositivos vinculados</p>
+                                            {location.address && (
+                                                <p>Tu ubicación: {location.address}</p>
+                                            )}
                                         </div>
                                         <div className="contDispVincSubTitle">
                                             <p className="subtitdispvinc">Actualmente hay 2 dispositivos vinculados a tu cuenta</p>

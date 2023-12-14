@@ -250,6 +250,29 @@ export default function historialProducts() {
     }, []);
 
 
+
+
+
+
+
+
+
+    const [paginaActual, setPaginaActual] = useState(1);
+    const productosPorPagina = 40;
+
+    const seleccionaPagina = (numeroPagina) => {
+        setPaginaActual(numeroPagina);
+    };
+
+    const indexUltimoProducto = paginaActual * productosPorPagina;
+    const indexPrimerProducto = indexUltimoProducto - productosPorPagina;
+    const productosActuales = datosUsuario.slice(indexPrimerProducto, indexUltimoProducto);
+
+    const numeroPaginas = Math.ceil(datosUsuario.length / productosPorPagina);
+
+
+
+
     return (
         <>
             <div ref={irA}>
@@ -260,7 +283,7 @@ export default function historialProducts() {
                             <div className="ps-page__content ps-account">
                                 <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '90%' }}>
                                     <Grid className="contDataUsers conTopH" container >
-                                        <p>Tu historial</p> 
+                                        <p>Tu historial</p>
                                     </Grid>
                                     <Grid item xs={12} md={6} className='titleHistorial1' >
                                         <div className="DeleteHistorial" onClick={() => eliminarHistorial(usuario)}>
@@ -341,8 +364,8 @@ export default function historialProducts() {
                                     </Grid>
                                     <Grid className="contProductsHistorial" container style={{ width: '100%' }}>
                                         <div className="ProducsH">
-                                            {datosUsuario.length > 0 ? (
-                                                datosUsuario.map((producto) => (
+                                            {productosActuales.length > 0 ? (
+                                                productosActuales.map((producto) => (
                                                     <div className="ContProductHistorial" key={producto.id}>
                                                         <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} alt={producto.titulonombre} />
                                                         <div className="DataProductHistorial">
@@ -364,6 +387,23 @@ export default function historialProducts() {
                                             ) : (
                                                 <p>No se encontraron productos en tu historial.</p>
                                             )}
+                                            <ul className="pagination">
+                                                <li>
+                                                    <a onClick={() => seleccionaPagina(1)}>
+                                                        <i className="fa fa-angle-double-left"></i>
+                                                    </a>
+                                                </li>
+                                                {Array.from({ length: numeroPaginas }, (_, i) => i + 1).map((numeroPagina) => (
+                                                    <li className={paginaActual === numeroPagina ? 'active' : ''}>
+                                                        <a onClick={() => seleccionaPagina(numeroPagina)}>{numeroPagina}</a>
+                                                    </li>
+                                                ))}
+                                                <li>
+                                                    <a onClick={() => seleccionaPagina(numeroPaginas)}>
+                                                        <i className="fa fa-angle-double-right"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </Grid>
                                 </Grid>

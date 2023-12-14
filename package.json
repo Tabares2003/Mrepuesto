@@ -53,6 +53,7 @@
         "react-images": "^1.1.0-beta.3",
         "react-lazyload": "^2.6.5",
         "react-multi-select-component": "^4.1.13",
+        "react-native-get-location": "^4.0.0",
         "react-number-format": "^4.9.1",
         "react-redux": "^7.2.4",
         "react-router-dom": "^6.17.0",

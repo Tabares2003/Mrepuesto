@@ -30470,7 +30470,7 @@ label {
 .DeleteHistorial {
     display: flex;
     align-items: center;
-    margin-right: 2rem;
+    margin-right: 4rem;
 
 }
 
@@ -30503,8 +30503,8 @@ label {
 }
 
 .icon1Delete {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background-color: #EBEBEB;
     display: flex;
@@ -30516,15 +30516,15 @@ label {
 }
 
 .iconFavH {
-    font-size: 15px;
+    font-size: 18px;
 }
 
 .iconDeleteH {
-    font-size: 13px;
+    font-size: 15px;
 }
 
 .ContProductHistorial {
-    width: 175px;
+    width: 213px;
     border: 5px solid #EBEBEB;
     border-radius: 12px;
     padding: 1rem;
@@ -30536,7 +30536,7 @@ label {
 }
 
 .ContProductHistorial img {
-    height: 150px;
+    height: 170px;
     width: 100%;
     cursor: pointer;
 }
@@ -30548,7 +30548,7 @@ label {
 }
 
 .DataProductHistorial p {
-    font-size: 14px;
+    font-size: 16px;
     color: #2D2E83;
     font-weight: 600;
     font-family: "Jost", sans-serif;
