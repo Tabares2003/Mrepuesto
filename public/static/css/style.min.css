@@ -30536,9 +30536,10 @@ label {
 }
 
 .ContProductHistorial img {
-    height: 170px;
-    width: 100%;
+    height: 150px;
+    width: 150px;
     cursor: pointer;
+    margin: 0 auto;
 }
 
 .DataProductHistorial {
@@ -30907,4 +30908,12 @@ label {
     display: flex;
     justify-content: center;
     height: 40px !important;
+}
+
+
+
+/**/
+
+.mainDispVinculados{
+    width: 100%;
 }

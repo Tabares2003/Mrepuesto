@@ -27,80 +27,88 @@ import { getDatabase, ref, set, onValue } from "firebase/database";
 
 export default function dispVinculados() {
 
+    const datosusuarios = useSelector((state) => state.userlogged.userlogged);
+    const [UidUser, setUidUser] = useState("");
+    const [DatosUser, setDatosUser] = useState([]);
 
-    const [location, setLocation] = useState({
-        latitude: null,
-        longitude: null,
-        address: null,
-        error: null,
-    });
-
+    //Función para obtener el UID del Usuario que nos sirve para mapear sus historial
     useEffect(() => {
-        const fetchData = async () => {
+        const obtenerUidUsuario = async () => {
+            let params = {
+                uid: datosusuarios.uid,
+            };
             try {
-                if ("geolocation" in navigator) {
-                    navigator.geolocation.getCurrentPosition(
-                        async (position) => {
-                            const { latitude, longitude } = position.coords;
-                            console.log("Latitude:", latitude);
-                            console.log("Longitude:", longitude);
-
-                            const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBzRDJgroRrXsY8A-UAfyc7j-3kowwe250`;
-                            console.log("Geocode URL:", geocodeUrl);
-
-                            try {
-                                const response = await axios.get(geocodeUrl);
-
-                                if (response.data.results[0]) {
-                                    const formattedAddress = response.data.results[0].formatted_address;
-                                    console.log("Formatted Address:", formattedAddress);
-
-                                    setLocation({
-                                        latitude,
-                                        longitude,
-                                        address: formattedAddress,
-                                        error: null,
-                                    });
-
-                                    console.log("Location state updated successfully");
-                                } else {
-                                    console.error("No results found in geocoding response");
-                                    setLocation({ error: "No results found" });
-                                }
-                            } catch (error) {
-                                console.error("Error in geocoding request:", error);
-                                setLocation({ error: `Error in geocoding request: ${error.message}` });
-                            }
-                        },
-                        (error) => {
-                            console.error("Error getting geolocation:", error);
-                            setLocation({
-                                latitude: null,
-                                longitude: null,
-                                error: `Error getting geolocation: ${error.message}`,
-                            });
-                        }
-                    );
-                } else {
-                    console.log("Geolocation not available");
-                    setLocation({
-                        latitude: null,
-                        longitude: null,
-                        error: "Geolocation not available",
-                    });
-                }
-            } catch (error) {
-                console.error("Unexpected error:", error);
-                setLocation({
-                    latitude: null,
-                    longitude: null,
-                    error: `Unexpected error: ${error.message}`,
+                const res = await axios({
+                    method: "post",
+                    url: URL_BD_MR + "13",
+                    params,
                 });
+                setDatosUser(res.data[0]);
+                setUidUser(res.data[0].uid)
+            } catch (error) {
+                console.error("Error al leer los datos del usuario", error);
+                // Maneja el error según tus necesidades
             }
         };
+        obtenerUidUsuario();
+    }, [datosusuarios]);
 
-        fetchData();
-    }, []);
+
+
+    const [dispositivosVinculados, setDispositivosVinculados] = useState([]);
+
+    useEffect(() => {
+        const leerDispositivosVinculados = async () => {
+            let params = {
+                usuario: UidUser,
+            };
+
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "93",
+                params,
+            })
+                .then((res) => {
+                    if (res.data && res.data.listLinkedDevices) {
+                        const dispositivos = res.data.listLinkedDevices.map((dispositivo) => {
+                            return {
+                                id: dispositivo.id,
+                                iddispositivo: dispositivo.iddispositivo,
+                                usuario: dispositivo.usuario,
+                                localizacion: dispositivo.localizacion,
+                                fechacreacion: dispositivo.fechacreacion,
+                            };
+                        });
+                        // Almacena los dispositivos vinculados en el estado de tu componente
+                        setDispositivosVinculados(dispositivos);
+                    } else {
+                        console.error("Error: res.data o res.data.listLinkedDevices es undefined");
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error al leer los datos del usuario", error);
+                });
+        };
+        leerDispositivosVinculados();
+    }, [UidUser]);
+
+    const obtenerDiasTranscurridos = (fecha) => {
+        const hoy = new Date();
+        const fechacreacion = new Date(fecha);
+        const diferenciaEnMilisegundos = hoy - fechacreacion;
+        const diferenciaEnDias = diferenciaEnMilisegundos / (1000 * 60 * 60 * 24);
+        return Math.floor(diferenciaEnDias);
+    };
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -149,37 +157,41 @@ export default function dispVinculados() {
                                         <div>
                                             <p className="titlemisD">Dispositivos vinculados</p>
                                             <div>
-                                                {location.error && <p>Error: {location.error}</p>}
-                                                {location.latitude && location.longitude && (
-                                                    <p>
-                                                        Latitude: {location.latitude}, Longitude: {location.longitude}
-                                                    </p>
-                                                )}
-                                                {location.address && <p>Formatted Address: {location.address}</p>}
-                                            </div>
-                                        </div>
-                                        <div className="contDispVincSubTitle">
-                                            <p className="subtitdispvinc">Actualmente hay 2 dispositivos vinculados a tu cuenta</p>
-                                        </div>
-                                        <div className="SubcontainerMisDatos">
-                                            <div>
-                                                <p className="titleSubContMisD">Xiaomi Redmi 9 pro</p>
-                                                <p className="subtitleSubContMisD">Este dispositivo - Ultima vez de actividad</p>
-                                            </div>
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <button className='ButtonCloseSession'  >Cerrar sesión</button>
+                                                {dispositivosVinculados.map((dispositivo, index) => (
+                                                    <div key={index}>
+                                                        <h3>Dispositivo {index + 1}</h3>
+                                                        <p><strong>ID:</strong> {dispositivo.id}</p>
+                                                        <p><strong>ID del dispositivo:</strong> {dispositivo.iddispositivo}</p>
+                                                        <p><strong>Usuario:</strong> {dispositivo.usuario}</p>
+                                                        <p><strong>Localización:</strong> {dispositivo.localizacion}</p>
+                                                        <p><strong>Fecha de creación:</strong> {dispositivo.fechacreacion}</p>
+                                                    </div>
+                                                ))}
                                             </div>
                                         </div>
 
-                                        <div className="SubcontainerMisDatos">
-                                            <div>
-                                                <p className="titleSubContMisD">Windows 10</p>
-                                                <p className="subtitleSubContMisD">Ubicación - Ultima vez de actividad</p>
-                                            </div>
-                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                <button className='ButtonCloseSession'>Cerrar sesión</button>
-                                            </div>
+                                        <div className="contDispVincSubTitle">
+                                            <p className="subtitdispvinc">Actualmente hay {dispositivosVinculados.length} dispositivos vinculados a tu cuenta</p>
                                         </div>
+
+                                        {dispositivosVinculados.map((dispositivo, index) => (
+                                            <div className="mainDispVinculados" key={index}>
+                                                <div className="SubcontainerMisDatos">
+                                                    <div>
+                                                        <p className="titleSubContMisD">{dispositivo.iddispositivo}</p>
+                                                        <p className="subtitleSubContMisD">{dispositivo.localizacion.split(', ').slice(-3).join(', ')} - {dispositivo.fechacreacion.split(' ')[0]}</p>
+                                                    </div>
+                                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                        <button className='ButtonCloseSession'>Cerrar sesión</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                    
+
+
+
                                         <Grid container style={{ width: '100%' }}>
                                             <Grid item xs={12} md={6}></Grid>
                                             <Grid item xs={12} md={6}>
