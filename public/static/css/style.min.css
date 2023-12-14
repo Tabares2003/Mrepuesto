@@ -30633,6 +30633,63 @@ label {
     font-family: "Jost", sans-serif;
 }
 
+.listaHistorialPages a {
+    width: 34px;
+    height: 34px;
+    margin: 0 4px;
+    font-size: 14px;
+    color: #2d2e83;
+    font-weight: 700;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.paginaciónMainHistorial{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.nextButtonPages{
+    margin-top: 5px;
+    color: #2d2e83;
+    margin-left: 8px;
+}
+.backButtonPages{
+    margin-top: 5px;
+    color: #2d2e83;
+    margin-right: 8px;
+}
+.activePage {
+    background-color: #2d2e83; /* Color de fondo del círculo */
+    color: white !important;
+    border-radius: 50%; /* Hace que el elemento tenga forma de círculo */
+    padding: 5px 10px; /* Espacio alrededor del texto */
+}
+.inactivePage {
+    color: #2d2e83 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -30685,6 +30742,14 @@ label {
 }
 
 /*fin Mensaje Vendedor*/
+
+
+
+
+
+
+
+
 
 
 
@@ -30751,10 +30816,12 @@ label {
     font-weight: 500;
     font-family: "Jost", sans-serif;
 }
-.buttonsPrgsUsers{
+
+.buttonsPrgsUsers {
     display: flex;
     flex-direction: column;
 }
+
 .MainContPregResps {
     width: 100%;
 }
@@ -30816,6 +30883,7 @@ label {
     margin-right: 2rem;
     margin-left: -1.5rem;
 }
+
 .ComprarButton {
     width: 190px;
     background-color: #2D2E83;
@@ -30827,6 +30895,7 @@ label {
     justify-content: center;
     height: 40px !important;
 }
+
 .EliminarPreguntaButton {
     margin-top: 2rem;
     width: 190px;

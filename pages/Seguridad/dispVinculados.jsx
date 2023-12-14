@@ -40,7 +40,7 @@ export default function dispVinculados() {
             try {
                 if ("geolocation" in navigator) {
                     navigator.geolocation.getCurrentPosition(
-                        (position) => {
+                        async (position) => {
                             const { latitude, longitude } = position.coords;
                             console.log("Latitude:", latitude);
                             console.log("Longitude:", longitude);
@@ -48,66 +48,59 @@ export default function dispVinculados() {
                             const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBzRDJgroRrXsY8A-UAfyc7j-3kowwe250`;
                             console.log("Geocode URL:", geocodeUrl);
 
-                            // Resto del código...
+                            try {
+                                const response = await axios.get(geocodeUrl);
+
+                                if (response.data.results[0]) {
+                                    const formattedAddress = response.data.results[0].formatted_address;
+                                    console.log("Formatted Address:", formattedAddress);
+
+                                    setLocation({
+                                        latitude,
+                                        longitude,
+                                        address: formattedAddress,
+                                        error: null,
+                                    });
+
+                                    console.log("Location state updated successfully");
+                                } else {
+                                    console.error("No results found in geocoding response");
+                                    setLocation({ error: "No results found" });
+                                }
+                            } catch (error) {
+                                console.error("Error in geocoding request:", error);
+                                setLocation({ error: `Error in geocoding request: ${error.message}` });
+                            }
                         },
                         (error) => {
                             console.error("Error getting geolocation:", error);
+                            setLocation({
+                                latitude: null,
+                                longitude: null,
+                                error: `Error getting geolocation: ${error.message}`,
+                            });
                         }
                     );
                 } else {
                     console.log("Geolocation not available");
+                    setLocation({
+                        latitude: null,
+                        longitude: null,
+                        error: "Geolocation not available",
+                    });
                 }
             } catch (error) {
-                console.error("Error:", error);
+                console.error("Unexpected error:", error);
+                setLocation({
+                    latitude: null,
+                    longitude: null,
+                    error: `Unexpected error: ${error.message}`,
+                });
             }
         };
 
         fetchData();
     }, []);
-
-
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            if ("geolocation" in navigator) {
-              navigator.geolocation.getCurrentPosition(
-                (position) => {
-                  const { latitude, longitude } = position.coords;
-                  setLocation({
-                    latitude,
-                    longitude,
-                    error: null
-                  });
-                },
-                (error) => {
-                  console.error("Error getting geolocation:", error);
-                  setLocation({
-                    latitude: null,
-                    longitude: null,
-                    error: `Error getting geolocation: ${error.message}`
-                  });
-                }
-              );
-            } else {
-              setLocation({
-                latitude: null,
-                longitude: null,
-                error: "Geolocation not available"
-              });
-            }
-          } catch (error) {
-            console.error("Unexpected error:", error);
-            setLocation({
-              latitude: null,
-              longitude: null,
-              error: `Unexpected error: ${error.message}`
-            });
-          }
-        };
-      
-        fetchData();
-      }, []);
-
 
 
 
@@ -155,9 +148,15 @@ export default function dispVinculados() {
                                     <Grid sx={{ width: isMdDown ? '100%' : '65%' }}>
                                         <div>
                                             <p className="titlemisD">Dispositivos vinculados</p>
-                                            {location.address && (
-                                                <p>Tu ubicación: {location.address}</p>
-                                            )}
+                                            <div>
+                                                {location.error && <p>Error: {location.error}</p>}
+                                                {location.latitude && location.longitude && (
+                                                    <p>
+                                                        Latitude: {location.latitude}, Longitude: {location.longitude}
+                                                    </p>
+                                                )}
+                                                {location.address && <p>Formatted Address: {location.address}</p>}
+                                            </div>
                                         </div>
                                         <div className="contDispVincSubTitle">
                                             <p className="subtitdispvinc">Actualmente hay 2 dispositivos vinculados a tu cuenta</p>

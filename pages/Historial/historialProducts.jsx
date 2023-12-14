@@ -14,13 +14,14 @@ import { URL_BD_MR, URL_IMAGES_RESULTS } from "../../helpers/Constants";
 import { FaTrashAlt } from "react-icons/fa";
 import { IoMdHeartEmpty } from "react-icons/io";
 
-
+import ModalMensajes from "../mensajes/ModalMensajes";
 
 
 
 export default function historialProducts() {
 
-    let usuario = "1671495436242"; // Usuario estático
+
+
 
     const [datosUsuario, setDatosUsuario] = useState([]);
     const [selectedSortOption, setSelectedSortOption] = useState(null);
@@ -29,13 +30,20 @@ export default function historialProducts() {
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
     const [busqueda, setBusqueda] = useState("");
     const router = useRouter();
-    //PosiciónTopPage
-    const irA = useRef(null);
-    const [datosUsuarioOriginales, setDatosUsuarioOriginales] = useState("");
 
+    const [datosUsuarioOriginales, setDatosUsuarioOriginales] = useState("");
+    const [tituloMensajes, setTituloMensajes] = useState(''); //titulo modal
+    const [textoMensajes, setTextoMensajes] = useState(''); //texto modal 
+    const [showModal, setShowModal] = useState(false); //Estado de modal
     const datosusuarios = useSelector((state) => state.userlogged.userlogged);
     const [UidUser, setUidUser] = useState("");
     const [DatosUser, setDatosUser] = useState([]);
+
+    //cerrar modal advertencia
+    const handleModalClose = () => {
+        setShowModal(false);
+    };
+    //Función para obtener el UID del Usuario que nos sirve para mapear sus historial
     useEffect(() => {
         const obtenerUidUsuario = async () => {
             let params = {
@@ -56,6 +64,8 @@ export default function historialProducts() {
         };
         obtenerUidUsuario();
     }, [datosusuarios]);
+
+
 
     //Petición para mapear datos de producs historial user
     useEffect(() => {
@@ -149,6 +159,75 @@ export default function historialProducts() {
     };
 
 
+    // Función para verificar si el producto ya está en favoritos
+    const verificarProducto = async (producto) => {
+        let params = {
+            idproducto: producto.idproducto,
+            usuario: datosusuarios.uid,
+        };
+
+        try {
+            const res = await axios({
+                method: "post",
+                url: URL_BD_MR + "57",
+                params,
+            });
+            if (res.data.listaritemdeseos.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (error) {
+            console.error("Error al verificar el producto", error);
+        }
+    };
+
+    // Función para enviar el producto a favoritos
+    const enviarAFavoritos = async (producto) => {
+        let params = {
+            idproducto: producto.idproducto,
+            compatible: producto.compatible,
+            usuario: datosusuarios.uid,
+        };
+
+        try {
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "53",
+                params,
+            });
+            console.log("Producto añadido a favoritos");
+        } catch (error) {
+            console.error("Error al añadir el producto a favoritos", error);
+        }
+    };
+
+    // Función para verificar y enviar a favoritos
+    const verificarYEnviarAFavoritos = async (producto) => {
+        const estaEnFavoritos = await verificarProducto(producto);
+
+        if (estaEnFavoritos) {
+            setShowModal(true);
+            setTituloMensajes("Lista de deseos");
+            let texto = "Producto ya existe en lista de deseo";
+            setTextoMensajes(texto);
+        } else {
+            await enviarAFavoritos(producto);
+            setShowModal(true);
+            setTituloMensajes("Lista de deseos");
+            let texto = "Producto añadido a favoritos con éxito";
+            setTextoMensajes(texto);
+        }
+    };
+
+
+
+
+
+
+
+
+
 
 
 
@@ -240,7 +319,8 @@ export default function historialProducts() {
     }, [busqueda, datosUsuarioOriginales]);
 
 
-
+    //PosiciónTopPage
+    const irA = useRef(null);
     //Función para enviar al usuario al top cuando entra
     useEffect(() => {
         irA.current.scrollIntoView({
@@ -259,19 +339,47 @@ export default function historialProducts() {
 
     const [paginaActual, setPaginaActual] = useState(1);
     const productosPorPagina = 40;
+    const numeroPaginas = 3; // Número fijo de páginas
 
     const seleccionaPagina = (numeroPagina) => {
         setPaginaActual(numeroPagina);
+
+        // Desplaza la página hasta arriba
+        irA.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
     };
 
     const indexUltimoProducto = paginaActual * productosPorPagina;
     const indexPrimerProducto = indexUltimoProducto - productosPorPagina;
     const productosActuales = datosUsuario.slice(indexPrimerProducto, indexUltimoProducto);
-
-    const numeroPaginas = Math.ceil(datosUsuario.length / productosPorPagina);
-
+    const numeroTotalPaginas = Math.ceil(datosUsuario.length / productosPorPagina);
 
 
+    const paginaAnterior = () => {
+        if (paginaActual > 1) {
+            setPaginaActual(paginaActual - 1);
+        }
+
+        // Desplaza la página hasta arriba
+        irA.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    };
+
+    const paginaSiguiente = () => {
+        if (paginaActual < numeroTotalPaginas) {
+            setPaginaActual(paginaActual + 1);
+        }
+
+        // Desplaza la página hasta arriba
+        irA.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    };
 
     return (
         <>
@@ -378,7 +486,7 @@ export default function historialProducts() {
                                                                     <FaTrashAlt className="iconDeleteH" onClick={() => eliminarProducto(producto.idproducto, producto.usuario)} />
                                                                 </div>
                                                                 <div className="icon1Delete">
-                                                                    <IoMdHeartEmpty className="iconFavH" />
+                                                                    <IoMdHeartEmpty className="iconFavH" onClick={() => verificarYEnviarAFavoritos(producto)} />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -387,23 +495,42 @@ export default function historialProducts() {
                                             ) : (
                                                 <p>No se encontraron productos en tu historial.</p>
                                             )}
+
+
+                                        </div>
+                                        <div className="paginaciónMainHistorial">
                                             <ul className="pagination">
-                                                <li>
-                                                    <a onClick={() => seleccionaPagina(1)}>
+                                                <li className="backButtonPages">
+                                                    <a onClick={paginaAnterior}>
                                                         <i className="fa fa-angle-double-left"></i>
                                                     </a>
                                                 </li>
-                                                {Array.from({ length: numeroPaginas }, (_, i) => i + 1).map((numeroPagina) => (
-                                                    <li className={paginaActual === numeroPagina ? 'active' : ''}>
-                                                        <a onClick={() => seleccionaPagina(numeroPagina)}>{numeroPagina}</a>
-                                                    </li>
-                                                ))}
-                                                <li>
-                                                    <a onClick={() => seleccionaPagina(numeroPaginas)}>
-                                                        <i className="fa fa-angle-double-right"></i>
+                                                {Array.from({ length: numeroPaginas }, (_, i) => i + 1).map((numeroPagina) => {
+                                                    const estaDeshabilitado = numeroPagina > numeroTotalPaginas;
+
+                                                    return (
+                                                        <li className="listaHistorialPages">
+                                                            <a className={paginaActual === numeroPagina ? 'activePage' : 'inactivePage'}
+                                                                onClick={() => !estaDeshabilitado && seleccionaPagina(numeroPagina)}
+                                                                disabled={estaDeshabilitado}>
+                                                                {numeroPagina}
+                                                            </a>
+                                                        </li>
+                                                    );
+                                                })}
+                                                <li className="nextButtonPages">
+                                                    <a onClick={paginaSiguiente}>
+                                                        <i className="fa fa-angle-double-right paginaciónHistorial"></i>
                                                     </a>
                                                 </li>
                                             </ul>
+                                            <ModalMensajes
+                                                shown={showModal}
+                                                close={handleModalClose}
+                                                titulo={tituloMensajes}
+                                                mensaje={textoMensajes}
+                                                tipo="error"
+                                            />
                                         </div>
                                     </Grid>
                                 </Grid>
