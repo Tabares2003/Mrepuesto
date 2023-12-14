@@ -207,7 +207,7 @@ function index(props) {
         const enviarDatos = async () => {
             let params = {
                 iddispositivo: device, // Aquí usamos el estado 'device' que ya tienes definido
-                usuario: UidUser, // Aquí puedes reemplazarlo con el valor que necesites
+                usuario: "1671495436242", // Aquí puedes reemplazarlo con el valor que necesites
                 localizacion: location.address, // Aquí usamos el estado 'location' que ya tienes definido
             };
             try {
