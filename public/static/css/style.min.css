@@ -29451,6 +29451,12 @@ label {
     color: #2C2E82;
     font-family: "Jost", sans-serif;
 }
+.subtitleSubContMisD2{
+    font-size: 21px;
+    color: #2C2E82;
+    font-family: "Jost", sans-serif;
+    margin-left: 1.5rem;
+}
 
 .titlemisD {
     font-size: 24px;
@@ -30577,7 +30583,7 @@ label {
     font-size: 16px;
     padding-left: 3rem;
     color: #2C2E82;
-    
+
 }
 
 .ContProductHistorial img {
@@ -31041,4 +31047,11 @@ label {
 .CloseSesionDispVinc {
     display: flex;
     align-items: center;
+}
+.dateandLocalización{
+    flex-direction: column;
+    display: flex;
+}
+.psubtitlesSubContMisDates{
+    display: flex;
 }

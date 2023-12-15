@@ -346,9 +346,9 @@ export default function historialProducts() {
         });
     }, []);
 
-  
 
-    
+
+
     const seleccionaPagina = (numeroPagina) => {
         setPaginaActual(numeroPagina);
 
@@ -390,13 +390,15 @@ export default function historialProducts() {
 
     // Función para manejar el clic en un producto
     const manejarClicProducto = (producto) => {
-        if (productosSeleccionados.includes(producto.id)) {
-            // Si el producto ya está seleccionado, lo eliminamos de los productos seleccionados
-            setProductosSeleccionados(productosSeleccionados.filter(id => id !== producto.id));
-        } else {
-            // Si el producto no está seleccionado, lo agregamos a los productos seleccionados
-            setProductosSeleccionados([...productosSeleccionados, producto.id]);
-        }
+        setProductosSeleccionados((prevProductosSeleccionados) => {
+            if (prevProductosSeleccionados.includes(producto.id)) {
+                // Si el producto ya está seleccionado, lo eliminamos de los productos seleccionados
+                return prevProductosSeleccionados.filter((id) => id !== producto.id);
+            } else {
+                // Si el producto no está seleccionado, lo agregamos a los productos seleccionados
+                return [...prevProductosSeleccionados, producto.id];
+            }
+        });
     };
 
 
@@ -405,28 +407,29 @@ export default function historialProducts() {
         for (const idproducto of productosSeleccionados) {
             let params = {
                 idproducto: idproducto,
-                usuario: UidUser, // Usa el uid del usuario obtenido anteriormente
+                usuario: UidUser,
             };
 
-            await axios({
-                method: "post",
-                url: URL_BD_MR + "91",
-                params,
-            })
-                .then(() => {
-                    console.log('Producto ' + idproducto + ' eliminado exitosamente');
-                })
-                .catch(function (error) {
-                    console.error("Error al eliminar el producto " + idproducto, error);
+            try {
+                await axios({
+                    method: "post",
+                    url: URL_BD_MR + "91",
+                    params,
                 });
+
+                console.log('Producto ' + idproducto + ' eliminado exitosamente');
+            } catch (error) {
+                console.error("Error al eliminar el producto " + idproducto, error);
+            }
         }
 
         // Actualiza tus datos después de eliminar los productos
-        const nuevosDatos = datosUsuario.filter(producto => !productosSeleccionados.includes(producto.id));
+        const nuevosDatos = datosUsuario.filter((producto) => !productosSeleccionados.includes(producto.id));
         setDatosUsuario(nuevosDatos);
         setDatosUsuarioOriginales(nuevosDatos);
         setProductosSeleccionados([]); // Limpia los productos seleccionados
     };
+
 
 
 
@@ -437,13 +440,12 @@ export default function historialProducts() {
             setTodosSeleccionados(false);
         } else {
             // Si no todos los productos están seleccionados, los seleccionamos todos
-            const todosLosIds = datosUsuario.map(producto => producto.id);
+            const todosLosIds = datosUsuario.map((producto) => producto.id);
             setProductosSeleccionados(todosLosIds);
             setTodosSeleccionados(true);
         }
     };
-
-
+ 
 
     return (
         <>
@@ -508,9 +510,9 @@ export default function historialProducts() {
                                                 </Dropdown.Menu>
                                             </Dropdown>
                                             <InputBase
-                                            className="inputhISTORIAL"
+                                                className="inputhISTORIAL"
                                                 placeholder="Buscar en mi historial"
-                                                sx={{ 
+                                                sx={{
                                                     fontWeight: '500',
                                                     '&::placeholder': {
                                                         color: '#3E4089',

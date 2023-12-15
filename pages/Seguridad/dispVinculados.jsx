@@ -27,9 +27,21 @@ import { getDatabase, ref, set, onValue } from "firebase/database";
 
 export default function dispVinculados() {
 
+
+    const [tituloMensajes, setTituloMensajes] = useState(''); //titulo modal
+    const [textoMensajes, setTextoMensajes] = useState(''); //texto modal 
+    const [showModal, setShowModal] = useState(false); //Estado de modal
     const datosusuarios = useSelector((state) => state.userlogged.userlogged);
     const [UidUser, setUidUser] = useState("");
     const [DatosUser, setDatosUser] = useState([]);
+
+
+    //cerrar modal de favoritos y de eliminar un producto
+    const handleModalClose = () => {
+        setShowModal(false);
+    };
+
+
 
     //Función para obtener el UID del Usuario que nos sirve para mapear sus historial
     useEffect(() => {
@@ -93,36 +105,37 @@ export default function dispVinculados() {
     }, [UidUser]);
 
 
-
-
-
-
-
     const borrarDispositivo = async (id) => {
         let params = {
             usuario: UidUser,
             id: id,
         };
 
-        await axios({
-            method: "post",
-            url: URL_BD_MR + "96",
-            params,
-        })
-            .then((res) => {
-                if (res.data && res.data.success) {
-                    console.log("Dispositivo borrado con éxito");
-                    // Actualiza la lista de dispositivos vinculados
-                    setDispositivosVinculados(prevDispositivos => prevDispositivos.filter(dispositivo => dispositivo.id !== id));
-                } else {
-                    console.error("Error: no se pudo borrar el dispositivo");
-                }
-            })
-            .catch(function (error) {
-                console.error("Error al borrar el dispositivo", error);
+        try {
+            const res = await axios({
+                method: "post",
+                url: URL_BD_MR + "96",
+                params,
             });
-    };
 
+            if (res.data && res.data.message === "PROCESO EXITOSO") {
+                console.log("Dispositivo borrado con éxito");
+                // Actualiza la lista de dispositivos vinculados
+                setDispositivosVinculados(prevDispositivos => prevDispositivos.filter(dispositivo => dispositivo.id !== id));
+
+                // Muestra el modal con el mensaje de éxito
+                setShowModal(true);
+                setTituloMensajes("Dispositivo borrado");
+                let texto = "Dispositivo borrado con éxito";
+                setTextoMensajes(texto);
+            } else {
+                throw new Error("No se pudo borrar el dispositivo");
+            }
+        } catch (error) {
+            console.error("Error al borrar el dispositivo", error);
+            // Maneja el error según tus necesidades
+        }
+    };
 
 
 
@@ -170,41 +183,41 @@ export default function dispVinculados() {
                                         <div>
                                             <p className="titlemisD">Dispositivos vinculados</p>
                                             <div>
-                                                {/*  {dispositivosVinculados.map((dispositivo, index) => (
-                                                    <div key={index}>
-                                                        <h3>Dispositivo {index + 1}</h3>
-                                                        <p><strong>ID:</strong> {dispositivo.id}</p>
-                                                        <p><strong>ID del dispositivo:</strong> {dispositivo.iddispositivo}</p>
-                                                        <p><strong>Usuario:</strong> {dispositivo.usuario}</p>
-                                                        <p><strong>Localización:</strong> {dispositivo.localizacion}</p>
-                                                        <p><strong>Fecha de creación:</strong> {dispositivo.fechacreacion}</p>
-                                                    </div>
-                                                ))}*/}
                                             </div>
                                         </div>
 
                                         <div className="contDispVincSubTitle">
                                             <p className="subtitdispvinc">Actualmente hay {dispositivosVinculados.length} dispositivos vinculados a tu cuenta</p>
                                         </div>
-
-                                        {dispositivosVinculados.map((dispositivo, index) => (
-                                            <div className="mainDispVinculados" key={index}>
-                                                <div className="SubcontainerMisDatos">
-                                                    <div>
-                                                        <p className="titleSubContMisD">{dispositivo.iddispositivo}</p>
-                                                        <p className="subtitleSubContMisD">
-                                                            {dispositivo.localizacion && dispositivo.localizacion.split(', ').slice(-3).join(', ')}
-                                                            -
-                                                            {dispositivo.fechacreacion && dispositivo.fechacreacion.split(' ')[0]}
-                                                        </p>
-                                                    </div>
-                                                    <div className="CloseSesionDispVinc">
-                                                        <button className='ButtonCloseSession' onClick={() => borrarDispositivo(dispositivo.id)}>Cerrar sesión</button>
+                                        {dispositivosVinculados.map((dispositivo, index) => {
+                                            let resultado = '';
+                                            if (dispositivo.iddispositivo) {
+                                                let palabras = dispositivo.iddispositivo.match(/\b(\w+)\b/g);
+                                                if (palabras && palabras.length >= 3) {
+                                                    resultado = palabras.slice(0, 3).join(' ');
+                                                }
+                                            }
+                                            return (
+                                                <div className="mainDispVinculados" key={index}>
+                                                    <div className="SubcontainerMisDatos">
+                                                        <div className="dateandLocalización">
+                                                            <p className="titleSubContMisD">{resultado}</p>
+                                                            <div className="psubtitlesSubContMisDates">
+                                                                <p className="subtitleSubContMisD">
+                                                                    {dispositivo.localizacion && dispositivo.localizacion.split(', ').slice(-3).join(', ')}
+                                                                </p>
+                                                                <p className="subtitleSubContMisD2">{dispositivo.fechacreacion && dispositivo.fechacreacion.split(' ')[0]}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="CloseSesionDispVinc">
+                                                            <button className='ButtonCloseSession' onClick={() => borrarDispositivo(dispositivo.id)}>Cerrar sesión</button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))}
+                                            )
+                                        })}
 
+                                        
 
 
 
@@ -218,8 +231,13 @@ export default function dispVinculados() {
                                                 </Box>
                                             </Grid>
                                         </Grid>
-
-
+                                        <ModalMensajes
+                                            shown={showModal}
+                                            close={handleModalClose}
+                                            titulo={tituloMensajes}
+                                            mensaje={textoMensajes}
+                                            tipo="error"
+                                        />
 
                                     </Grid>
 
