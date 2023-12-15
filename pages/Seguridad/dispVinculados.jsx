@@ -20,26 +20,129 @@ import axios from "axios";
 import { URL_BD_MR } from "../../helpers/Constants";
 import { useDispatch, connect, useSelector } from "react-redux";
 import { AiOutlineRight } from 'react-icons/ai';
-import { getAuth } from "firebase/auth";
+import {
+    getAuth,
+    onAuthStateChanged,
+    signOut
+} from "firebase/auth";
 import { getDatabase, ref, set, onValue } from "firebase/database";
-
+import firebase from "../../utilities/firebase";
 
 
 export default function dispVinculados() {
 
-
+    const router = useRouter();
+    //Consts measured, 80% and in md 100%.
+    const theme = useTheme();
+    const isMdDown = useMediaQuery(theme.breakpoints.down("md"));
+    //Posición top Pagina
+    const irA = useRef(null);
     const [tituloMensajes, setTituloMensajes] = useState(''); //titulo modal
     const [textoMensajes, setTextoMensajes] = useState(''); //texto modal 
     const [showModal, setShowModal] = useState(false); //Estado de modal
     const datosusuarios = useSelector((state) => state.userlogged.userlogged);
     const [UidUser, setUidUser] = useState("");
     const [DatosUser, setDatosUser] = useState([]);
-
+    const [dispositivosVinculados, setDispositivosVinculados] = useState([]);
 
     //cerrar modal de favoritos y de eliminar un producto
     const handleModalClose = () => {
         setShowModal(false);
     };
+
+    //función para ir a ruta de Seguridad y lobby
+    const handleroute = (route) => () => {
+        router.push(route);
+    };
+
+    //función para ir al top de la pagina
+    useEffect(() => {
+        irA.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
+    }, []);
+
+
+
+
+    // Estado para almacenar el id del dispositivo actual
+    const [idDispositivoActual, setIdDispositivoActual] = useState(null);
+
+    useEffect(() => {
+        const handleDeviceDetection = () => {
+            const userAgent = navigator.userAgent.toLowerCase();
+            let array = userAgent.split(" ");
+            console.log("XXXXXXX : ", array);
+
+            const isMobile =
+                /iphone|ipad|ipod|android|blackberry|windows phone/g.test(
+                    userAgent
+                );
+            const isTablet =
+                /(ipad|tablet|playbook|silk)|(android(?!.*mobile))/g.test(
+                    userAgent
+                );
+
+            let idDispositivo;
+            if (isMobile) {
+                idDispositivo =
+                    "Mobile" +
+                    " " +
+                    array[1] +
+                    " " +
+                    array[2] +
+                    array[3] +
+                    array[4] +
+                    array[5];
+            } else if (isTablet) {
+                idDispositivo =
+                    "Tablet" +
+                    " " +
+                    array[1] +
+                    " " +
+                    array[2] +
+                    array[3] +
+                    array[4] +
+                    array[5];
+            } else {
+                idDispositivo =
+                    "Desktop" +
+                    " " +
+                    array[1] +
+                    " " +
+                    array[2] +
+                    array[3] +
+                    array[4] +
+                    array[5];
+            }
+
+            // Almacena el id del dispositivo en el estado
+            setIdDispositivoActual(idDispositivo);
+
+            // Imprime el id del dispositivo actual en la consola
+            console.log("Dispositivo actual:", idDispositivo);
+        };
+
+        handleDeviceDetection();
+        window.addEventListener("resize", handleDeviceDetection);
+
+        return () => {
+            window.removeEventListener("resize", handleDeviceDetection);
+        };
+    }, []);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -67,8 +170,7 @@ export default function dispVinculados() {
 
 
 
-    const [dispositivosVinculados, setDispositivosVinculados] = useState([]);
-
+    //función para leer los dispositivos que están vinculados
     useEffect(() => {
         const leerDispositivosVinculados = async () => {
             let params = {
@@ -93,6 +195,9 @@ export default function dispVinculados() {
                         });
                         // Almacena los dispositivos vinculados en el estado de tu componente
                         setDispositivosVinculados(dispositivos);
+
+                        // Imprime los dispositivos vinculados en la consola
+                        console.log("Dispositivos vinculados:", dispositivos);
                     } else {
                         console.error("Error: res.data o res.data.listLinkedDevices es undefined");
                     }
@@ -105,6 +210,29 @@ export default function dispVinculados() {
     }, [UidUser]);
 
 
+    const Salir = () => {
+        //localStorage.clear();
+        /*
+        localStorage.removeItem('datoscarroceriasvehiculos');
+        localStorage.removeItem('datosannosvehiculos');
+        localStorage.removeItem('datosmarcasvehiculos');
+        localStorage.removeItem('subcategorias');
+        localStorage.removeItem('categorias');
+        localStorage.removeItem('datostiposvehiculos');
+        */
+        const auth = getAuth(firebase);
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            router.push("/");
+            console.log("Sesión Cerrada")
+        }).catch((error) => {
+            // An error happened.
+            console.log("Error Cerrando Sesión")
+        });
+    }
+
+
+    //Función para borrar dispositivo
     const borrarDispositivo = async (id) => {
         let params = {
             usuario: UidUser,
@@ -128,6 +256,9 @@ export default function dispVinculados() {
                 setTituloMensajes("Dispositivo borrado");
                 let texto = "Dispositivo borrado con éxito";
                 setTextoMensajes(texto);
+
+                // Cierra la sesión
+                Salir();
             } else {
                 throw new Error("No se pudo borrar el dispositivo");
             }
@@ -144,29 +275,12 @@ export default function dispVinculados() {
 
 
 
-    const router = useRouter();
-    //Consts measured, 80% and in md 100%.
-    const theme = useTheme();
-    const isMdDown = useMediaQuery(theme.breakpoints.down("md"));
-    //Posición top Pagina
-    const irA = useRef(null);
 
 
 
 
 
-    const handleroute = (route) => () => {
-        router.push(route);
-    };
 
-
-
-    useEffect(() => {
-        irA.current.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-        });
-    }, []);
 
 
     return (
@@ -189,35 +303,45 @@ export default function dispVinculados() {
                                         <div className="contDispVincSubTitle">
                                             <p className="subtitdispvinc">Actualmente hay {dispositivosVinculados.length} dispositivos vinculados a tu cuenta</p>
                                         </div>
-                                        {dispositivosVinculados.map((dispositivo, index) => {
-                                            let resultado = '';
-                                            if (dispositivo.iddispositivo) {
-                                                let palabras = dispositivo.iddispositivo.match(/\b(\w+)\b/g);
-                                                if (palabras && palabras.length >= 3) {
-                                                    resultado = palabras.slice(0, 3).join(' ');
-                                                }
-                                            }
-                                            return (
-                                                <div className="mainDispVinculados" key={index}>
-                                                    <div className="SubcontainerMisDatos">
-                                                        <div className="dateandLocalización">
-                                                            <p className="titleSubContMisD">{resultado}</p>
-                                                            <div className="psubtitlesSubContMisDates">
-                                                                <p className="subtitleSubContMisD">
-                                                                    {dispositivo.localizacion && dispositivo.localizacion.split(', ').slice(-3).join(', ')}
-                                                                </p>
-                                                                <p className="subtitleSubContMisD2">{dispositivo.fechacreacion && dispositivo.fechacreacion.split(' ')[0]}</p>
+
+
+                                        {dispositivosVinculados.length > 0 ? (
+                                            dispositivosVinculados
+                                                // Ordena los dispositivos para que el dispositivo actual esté primero
+                                                .sort((a, b) => (a.iddispositivo === idDispositivoActual ? -1 : b.iddispositivo === idDispositivoActual ? 1 : 0))
+                                                .map((dispositivo, index) => {
+                                                    let esEsteDispositivo = dispositivo.iddispositivo === idDispositivoActual;
+                                                    let resultado = '';
+                                                    if (dispositivo.iddispositivo) {
+                                                        let palabras = dispositivo.iddispositivo.match(/\b(\w+)\b/g);
+                                                        if (palabras && palabras.length >= 3) {
+                                                            resultado = palabras.slice(0, 3).join(' ');
+                                                        }
+                                                    }
+                                                    return (
+                                                        <div className="mainDispVinculados" key={index}>
+                                                            <div className="SubcontainerMisDatos">
+                                                                <div className="dateandLocalización">
+                                                                    <p className="titleSubContMisD">{resultado}</p>
+                                                                    <div className="psubtitlesSubContMisDates">
+                                                                        <p className="subtitleSubContMisD">
+                                                                        {esEsteDispositivo ? "Este dispositivo" : dispositivo.localizacion.split(", ").slice(-3).join(", ")}
+                                                                        </p>
+                                                                        <p className="subtitleSubContMisD2">{dispositivo.fechacreacion && dispositivo.fechacreacion.split(' ')[0]}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="CloseSesionDispVinc">
+                                                                    <button className='ButtonCloseSession' onClick={() => borrarDispositivo(dispositivo.id)}>Cerrar sesión</button>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div className="CloseSesionDispVinc">
-                                                            <button className='ButtonCloseSession' onClick={() => borrarDispositivo(dispositivo.id)}>Cerrar sesión</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })}
+                                                    )
+                                                })
+                                        ) : (
+                                            <p>No tienes dispositivos vinculados.</p>
+                                        )}
 
-                                        
+
 
 
 
