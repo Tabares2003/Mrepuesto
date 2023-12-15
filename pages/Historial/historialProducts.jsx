@@ -407,22 +407,27 @@ export default function historialProducts() {
         }
     };
 
+
     // Función para eliminar los productos seleccionados
-    const eliminarProductosSeleccionados = async () => { 
-            let params = { 
+    const eliminarProductosSeleccionados = async () => {
+        for (const idproducto of productosSeleccionados) {
+            let params = {
+                idproducto: idproducto,
                 usuario: UidUser, // Usa el uid del usuario obtenido anteriormente
             };
+
             await axios({
                 method: "post",
-                url: URL_BD_MR + "90",
+                url: URL_BD_MR + "91",
                 params,
             })
-                .then((res) => {
-                    console.log('Producto eliminado exitosamente');
+                .then(() => {
+                    console.log('Producto ' + idproducto + ' eliminado exitosamente');
                 })
                 .catch(function (error) {
-                    console.error("Error al eliminar el producto", error);
-                }); 
+                    console.error("Error al eliminar el producto " + idproducto, error);
+                });
+        }
 
         // Actualiza tus datos después de eliminar los productos
         const nuevosDatos = datosUsuario.filter(producto => !productosSeleccionados.includes(producto.id));
@@ -430,7 +435,6 @@ export default function historialProducts() {
         setDatosUsuarioOriginales(nuevosDatos);
         setProductosSeleccionados([]); // Limpia los productos seleccionados
     };
-
 
     const [todosSeleccionados, setTodosSeleccionados] = useState(false);
 
@@ -543,7 +547,7 @@ export default function historialProducts() {
                                         <div className="selectedProductsHistorial">
                                             {productosSeleccionados.length > 0 && (
                                                 <div className="DeletedSelectsHistorial">
-                                                    
+
                                                     <div onClick={manejarClicSeleccionarTodos}>
                                                         {todosSeleccionados ? <FaCheck className="iconSquareCustom" /> : <IoSquareOutline className="iconSquareCustom" />}
                                                     </div>
@@ -555,8 +559,8 @@ export default function historialProducts() {
                                         <div className="ProducsH">
                                             {productosActuales.length > 0 ? (
                                                 productosActuales.map((producto) => (
-                                                    <div className="ContProductHistorial" key={producto.id} onClick={() => manejarClicProducto(producto)}>
-                                                        <div className="iconsHistorial">
+                                                    <div className="ContProductHistorial" key={producto.id} >
+                                                        <div className="iconsHistorial" onClick={() => manejarClicProducto(producto)}>
                                                             <IoSquareOutline className="iconSquare" />
                                                             <FaCheck className={`iconCheck ${productosSeleccionados.includes(producto.id) ? 'selected' : ''}`} />
                                                         </div>

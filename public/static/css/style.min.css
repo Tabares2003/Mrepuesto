@@ -30536,7 +30536,9 @@ label {
     position: relative;
     /* Añade posición relativa para posicionar el icono absolutamente */
 }
-.iconSquare, .iconCheck {
+
+.iconSquare,
+.iconCheck {
     position: absolute;
     top: 8px;
     left: 6px;
@@ -30545,12 +30547,15 @@ label {
 }
 
 .iconCheck {
-    display: none; /* Oculta el icono de verificación por defecto */
+    display: none;
+    /* Oculta el icono de verificación por defecto */
 }
 
 .iconCheck.selected {
-    display: inline; /* Muestra el icono de verificación cuando el producto está seleccionado */
+    display: inline;
+    /* Muestra el icono de verificación cuando el producto está seleccionado */
 }
+
 .iconSquare {
     position: absolute;
     top: 8px;
@@ -30559,16 +30564,23 @@ label {
     /* Ajusta según sea necesario */
     font-size: 18px;
     /* Ajusta el tamaño del icono según sea necesario */
-    color:  #2D2E83;
+    color: #2D2E83;
     /* Ajusta el color del icono según sea necesario */
 }
 
 
 .ContProductHistorial img {
-    height: 150px;
-    width: 150px;
+    max-height: 150px;
+    max-width: 150px;
+    width: 100%;
+    /* Para asegurar que la imagen se ajuste proporcionalmente */
+    height: auto;
+    /* Para asegurar que la imagen se ajuste proporcionalmente */
+    object-fit: cover;
+    /* Ajusta la imagen manteniendo la proporción y cubriendo el contenedor */
     cursor: pointer;
     margin: 0 auto;
+    margin-top: .5rem;
 }
 
 .DataProductHistorial {
@@ -30735,42 +30747,47 @@ label {
 
 
 .iconSquareCustom {
-    position: absolute; 
+    position: absolute;
     font-size: 18px;
     color: #2D2E83;
     margin-top: 5px;
 }
+
 .iconCheckCustom {
-    position: absolute; 
+    position: absolute;
     font-size: 15px;
     color: #2D2E83;
     margin-top: 5rem;
 }
 
 .iconCheckCustom {
-    display: none; /* Oculta el icono de verificación por defecto */
+    display: none;
+    /* Oculta el icono de verificación por defecto */
 }
 
 .iconCheckCustom.selected {
-    display: inline; /* Muestra el icono de verificación cuando el producto está seleccionado */
+    display: inline;
+    /* Muestra el icono de verificación cuando el producto está seleccionado */
 }
-.DeletedSelectsHistorial{
-    display: flex; 
+
+.DeletedSelectsHistorial {
+    display: flex;
     cursor: pointer;
 }
-.DeletedSelectsHistorial p{
+
+.DeletedSelectsHistorial p {
     font-size: 18px;
     color: #2D2E83;
     font-weight: 600;
     font-family: "Jost", sans-serif;
     margin-left: 2.5rem;
     margin-bottom: 1.5rem;
-} 
+}
 
 
 
-.selectedProductsHistorial{
-    width: 100%; 
+.selectedProductsHistorial {
+    width: 100%;
 }
 
 
