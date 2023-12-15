@@ -32,7 +32,6 @@ export default function historialProducts() {
     const isMdDown = useMediaQuery(theme.breakpoints.down('md'));
     const [busqueda, setBusqueda] = useState("");
     const router = useRouter();
-
     const [datosUsuarioOriginales, setDatosUsuarioOriginales] = useState("");
     const [tituloMensajes, setTituloMensajes] = useState(''); //titulo modal
     const [textoMensajes, setTextoMensajes] = useState(''); //texto modal 
@@ -40,11 +39,35 @@ export default function historialProducts() {
     const datosusuarios = useSelector((state) => state.userlogged.userlogged);
     const [UidUser, setUidUser] = useState("");
     const [DatosUser, setDatosUser] = useState([]);
+    const [showModal2, setShowModal2] = useState(false); //Modal de confirmación de eliminar todo el historial
+    const [paginaActual, setPaginaActual] = useState(1); //función para identificar pagina actual del usuaro
+    const productosPorPagina = 40; //productos por pagina maximo 40
+    const indexUltimoProducto = paginaActual * productosPorPagina; //función para 
+    const indexPrimerProducto = indexUltimoProducto - productosPorPagina;
+    const productosActuales = datosUsuario.slice(indexPrimerProducto, indexUltimoProducto);
+    const numeroTotalPaginas = Math.ceil(datosUsuario.length / productosPorPagina);
+    const [todosSeleccionados, setTodosSeleccionados] = useState(false); //cuando se seleccionan todos los productos
+    // Estado para los productos seleccionados
+    const [productosSeleccionados, setProductosSeleccionados] = useState([]);
 
-    //cerrar modal advertencia
+
+    //cerrar modal de favoritos y de eliminar un producto
     const handleModalClose = () => {
         setShowModal(false);
     };
+
+
+    //handle para eliminar todo el historial con modal
+    const eliminarHistorial = () => {
+        setShowModal2(true);
+    };
+
+
+    //función para ponerle la ", " a los precios
+    function formatearPrecio(precio) {
+        return precio.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     //Función para obtener el UID del Usuario que nos sirve para mapear sus historial
     useEffect(() => {
         const obtenerUidUsuario = async () => {
@@ -93,7 +116,7 @@ export default function historialProducts() {
                             usuario: producto.usuario,
                             fechacreacion: producto.fechacreacion,
                             titulonombre: producto.titulonombre,
-                            precio: producto.precio,
+                            precio: formatearPrecio(producto.precio),
                             numerodeunidades: producto.numerodeunidades,
                             nombreimagen1: producto.nombreimagen1,
                         };
@@ -112,6 +135,7 @@ export default function historialProducts() {
     }, [UidUser]);
 
 
+    //función para eliminar un producto con modal de confirmación
     const eliminarProducto = async (idproducto) => {
         let params = {
             idproducto: idproducto,
@@ -142,9 +166,8 @@ export default function historialProducts() {
     };
 
 
-
-    //Petición para eliminar todo el historial
-    const eliminarHistorial = async () => {
+    //función para eliminar todo el historial con modal de confirm y luego el modal de confirmación
+    const confirmarEliminacion = async () => {
         let params = {
             usuario: UidUser, // Usa el uid del usuario obtenido anteriormente
         };
@@ -163,6 +186,9 @@ export default function historialProducts() {
             .catch(function (error) {
                 console.error("Error al eliminar el historial", error);
             });
+
+        // Cierra el modal después de la eliminación
+        setShowModal2(false);
     };
 
 
@@ -226,22 +252,6 @@ export default function historialProducts() {
             setTextoMensajes(texto);
         }
     };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     //función para filtrar por fecha
@@ -336,18 +346,9 @@ export default function historialProducts() {
         });
     }, []);
 
+  
 
-
-
-
-
-
-
-
-    const [paginaActual, setPaginaActual] = useState(1);
-    const productosPorPagina = 40;
-    const numeroPaginas = 3; // Número fijo de páginas
-
+    
     const seleccionaPagina = (numeroPagina) => {
         setPaginaActual(numeroPagina);
 
@@ -358,10 +359,6 @@ export default function historialProducts() {
         });
     };
 
-    const indexUltimoProducto = paginaActual * productosPorPagina;
-    const indexPrimerProducto = indexUltimoProducto - productosPorPagina;
-    const productosActuales = datosUsuario.slice(indexPrimerProducto, indexUltimoProducto);
-    const numeroTotalPaginas = Math.ceil(datosUsuario.length / productosPorPagina);
 
 
     const paginaAnterior = () => {
@@ -390,11 +387,6 @@ export default function historialProducts() {
 
 
 
-
-
-
-    // Estado para los productos seleccionados
-    const [productosSeleccionados, setProductosSeleccionados] = useState([]);
 
     // Función para manejar el clic en un producto
     const manejarClicProducto = (producto) => {
@@ -436,7 +428,7 @@ export default function historialProducts() {
         setProductosSeleccionados([]); // Limpia los productos seleccionados
     };
 
-    const [todosSeleccionados, setTodosSeleccionados] = useState(false);
+
 
     const manejarClicSeleccionarTodos = () => {
         if (todosSeleccionados) {
@@ -466,7 +458,7 @@ export default function historialProducts() {
                                         <p>Tu historial</p>
                                     </Grid>
                                     <Grid item xs={12} md={6} className='titleHistorial1' >
-                                        <div className="DeleteHistorial" onClick={() => eliminarHistorial(UidUser)}>
+                                        <div className="DeleteHistorial" onClick={eliminarHistorial}>
                                             <p>Eliminar historial</p>
                                             <FaTrashAlt className="iconDeleteHistorial" />
                                         </div>
@@ -516,18 +508,9 @@ export default function historialProducts() {
                                                 </Dropdown.Menu>
                                             </Dropdown>
                                             <InputBase
+                                            className="inputhISTORIAL"
                                                 placeholder="Buscar en mi historial"
-                                                sx={{
-                                                    borderRadius: '10px',
-                                                    backgroundColor: '#f1f2f6',
-                                                    padding: '8px',
-                                                    width: '300px',
-                                                    marginRight: '8px',
-                                                    height: '44px',
-                                                    padding: '10px',
-                                                    fontSize: '16px',
-                                                    paddingLeft: '3rem',
-                                                    color: '#2C2E82',
+                                                sx={{ 
                                                     fontWeight: '500',
                                                     '&::placeholder': {
                                                         color: '#3E4089',
@@ -626,6 +609,14 @@ export default function historialProducts() {
                                                 titulo={tituloMensajes}
                                                 mensaje={textoMensajes}
                                                 tipo="error"
+                                            />
+                                            <ModalMensajesEliminar
+                                                shown={showModal2}
+                                                setContinuarEliminar={confirmarEliminacion}
+                                                setAbandonarEliminar={() => setShowModal2(false)}
+                                                titulo="Eliminar historial"
+                                                mensaje="¿Estás seguro de que quieres eliminar el historial?"
+                                                tipo="confirmación"
                                             />
                                         </div>
                                     </Grid>

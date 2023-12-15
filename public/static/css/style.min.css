@@ -30567,7 +30567,18 @@ label {
     color: #2D2E83;
     /* Ajusta el color del icono según sea necesario */
 }
-
+.inputhISTORIAL{
+    border-radius: 10px;
+    background-color: #f1f2f6;
+    padding: 10px;
+    width: 300px;
+    margin-right: 8px;
+    height: 44px;
+    font-size: 16px;
+    padding-left: 3rem;
+    color: #2C2E82;
+    
+}
 
 .ContProductHistorial img {
     max-height: 150px;
