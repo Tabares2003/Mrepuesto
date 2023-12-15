@@ -18,7 +18,7 @@ import { FaCheck } from "react-icons/fa";
 
 import ModalMensajes from "../mensajes/ModalMensajes";
 
-
+import ModalMensajesEliminar from "../mensajes/ModalMensajesEliminar";
 
 export default function historialProducts() {
 
@@ -408,16 +408,13 @@ export default function historialProducts() {
     };
 
     // Función para eliminar los productos seleccionados
-    const eliminarProductosSeleccionados = async () => {
-        for (const idproducto of productosSeleccionados) {
-            let params = {
-                idproducto: idproducto,
+    const eliminarProductosSeleccionados = async () => { 
+            let params = { 
                 usuario: UidUser, // Usa el uid del usuario obtenido anteriormente
             };
-
             await axios({
                 method: "post",
-                url: URL_BD_MR + "91",
+                url: URL_BD_MR + "90",
                 params,
             })
                 .then((res) => {
@@ -425,8 +422,7 @@ export default function historialProducts() {
                 })
                 .catch(function (error) {
                     console.error("Error al eliminar el producto", error);
-                });
-        }
+                }); 
 
         // Actualiza tus datos después de eliminar los productos
         const nuevosDatos = datosUsuario.filter(producto => !productosSeleccionados.includes(producto.id));
@@ -466,7 +462,7 @@ export default function historialProducts() {
                                         <p>Tu historial</p>
                                     </Grid>
                                     <Grid item xs={12} md={6} className='titleHistorial1' >
-                                        <div className="DeleteHistorial" onClick={() => eliminarHistorial(usuario)}>
+                                        <div className="DeleteHistorial" onClick={() => eliminarHistorial(UidUser)}>
                                             <p>Eliminar historial</p>
                                             <FaTrashAlt className="iconDeleteHistorial" />
                                         </div>

@@ -90,7 +90,7 @@ export default function dispVinculados() {
                 });
         };
         leerDispositivosVinculados();
-    }, [UidUser]); 
+    }, [UidUser]);
 
 
 
@@ -98,7 +98,30 @@ export default function dispVinculados() {
 
 
 
+    const borrarDispositivo = async (id) => {
+        let params = {
+            usuario: UidUser,
+            id: id,
+        };
 
+        await axios({
+            method: "post",
+            url: URL_BD_MR + "96",
+            params,
+        })
+            .then((res) => {
+                if (res.data && res.data.success) {
+                    console.log("Dispositivo borrado con éxito");
+                    // Actualiza la lista de dispositivos vinculados
+                    setDispositivosVinculados(prevDispositivos => prevDispositivos.filter(dispositivo => dispositivo.id !== id));
+                } else {
+                    console.error("Error: no se pudo borrar el dispositivo");
+                }
+            })
+            .catch(function (error) {
+                console.error("Error al borrar el dispositivo", error);
+            });
+    };
 
 
 
@@ -147,7 +170,7 @@ export default function dispVinculados() {
                                         <div>
                                             <p className="titlemisD">Dispositivos vinculados</p>
                                             <div>
-                                                {dispositivosVinculados.map((dispositivo, index) => (
+                                                {/*  {dispositivosVinculados.map((dispositivo, index) => (
                                                     <div key={index}>
                                                         <h3>Dispositivo {index + 1}</h3>
                                                         <p><strong>ID:</strong> {dispositivo.id}</p>
@@ -156,7 +179,7 @@ export default function dispVinculados() {
                                                         <p><strong>Localización:</strong> {dispositivo.localizacion}</p>
                                                         <p><strong>Fecha de creación:</strong> {dispositivo.fechacreacion}</p>
                                                     </div>
-                                                ))}
+                                                ))}*/}
                                             </div>
                                         </div>
 
@@ -176,7 +199,7 @@ export default function dispVinculados() {
                                                         </p>
                                                     </div>
                                                     <div className="CloseSesionDispVinc">
-                                                        <button className='ButtonCloseSession'>Cerrar sesión</button>
+                                                        <button className='ButtonCloseSession' onClick={() => borrarDispositivo(dispositivo.id)}>Cerrar sesión</button>
                                                     </div>
                                                 </div>
                                             </div>
