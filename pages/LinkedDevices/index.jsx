@@ -21,6 +21,49 @@ function index(props) {
 
 
 
+    const [dispositivosVinculados, setDispositivosVinculados] = useState([]);
+
+    useEffect(() => {
+        const leerDispositivosVinculados = async () => {
+            let params = {
+                usuario: UidUser,
+            };
+
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "93",
+                params,
+            })
+                .then((res) => {
+                    if (res.data && res.data.listLinkedDevices) {
+                        const dispositivos = res.data.listLinkedDevices.map((dispositivo) => {
+                            return {
+                                id: dispositivo.id,
+                                iddispositivo: dispositivo.iddispositivo,
+                                usuario: dispositivo.usuario,
+                                localizacion: dispositivo.localizacion,
+                                fechacreacion: dispositivo.fechacreacion,
+                            };
+                        });
+                        // Almacena los dispositivos vinculados en el estado de tu componente
+                        setDispositivosVinculados(dispositivos);
+                    } else {
+                        console.error("Error: res.data o res.data.listLinkedDevices es undefined");
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error al leer los datos del usuario", error);
+                });
+        };
+        leerDispositivosVinculados();
+    }, [UidUser]);
+
+
+
+
+
+
+
 
 
 
@@ -205,27 +248,37 @@ function index(props) {
 
     useEffect(() => {
         const enviarDatos = async () => {
-            let params = {
-                iddispositivo: device, // Aquí usamos el estado 'device' que ya tienes definido
-                usuario: "1671495436242", // Aquí puedes reemplazarlo con el valor que necesites
-                localizacion: location.address, // Aquí usamos el estado 'location' que ya tienes definido
-            };
-            try {
-                const res = await axios({
-                    method: "post",
-                    url: URL_BD_MR + "92", // Aquí cambiamos el endpoint al que quieres hacer la petición
-                    params,
-                });
-                // Aquí puedes manejar la respuesta como necesites
-            } catch (error) {
-                console.error("Error al enviar los datos", error);
-                // Maneja el error según tus necesidades
+            if (device && location.address) {
+                // Verifica si el dispositivo ya está en la lista de dispositivos vinculados
+                const dispositivoExistente = dispositivosVinculados.find(
+                    (dispositivo) => dispositivo.iddispositivo === device
+                );
+
+                if (dispositivoExistente) {
+                    console.log("El dispositivo ya está vinculado y no se puede agregar de nuevo");
+                } else {
+                    let params = {
+                        iddispositivo: device,
+                        usuario: datosusuarios.uid,
+                        localizacion: location.address,
+                    };
+                    try {
+                        const res = await axios({
+                            method: "post",
+                            url: URL_BD_MR + "92",
+                            params,
+                        });
+                        console.log("Se agregó el dispositivo");
+                        // Actualiza la lista de dispositivos vinculados
+                        setDispositivosVinculados([...dispositivosVinculados, params]);
+                    } catch (error) {
+                        console.error("Error al enviar los datos", error);
+                    }
+                }
             }
         };
         enviarDatos();
-    }, [device, location]); // Aquí incluimos 'device' y 'location' en las dependencias del efecto
-
-
+    }, [device, location, dispositivosVinculados]); // Aquí incluimos 'dispositivosVinculados' en las dependencias del efecto
 
 
 

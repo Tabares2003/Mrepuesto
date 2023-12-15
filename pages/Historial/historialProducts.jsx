@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { URL_BD_MR, URL_IMAGES_RESULTS } from "../../helpers/Constants";
 import { FaTrashAlt } from "react-icons/fa";
 import { IoMdHeartEmpty } from "react-icons/io";
+import { IoSquareOutline } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa";
 
 import ModalMensajes from "../mensajes/ModalMensajes";
 
@@ -386,6 +388,71 @@ export default function historialProducts() {
         });
     };
 
+
+
+
+
+
+    // Estado para los productos seleccionados
+    const [productosSeleccionados, setProductosSeleccionados] = useState([]);
+
+    // Función para manejar el clic en un producto
+    const manejarClicProducto = (producto) => {
+        if (productosSeleccionados.includes(producto.id)) {
+            // Si el producto ya está seleccionado, lo eliminamos de los productos seleccionados
+            setProductosSeleccionados(productosSeleccionados.filter(id => id !== producto.id));
+        } else {
+            // Si el producto no está seleccionado, lo agregamos a los productos seleccionados
+            setProductosSeleccionados([...productosSeleccionados, producto.id]);
+        }
+    };
+
+    // Función para eliminar los productos seleccionados
+    const eliminarProductosSeleccionados = async () => {
+        for (const idproducto of productosSeleccionados) {
+            let params = {
+                idproducto: idproducto,
+                usuario: UidUser, // Usa el uid del usuario obtenido anteriormente
+            };
+
+            await axios({
+                method: "post",
+                url: URL_BD_MR + "91",
+                params,
+            })
+                .then((res) => {
+                    console.log('Producto eliminado exitosamente');
+                })
+                .catch(function (error) {
+                    console.error("Error al eliminar el producto", error);
+                });
+        }
+
+        // Actualiza tus datos después de eliminar los productos
+        const nuevosDatos = datosUsuario.filter(producto => !productosSeleccionados.includes(producto.id));
+        setDatosUsuario(nuevosDatos);
+        setDatosUsuarioOriginales(nuevosDatos);
+        setProductosSeleccionados([]); // Limpia los productos seleccionados
+    };
+
+
+    const [todosSeleccionados, setTodosSeleccionados] = useState(false);
+
+    const manejarClicSeleccionarTodos = () => {
+        if (todosSeleccionados) {
+            // Si todos los productos están seleccionados, los deseleccionamos
+            setProductosSeleccionados([]);
+            setTodosSeleccionados(false);
+        } else {
+            // Si no todos los productos están seleccionados, los seleccionamos todos
+            const todosLosIds = datosUsuario.map(producto => producto.id);
+            setProductosSeleccionados(todosLosIds);
+            setTodosSeleccionados(true);
+        }
+    };
+
+
+
     return (
         <>
             <div ref={irA}>
@@ -406,6 +473,7 @@ export default function historialProducts() {
 
                                     </Grid>
                                     <Grid item xs={12} md={6} className='titleHistorial '>
+
                                         <div className="ContTopHistorial">
                                             <Dropdown style={{ width: '33%' }} onSelect={handleSelect} className="DropHistorial">
                                                 <Dropdown.Toggle
@@ -476,10 +544,26 @@ export default function historialProducts() {
                                         </div>
                                     </Grid>
                                     <Grid className="contProductsHistorial" container style={{ width: '100%' }}>
+                                        <div className="selectedProductsHistorial">
+                                            {productosSeleccionados.length > 0 && (
+                                                <div className="DeletedSelectsHistorial">
+                                                    
+                                                    <div onClick={manejarClicSeleccionarTodos}>
+                                                        {todosSeleccionados ? <FaCheck className="iconSquareCustom" /> : <IoSquareOutline className="iconSquareCustom" />}
+                                                    </div>
+                                                    <p onClick={eliminarProductosSeleccionados}>Eliminar productos seleccionados</p>
+                                                </div>
+                                            )}
+
+                                        </div>
                                         <div className="ProducsH">
                                             {productosActuales.length > 0 ? (
                                                 productosActuales.map((producto) => (
-                                                    <div className="ContProductHistorial" key={producto.id}>
+                                                    <div className="ContProductHistorial" key={producto.id} onClick={() => manejarClicProducto(producto)}>
+                                                        <div className="iconsHistorial">
+                                                            <IoSquareOutline className="iconSquare" />
+                                                            <FaCheck className={`iconCheck ${productosSeleccionados.includes(producto.id) ? 'selected' : ''}`} />
+                                                        </div>
                                                         <img src={`${URL_IMAGES_RESULTS}${producto.nombreimagen1}`} alt={producto.titulonombre} />
                                                         <div className="DataProductHistorial">
                                                             <p className="ProductName">{producto.titulonombre}</p>
@@ -490,8 +574,8 @@ export default function historialProducts() {
                                                                 <div className="icon1Delete" onClick={() => eliminarProducto(producto.idproducto, producto.usuario)} >
                                                                     <FaTrashAlt className="iconDeleteH" />
                                                                 </div>
-                                                                <div className="icon1Delete"  onClick={() => verificarYEnviarAFavoritos(producto)} >
-                                                                    <IoMdHeartEmpty className="iconFavH"/>
+                                                                <div className="icon1Delete" onClick={() => verificarYEnviarAFavoritos(producto)} >
+                                                                    <IoMdHeartEmpty className="iconFavH" />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -503,14 +587,21 @@ export default function historialProducts() {
 
 
                                         </div>
+                                        <div className="lenghHistorial">
+                                            <div className="contLenghHistorial">
+                                                <p>Total de productos en tu historial: {datosUsuario.length}</p>
+                                                <p>Total de páginas en tu historial: {numeroTotalPaginas}</p>
+                                            </div>
+
+                                        </div>
                                         <div className="paginaciónMainHistorial">
                                             <ul className="pagination">
-                                                <li className="backButtonPages">
+                                                <li className={`backButtonPages ${paginaActual === 1 ? 'disabledButton' : ''}`}>
                                                     <a onClick={paginaAnterior}>
                                                         <i className="fa fa-angle-double-left"></i>
                                                     </a>
                                                 </li>
-                                                {Array.from({ length: numeroPaginas }, (_, i) => i + 1).map((numeroPagina) => {
+                                                {Array.from({ length: numeroTotalPaginas }, (_, i) => i + 1).map((numeroPagina) => {
                                                     const estaDeshabilitado = numeroPagina > numeroTotalPaginas;
 
                                                     return (
@@ -523,7 +614,7 @@ export default function historialProducts() {
                                                         </li>
                                                     );
                                                 })}
-                                                <li className="nextButtonPages">
+                                                <li className={`nextButtonPages ${paginaActual === numeroTotalPaginas ? 'disabledButton' : ''}`}>
                                                     <a onClick={paginaSiguiente}>
                                                         <i className="fa fa-angle-double-right paginaciónHistorial"></i>
                                                     </a>

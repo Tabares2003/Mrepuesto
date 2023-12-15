@@ -30533,7 +30533,36 @@ label {
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
+    position: relative;
+    /* Añade posición relativa para posicionar el icono absolutamente */
 }
+.iconSquare, .iconCheck {
+    position: absolute;
+    top: 8px;
+    left: 6px;
+    font-size: 18px;
+    color: #2D2E83;
+}
+
+.iconCheck {
+    display: none; /* Oculta el icono de verificación por defecto */
+}
+
+.iconCheck.selected {
+    display: inline; /* Muestra el icono de verificación cuando el producto está seleccionado */
+}
+.iconSquare {
+    position: absolute;
+    top: 8px;
+    /* Ajusta según sea necesario */
+    left: 6px;
+    /* Ajusta según sea necesario */
+    font-size: 18px;
+    /* Ajusta el tamaño del icono según sea necesario */
+    color:  #2D2E83;
+    /* Ajusta el color del icono según sea necesario */
+}
+
 
 .ContProductHistorial img {
     height: 150px;
@@ -30556,7 +30585,7 @@ label {
 }
 
 .iconsHistorial {
-    align-items: flex-end;
+    align-items: center;
     display: flex;
     justify-content: flex-end;
 }
@@ -30645,41 +30674,104 @@ label {
     justify-content: center;
     align-items: center;
 }
-.paginaciónMainHistorial{
+
+.paginaciónMainHistorial {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 2rem;
 }
-.nextButtonPages{
+
+.nextButtonPages {
     margin-top: 5px;
     color: #2d2e83;
     margin-left: 8px;
 }
-.backButtonPages{
+
+.backButtonPages {
     margin-top: 5px;
     color: #2d2e83;
     margin-right: 8px;
 }
+
 .activePage {
-    background-color: #2d2e83; /* Color de fondo del círculo */
+    background-color: #2d2e83;
+    /* Color de fondo del círculo */
     color: white !important;
-    border-radius: 50%; /* Hace que el elemento tenga forma de círculo */
-    padding: 5px 10px; /* Espacio alrededor del texto */
+    border-radius: 50%;
+    /* Hace que el elemento tenga forma de círculo */
+    padding: 5px 10px;
+    /* Espacio alrededor del texto */
 }
+
 .inactivePage {
     color: #2d2e83 !important;
 }
 
+.disabledButton {
+    color: #5b6c8f;
+    pointer-events: none;
+}
+
+.lenghHistorial {
+    width: 100%;
+    justify-content: flex-end;
+    display: flex;
+    margin-top: 2rem;
+}
+
+.lenghHistorial p {
+    font-size: 16px;
+    color: #2D2E83;
+    font-weight: 600;
+    font-family: "Jost", sans-serif;
+}
+
+.contLenghHistorial {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.iconSquareCustom {
+    position: absolute; 
+    font-size: 18px;
+    color: #2D2E83;
+    margin-top: 5px;
+}
+.iconCheckCustom {
+    position: absolute; 
+    font-size: 15px;
+    color: #2D2E83;
+    margin-top: 5rem;
+}
+
+.iconCheckCustom {
+    display: none; /* Oculta el icono de verificación por defecto */
+}
+
+.iconCheckCustom.selected {
+    display: inline; /* Muestra el icono de verificación cuando el producto está seleccionado */
+}
+.DeletedSelectsHistorial{
+    display: flex; 
+    cursor: pointer;
+}
+.DeletedSelectsHistorial p{
+    font-size: 18px;
+    color: #2D2E83;
+    font-weight: 600;
+    font-family: "Jost", sans-serif;
+    margin-left: 2.5rem;
+    margin-bottom: 1.5rem;
+} 
 
 
 
-
-
-
-
-
-
+.selectedProductsHistorial{
+    width: 100%; 
+}
 
 
 
@@ -30914,10 +31006,11 @@ label {
 
 /**/
 
-.mainDispVinculados{
+.mainDispVinculados {
     width: 100%;
 }
-.CloseSesionDispVinc{
+
+.CloseSesionDispVinc {
     display: flex;
     align-items: center;
 }
