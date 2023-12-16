@@ -30958,17 +30958,7 @@ label {
     justify-content: space-between;
 }
 
-.ComprarButton {
-    width: 190px;
-    background-color: #2D2E83;
-    color: white;
-    border-radius: 10px;
-    font-size: 16px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    height: 40px !important;
-}
+ 
 
 .pregsRespstMSJ {
     align-items: center;
@@ -31022,6 +31012,17 @@ label {
     justify-content: center;
     height: 40px !important;
 }
+.EstadoMsjButton {
+    width: 110px;
+    background-color: #E81B1B;
+    color: white; 
+    font-size: 16px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 40px !important;
+    margin-top: 1.5rem;
+}
 
 .EliminarPreguntaButton {
     margin-top: 2rem;
@@ -31035,6 +31036,13 @@ label {
     justify-content: center;
     height: 40px !important;
 }
+.fechaYrespuestaCont{
+    display: flex;
+    flex-direction: column;
+}
+
+
+
 
 
 

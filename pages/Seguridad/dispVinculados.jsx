@@ -211,15 +211,6 @@ export default function dispVinculados() {
 
 
     const Salir = () => {
-        //localStorage.clear();
-        /*
-        localStorage.removeItem('datoscarroceriasvehiculos');
-        localStorage.removeItem('datosannosvehiculos');
-        localStorage.removeItem('datosmarcasvehiculos');
-        localStorage.removeItem('subcategorias');
-        localStorage.removeItem('categorias');
-        localStorage.removeItem('datostiposvehiculos');
-        */
         const auth = getAuth(firebase);
         signOut(auth).then(() => {
             // Sign-out successful.
@@ -232,8 +223,7 @@ export default function dispVinculados() {
     }
 
 
-    //Función para borrar dispositivo
-    const borrarDispositivo = async (id) => {
+    const borrarDispositivo = async (id, iddispositivo) => {
         let params = {
             usuario: UidUser,
             id: id,
@@ -257,8 +247,10 @@ export default function dispVinculados() {
                 let texto = "Dispositivo borrado con éxito";
                 setTextoMensajes(texto);
 
-                // Cierra la sesión
-                Salir();
+                // Si el dispositivo borrado es el dispositivo actual, cierra la sesión
+                if (idDispositivoActual === iddispositivo) {
+                    Salir();
+                }
             } else {
                 throw new Error("No se pudo borrar el dispositivo");
             }
@@ -325,13 +317,13 @@ export default function dispVinculados() {
                                                                     <p className="titleSubContMisD">{resultado}</p>
                                                                     <div className="psubtitlesSubContMisDates">
                                                                         <p className="subtitleSubContMisD">
-                                                                        {esEsteDispositivo ? "Este dispositivo" : dispositivo.localizacion.split(", ").slice(-3).join(", ")}
+                                                                            {esEsteDispositivo ? "Este dispositivo" : dispositivo.localizacion.split(", ").slice(-3).join(", ")}
                                                                         </p>
                                                                         <p className="subtitleSubContMisD2">{dispositivo.fechacreacion && dispositivo.fechacreacion.split(' ')[0]}</p>
                                                                     </div>
                                                                 </div>
                                                                 <div className="CloseSesionDispVinc">
-                                                                    <button className='ButtonCloseSession' onClick={() => borrarDispositivo(dispositivo.id)}>Cerrar sesión</button>
+                                                                    <button className='ButtonCloseSession' onClick={() => borrarDispositivo(dispositivo.id, dispositivo.iddispositivo)}>Cerrar sesión</button>
                                                                 </div>
                                                             </div>
                                                         </div>

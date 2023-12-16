@@ -120,7 +120,7 @@ const ModuleHeaderActions = ({ ecomerce, search = false }) => {
         }
     }, [numberitemswishlist]);
 
-    // view
+    // view 
     let searchBtnView;
     if (search) {
         searchBtnView = (

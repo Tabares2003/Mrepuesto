@@ -15,8 +15,10 @@ import { IoMdReturnRight } from "react-icons/io";
 
 
 
-export default function preguntasRealizadasUsuario() {
 
+
+
+export default function preguntasSobreMisProductos() {
 
 
     //Consts measured, 80% and in md 100%.
@@ -77,7 +79,6 @@ export default function preguntasRealizadasUsuario() {
         });
     }, []);
 
-
     return (
         <>
             <div ref={irA}>
@@ -88,7 +89,7 @@ export default function preguntasRealizadasUsuario() {
                             <div className="ps-page__content ps-account">
                                 <Grid className="contDataUsers" container style={{ width: isMdDown ? '100%' : '90%' }}>
                                     <div className='titlesformsUsers'>
-                                        <p>Preguntas sobre mis productos</p>
+                                        <p>Preguntas realizadas</p>
                                     </div>
                                 </Grid>
                                 <Grid className="contDataUsers TopContMisCompras" container style={{ width: isMdDown ? '100%' : '90%' }}>
@@ -147,7 +148,7 @@ export default function preguntasRealizadasUsuario() {
                                             <p>
                                                 $323232
                                             </p>
-                                            <button className='ComprarButton'>Comprar</button>
+                                            <button className='ComprarButton'>Ver publicación</button>
                                         </Grid>
 
 
@@ -164,9 +165,12 @@ export default function preguntasRealizadasUsuario() {
                                             </div>
                                         </Grid>
                                         <Grid item xs={12} md={6} className="subContEstadoMensaje">
-                                            <p>2023-11-23</p>
+                                            <div className="fechaYrespuestaCont">
+                                                <p>2023-11-23</p>
+                                                <button className='EstadoMsjButton'>Sin respuesta</button>
+                                            </div> 
                                             <div className="buttonsPrgsUsers">
-                                                <button className='ComprarButton'>Hacer otra pregunta</button>
+                                                <button className='ComprarButton'>Responder</button>
                                                 <button className='EliminarPreguntaButton'>Eliminar pregunta</button>
                                             </div>
                                         </Grid>
